@@ -1,0 +1,7 @@
+<aspectj>
+    <aspects>
+        <aspect name="pk.tools.aspects.WidgetAspects"/>
+        <aspect name="pk.tools.aspects.PageAspects"/>
+        <aspect name="pk.tools.aspects.WidgetListAspects"/>
+    </aspects>
+</aspectj>

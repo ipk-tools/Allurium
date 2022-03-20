@@ -1,0 +1,101 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.qameta.allure.gradle.allure:allure-plugin:2.9.6"
+    }
+}
+
+
+plugins {
+    id "java-library"
+    id "io.qameta.allure" version "2.9.6"
+}
+
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+        vendor = JvmVendorSpec.ADOPTOPENJDK
+        implementation = JvmImplementation.J9
+    }
+}
+
+configurations {
+    testCompile
+}
+
+compileJava.options.encoding = 'utf-8'
+
+group 'pk.tools'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    allureVersion = '2.17.0'
+    aspectjVersion = '1.9.2'
+    lombokVersion = '1.18.22'
+    selenideVersion = '6.2.0'
+    junitVersion = '5.8.1'
+    testNGVersion = '7.4.0'
+    restAssured = '4.4.0'
+}
+
+dependencies {
+    implementation("org.testng:testng:${testNGVersion}")
+    implementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation("com.codeborne:selenide:${selenideVersion}")
+    implementation("org.selenide:selenide-testng:1.0.0")
+    implementation("io.qameta.allure:allure-testng:${allureVersion}")
+    implementation("io.qameta.allure:allure-selenide:${allureVersion}")
+    implementation("io.qameta.allure:allure-rest-assured:${allureVersion}")
+    implementation("io.rest-assured:rest-assured:${restAssured}")
+    implementation('com.fasterxml.jackson.core:jackson-core:2.13.0')
+    implementation('com.epam.jdi:jdi-light-html:1.3.12')
+    implementation('io.qameta.atlas:atlas-webdriver:1.8.0')
+    implementation('org.assertj:assertj-core:3.19.0')
+    implementation('org.hamcrest:hamcrest:2.2')
+    implementation('org.slf4j:slf4j-simple:1.7.30')
+    implementation('com.github.javafaker:javafaker:1.0.2')
+    implementation("javax.persistence:javax.persistence-api:2.2")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.6")
+    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("ru.yandex.qatools.ashot:ashot:1.5.4")
+    implementation("org.aspectj:aspectjrt:${aspectjVersion}")
+    implementation("org.aspectj:aspectjweaver:${aspectjVersion}")
+    implementation('com.galenframework:galen-java-support:2.4.4')
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.0.3'
+}
+
+
+reporting {
+    baseDir = "$buildDir/reports"
+}
+
+allure {
+    version = "${allureVersion}"
+    aspectjVersion = '1.9.2'
+    useTestNG {
+        version = "${allureVersion}"
+    }
+}
+
+//tasks.register("prepareKotlinBuildScriptModel") {}
+
+test {
+    useTestNG() {
+        systemProperty("localization", localization)
+
+        ignoreFailures = true
+        preserveOrder = true
+    }
+}

@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Google tests" >
+    <test name="Google Search">
+        <classes>
+            <class name="tests.AlluriumBuildTest">
+                <methods>
+                    <include name="googleSearch"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

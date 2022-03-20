@@ -1,0 +1,14 @@
+.allure
+.gradle
+.idea
+schema
+build
+/*/allure-results/
+allure-results/
+out
+front-tests/build
+back-tests/build
+core/build
+
+*.iml
+*.ipr
