@@ -1,7 +1,22 @@
 <aspectj>
     <aspects>
-        <aspect name="pk.tools.aspects.WidgetAspects"/>
-        <aspect name="pk.tools.aspects.PageAspects"/>
-        <aspect name="pk.tools.aspects.WidgetListAspects"/>
+        <aspect name="dm.tools.aspects.WidgetAspects"/>
+        <aspect name="dm.tools.aspects.PageAspects"/>
+        <aspect name="dm.tools.aspects.UIElementAspects"/>
+        <aspect name="dm.tools.aspects.LinkAspects"/>
+        <aspect name="dm.tools.aspects.ImageAspects"/>
+        <aspect name="dm.tools.aspects.WidgetListAspects"/>
+        <aspect name="dm.tools.aspects.TextFieldAspects"/>
+        <aspect name="dm.tools.aspects.CarouselAspects"/>
+        <aspect name="dm.tools.aspects.SelectAspects"/>
+        <aspect name="dm.tools.aspects.DropdownAspects"/>
+        <aspect name="dm.tools.aspects.CheckBoxAspects"/>
+        <aspect name="dm.tools.aspects.AbstractInputElementAspects"/>
+        <aspect name="dm.tools.aspects.UploadFileInputAspects"/>
+        <aspect name="dm.tools.aspects.FormAspects"/>
+        <aspect name="dm.tools.aspects.SliderAspects"/>
+        <aspect name="dm.tools.aspects.SwitcherAspects"/>
+        <aspect name="dm.tools.aspects.RequiredTextFieldAspects"/>
+        <aspect name="dm.tools.aspects.IframeAspects"/>
     </aspects>
 </aspectj>

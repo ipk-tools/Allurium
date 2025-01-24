@@ -1,0 +1,600 @@
+english:
+
+  click:
+    1: "Click on the {name} {element} "
+    2: "Click on the {name} {element} of {parent}"
+
+  double_click:
+    1: "Double click on the {name} {element} "
+    2: "Double click on the {name} {element} of {parent}"
+
+  context_click:
+    1: "Context click on the {name} {element} "
+    2: "Context click on the {name} {element} of {parent}"
+
+  hover:
+    1: "Set the cursor over the {name} {element}"
+    2: "Set the cursor over the {name} {element} of {parent}"
+
+  scroll:
+    1: "Scroll to the {name} {element}"
+    2: "Scroll to the {name} {element} of {parent}"
+
+  scroll_into_view:
+    1: "Scroll (into view) to the {name} {element}"
+    2: "Scroll (into view) to the {name} {element} of {parent}"
+
+  select_assert_has_option:
+    1: "Assert that the {name} select-input field contains the option(s): \"{option}\""
+    2: "Assert that the {name} select-input field of {parent}, contains the option(s): \"{option}\""
+
+  select_assert_has_option_with_delay:
+    1: "Wait {sec} seconds and assert that the {name} select-input field contains option(s): \"{option}\""
+    2: "Wait {sec} seconds and Assert that the {name} select-input of {parent}, contains option(s): \"{option}\""
+
+  select_by_index:
+    1: "Select the option by index {id} of the {name} {element}"
+    2: "Select the option by index {id} of the {name} {element} of {parent}"
+
+  dropdown_extend:
+    1: "Extend the {name} drop down list"
+    2: "Extend the {name} drop down list of {parent}"
+
+  select_option:
+    1: "Select the option \"{option}\" of the {name} {element}"
+    2: "Select the option \"{option}\" of the {name} {element} of {parent}"
+
+  select_option_first:
+    1: "Select the first option \"{option}\" of the {name} {element} drop down list"
+    2: "Select the first option \"{option}\" of the {name} {element} drop down list of {parent}"
+
+  select_option_last:
+    1: "Select the last option \"{option}\" of the {name} {element} drop down list"
+    2: "Select the last option \"{option}\" of the {name} {element} drop down list of {parent}"
+
+  select_option_any:
+    1: "Select the random option \"{option}\" of the {name} {element} drop down list"
+    2: "Select the random option \"{option}\" of the {name} {element} drop down list of {parent}"
+
+  select_option_any_but_not:
+    1: "Select the random option besides \"{option}\" in the {name} {element}"
+    2: "Select the random option besides \"{option}\" in the {name} {element} of {parent}"
+
+  select_assert_current_value:
+    1: "Assert that the selected option is \"{option}\" in the {name} {element}"
+    2: "Assert that the selected option is \"{option}\" in the {name} {element} of {parent}"
+
+  select_assert_current_value_not:
+    1: "Assert that the selected option is not \"{option}\" in the {name} {element}"
+    2: "Assert that the selected option is not \"{option}\" in the {name} {element} of {parent}"
+
+  dropdown_assert_option_exist:
+    1: "Assert that the option \"{option}\" exists in the {name} {element}"
+    2: "Assert that the option \"{option}\" exists in the {name} {element} of {parent}"
+
+  upload_file:
+    1: "Upload the file '{path}' to the {name} field"
+    2: "Upload the file '{path}' to the {name} field of {parent}"
+
+  assert_equals:
+    1: "Assert that {element1} is equal to {element2}"
+    2: "Assert that {element1} is equal to {element2}"
+
+  assert_text:
+    1: "Assert that the inner text of the {name} {element} matches the \"{text}\""
+    2: "Assert that the inner text of the {name} {element} of {parent} matches the \"{text}\""
+
+  assert_has_text:
+    1: "Assert that the {name} {element} contains \"{text}\""
+    2: "Assert that the {name} {element} of {parent} contains \"{text}\""
+
+  assert_exist:
+    1: "Assert that the {name} {element} exists"
+    2: "Assert that the {name} {element} of {parent} exists"
+
+  assert_not_exist:
+    1: "Assert that the {name} {element} doesn't exist"
+    2: "Assert that the {name} {element} of {parent} doesn't exist"
+
+  assert_value:
+    1: "Assert that the {name} {element} contains the value: \"{text}\""
+    2: "Assert that the {name} {element} of {parent} contains the value: \"{text}\""
+
+  assert_visible:
+    1: "Assert that the {name} {element} is visible"
+    2: "Assert that the {name} {element} of {parent} is visible"
+
+  assert_not_visible:
+    1: "Assert that the {name} {element} is not visible on a page"
+    2: "Assert that the {name} {element} of {parent} is not visible on a page"
+
+  assert_visible_in_viewport:
+    1: "Assert that the {name} {element} is visible in the view port on the page"
+    2: "Assert that the {name} {element} of {parent} is visible in the view port on the page"
+
+  assert_visible_with_duration:
+    1: "Assert that the {name} {element} will be visible during the next {sec} seconds"
+    2: "Assert that the {name} {element} of {parent} will be visible during the next {sec} seconds"
+
+  assert_has_css_class:
+    1: "Assert that the {name} {element} has the CSS class {clazz}"
+    2: "Assert that the {name} {element} of {parent} has the CSS class {clazz}"
+
+  assert_has_not_css_class:
+    1: "Assert that the {name} {element} has not the CSS class {clazz}"
+    2: "Assert that the {name} {element} of {parent} has not the CSS class {clazz}"
+
+  assert_has_css_class_during_time:
+    1: "Assert that the {name} {element} has the CSS class {clazz} during the next {seconds} seconds"
+    2: "Assert that the {name} {element} of {parent} has the CSS class {clazz} during the next {seconds} seconds"
+
+  assert_has_not_css_class_during_time:
+    1: "Assert that the {name} {element} doesn't have the CSS class {clazz} during the next {seconds} seconds"
+    2: "Assert that the {name} {element} of {parent} doesn't have the CSS class {clazz} during the next {seconds} seconds"
+
+  assert_element_empty:
+    1: "Assert that the {name} {element} is blank"
+    2: "Assert that the {name} {element} of {parent} is blank"
+
+  assert_element_not_empty:
+    1: "Assert that the {name} {element} is not blank"
+    2: "Assert that the {name} {element} of {parent} is not blank"
+
+  assert_enabled:
+    1: "Assert that the {name} {element} is enabled"
+    2: "Assert that the {name} {element} of {parent} is enabled"
+
+  assert_disabled:
+    1: "Assert that the {name} {element} is disabled"
+    2: "Assert that the {name} {element} of {parent} is disabled"
+
+  # TextField
+  write:
+    1: "Write \"{text}\" to the {name} {element}"
+    2: "Write \"{text}\" to the {name} {element} of {parent}"
+
+  clear:
+    1: "Clear the {name} {element} from any value"
+    2: "Clear the {name} {element} of {parent} from any value"
+
+  text_field_press_enter:
+    1: "Press key ENTER for the {name} {element}"
+    2: "Press key ENTER for the {name} {element} of {parent}"
+
+  text_field_assert_blank:
+    1: "Verify that the {name} {element} is blank"
+    2: "Verify that the {name} {element} of {parent} is blank"
+
+  text_field_assert_not_blank:
+    1: "Verify that the {name} {element} is not blank"
+    2: "Verify that the {name} {element} of {parent} is not blank"
+
+  text_field_assert_value:
+    1: "Assert that the {name} {element}'s value is \"{value}\""
+    2: "Assert that the {name} {element} of {parent} has the value of \"{value}\""
+
+  text_field_assert_value_contains:
+    1: "Assert that the {name} {element} contains the {value} value"
+    2: "Assert that the {name} {element} of {parent} contains the {value} value"
+
+  # Req TextField
+  text_field_assert_marked_required:
+    1: "Assert that the {name} {element} is marked as a required field"
+    2: "Assert that the {name} {element} of {parent} is marked as a required field"
+
+  text_field_assert_not_marked_required:
+    1: "Assert that the {name} {element} is not marked as a required field"
+    2: "Assert that the {name} {element} of {parent} is not marked as a required field"
+
+  # Link
+  assert_href:
+    1: "Assert the {name} link's href is equal to {href}"
+    2: "Assert the {name} link's href of {parent}, is equal to {href}"
+
+  # Checkbox
+  checkbox_check:
+    1: "Setting the {name} checkbox - checked"
+    2: "Setting the {name} checkbox of {parent} - checked"
+
+  checkbox_uncheck:
+    1: "Setting the {name} checkbox - unchecked"
+    2: "Setting the {name} checkbox of {parent} - unchecked"
+
+  checkbox_assert_checked:
+    1: "Assert that the {name} checkbox is checked"
+    2: "Assert that the {name} checkbox of {parent} is checked"
+
+  checkbox_assert_unchecked:
+    1: "Assert that the {name} checkbox is unchecked"
+    2: "Assert that the {name} checkbox of {parent} is unchecked"
+
+  # Image
+  image_assert_src:
+    1: "Assert that the {name} image's src is equal to '{src}'"
+    2: "Assert that the {name} image's src, of {parent}, is equal to '{src}'"
+
+  # List
+  list_search_by_element_id:
+    1: "Search for an element which id contains \"{id}\" in the '{name}' list"
+    2: "Search for an element which id contains \"{id}\" in the '{name}' list"
+
+  list_strict_search_by_element:
+    1: "Search for an element by id \"id={id}\" in the '{name}' list"
+    2: "Search for an element by id \"id={id}\" in the '{name}' list"
+
+  list_assert_visible:
+    1: "Assert that the list {name} is visible"
+    2: "Assert that the list {name} of {parent} is visible"
+
+  list_assert_not_visible:
+    1: "Assert that the {name} list is not visible"
+    2: "Assert that the {name} list of {parent} is not visible"
+
+  assert_size:
+    1: "Assert that the {name} list's size is {size}"
+    2: "Assert that the {name} list's size is {size}"
+
+  list_assert_empty:
+    1: "Assert that the {name} list is empty"
+    2: "Assert that the {name} list of {parent} is empty"
+
+  assert_size_greater_than:
+    1: "Assert that the {name} list's size is greater than {size}"
+    2: "Assert that the {name} list's size is greater than {size}"
+
+  assert_size_greater_than_or_equal:
+    1: "Assert that the {name} list's size is greater or equal to {size}"
+    2: "Assert that the {name} list's size is greater or equal to {size}"
+
+  assert_size_less_than:
+    1: "Assert that the {name} list's size is less than {size}"
+    2: "Assert that the {name} list's size is less than {size}"
+
+  assert_has_items_with_text:
+    1: "Assert that the {name} list contains an item(s) with the text \"{text}\""
+    2: "Assert that the {name} list of {parent} contains an item(s) with the text \"{text}\""
+
+  assert_has_no_items_with_text:
+    1: "Assert that the {name} list doesn't contain item(s) with the text \"{text}\""
+    2: "Assert that the {name} list of {parent} doesn't contain item(s) with the text \"{text}\""
+
+  list_assert_has_item:
+    1: "Assert that the {name} list contains an element with the id = '\"{id}\""
+    2: "Assert that the {name} list of {parent} contains an element with the id = '\"{id}\""
+
+  list_assert_has_not_item:
+    1: "Assert that the {name} list doesn't contain an element with the id = '\"{id}\""
+    2: "Assert that the {name} list of {parent} doesn't contain an element with the id = '\"{id}\""
+
+  list_should_conditions:
+    1: "Check the {name} list for required conditions"
+    2: "Check the {name} list of {parent} for required conditions"
+
+  # Switch
+  switcher_toggle:
+    1: "Switch the state of the {name} {element}"
+    2: "Switch the state of the {name} {element} of {parent}"
+
+  switcher_switch_on:
+    1: "Switch on the {name} {element}"
+    2: "Switch on the {name} {element} of {parent}"
+
+  switcher_switch_off:
+    1: "Switch off the {name} {element}"
+    2: "Switch off the {name} {element} of {parent}"
+
+  # Form
+  form_submit:
+    1: "Submit the {name} {element}"
+    2: "Submit the {name} {element} in {parent}"
+
+  # Carousel
+  carousel_scroll_forward:
+    1: "Scrolling the {name} {element} forward to the next slide"
+    2: "Scrolling the {name} {element}, of {parent}, forward to the next slide"
+
+  carousel_scroll_backward:
+    1: "Scrolling the {name} {element} backward to the previous slide"
+    2: "Scrolling the {name} {element}, of {parent}, backward to the previous slide"
+
+
+russian:
+  click:
+    1: "Нажимаем - {element} {name}"
+    2: "Нажимаем - {element} {name} в {parent}"
+
+  double_click:
+    1: "Двойное нажатие на {element} {name}"
+    2: "Двойное нажатие на {element} {name} в {parent}"
+
+  context_click:
+    1: "Нажимаем правай кнопкой мыши на - {element} {name}"
+    2: "Нажимаем правай кнопкой мыши на - {element} {name} в {parent}"
+
+  drag_and_drop:
+    1: "Drag {from_name} to {to_name}"
+    2: "Drag {from_name} to {to_name}"
+
+  hover:
+    1: "Наводим курсор на - {element} {name}"
+    2: "Наводим курсор на - {element} {name} в {parent}"
+
+  scroll:
+    1: "Прокручиваем к элементу {element} {name}"
+    2: "Прокручиваем к элементу {element} {name} в {parent}"
+
+  scroll_into_view:
+    1: "Прокручиваем вьюпорт до элемента {element} {name}"
+    2: "Прокручиваем вьюпорт до элемента {element} {name} в {parent}"
+
+  dropdown_extend:
+    1: "Разворачиваем список {parent}"
+    2: "Разворачиваем список {parent} в {parent}"
+
+  select_assert_has_option:
+    1: "Проверяем, что список {name} содержит опцию \"{text}\""
+    2: "Проверяем, что список {name} в {parent} содержит опцию \"{text}\""
+
+  select_by_index:
+    1: "Выбираем опцию с индексом {id} в выпадающем списке {name}"
+    2: "Выбираем опцию с индексом {id} в выпадающем списке {name} в виджете {parent}"
+
+  select_assert_has_option_with_delay:
+    1: "Ждём {sec} секунд и проверяем, что поле select-input {name} содержит опцию(и): \"{option}\""
+    2: "Ждём {sec} секунд и проверяем, что поле select-input, в {parent}, {name} содержит опцию(и): \"{option}\""
+
+  select_option:
+    1: "Выбираем опцию \"{option}\" в выпадающем списке {name}"
+    2: "Выбираем опцию \"{option}\" в выпадающем списке {name} в {parent}"
+
+  select_option_first:
+    1: "Выбираем первую опцию в списке {name}"
+    2: "Выбираем первую опцию в списке {name} в {parent}"
+
+  select_option_last:
+    1: "Выбираем последнюю опцию в списке {name}"
+    2: "Выбираем последнюю опцию в списке {name} в {parent}"
+
+  select_option_any:
+    1: "Выбираем любую опцию в списке {name}"
+    2: "Выбираем любую опцию в списке {name} в {parent}"
+
+  select_option_any_but_not:
+    1: "Выбираем любую опцию кроме \"{option}\" в списке {name}"
+    2: "Выбираем любую опцию кроме \"{option}\" в списке {name} в {parent}"
+
+  select_assert_current_value:
+    1: "Проверяем, что в списке {name} выбрано значение \"{option}\""
+    2: "Проверяем, что в списке {name} выбрано значение \"{option}\" в {parent}"
+
+  select_assert_current_value_not:
+    1: "Проверяем, что в списке {name} выбрано значение не \"{option}\""
+    2: "Проверяем, что в списке {name} выбрано значение не \"{option}\" в {parent}"
+
+  dropdown_assert_option_exist:
+    1: "Проверка что опция \"{option}\" присутствует в списке {name}"
+    2: "Проверка что опция \"{option}\" присутствует в списке {name} в {parent}"
+
+  upload_file:
+    1: "Загрузка файла '{path}' в поле {name}"
+    2: "Загрузка файла '{path}' в поле {name} в {parent}"
+
+  assert_equals:
+    1: "Проверяем, что элемент {element1} и  {element2} эквивалентны"
+    2: "Проверяем, что элемент {element1} и  {element2} эквивалентны в {parent}"
+
+  assert_text:
+    1: "Проверяем, что текст в {element} {name} точно соответствует {text}"
+    2: "Проверяем, что текст в {element} {name}, расположенного в {parent}, точно соответствует {text}"
+
+  assert_has_text:
+    1: "Проверяем {element} {name} на наличие текста: \"{text}\""
+    2: "Проверяем {element} {name} на наличие текста: \"{text}\" в виджете {parent}"
+
+  assert_exist:
+    1: "Проверяем что {element} {name} присутствует на странице"
+    2: "Проверяем что {element} {name} присутствует на странице в виджете {parent}"
+
+  assert_not_exist:
+    1: "Проверяем что {element} {name} отсутствует на странице"
+    2: "Проверяем что {element} {name} отсутствует на странице в виджете {parent}"
+
+  assert_value:
+    1: "Проверяем {element} {name} содержит значение: \"{text}\""
+    2: "Проверяем {element} {name} содержит значение: \"{text}\" в виджете {parent}"
+
+  assert_visible:
+    1: "Проверяем, что {element} {name} отображается на странице"
+    2: "Проверяем, что {element} {name} отображается на странице в виджете {parent}"
+
+  assert_not_visible:
+    1: "Проверяем, что {element} {name} не отображается на странице"
+    2: "Проверяем, что {element} {name} не отображается на странице"
+
+  assert_visible_in_viewport:
+    1: "Проверяем, что {element} {name} отображается в видимой части страницы"
+    2: "Проверяем, что {element} {name} отображается в видимой части страницы в виджете {parent}"
+
+  assert_visible_with_duration:
+    1: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд"
+    2: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд в виджете {parent}"
+
+  assert_has_css_class:
+    1: "Проверяем, что {element} {name} имеет CSS класс {clazz}"
+    2: "Проверяем, что {element} {name} имеет CSS класс {clazz} в виджете {parent}"
+
+  assert_has_not_css_class:
+    1: "Проверяем, что {element} {name} не имеет CSS класс {clazz}"
+    2: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в виджете {parent}"
+
+  assert_has_css_class_during_time:
+    1: "Проверяем, что {element} {name} имеет CSS класс {clazz} в течение {sec} секунд"
+    2: "Проверяем, что {element} {name} имеет CSS класс {clazz} в виджете {parent} в течение {sec} секунд"
+
+  assert_has_not_css_class_during_time:
+    1: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в течении {seconds} секунд"
+    2: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в виджете {parent}  в течении {seconds} секунд"
+
+  assert_element_empty:
+    1: "Проверяем, что {element} {name} пустой"
+    2: "Проверяем, что {element} {name} в {parent} пустой"
+
+  assert_element_not_empty:
+    1: "Проверяем, что {element} {name} не пустой"
+    2: "Проверяем, что {element} {name} в {parent} не пустой"
+
+  assert_enabled:
+    1: "Проверяем, что {element} {name} активен"
+    2: "Проверяем, что {element} {name} в {parent} активен"
+
+  assert_disabled:
+    1: "Проверяем, что {element} {name} не активен"
+    2: "Проверяем, что {element} {name} в {parent} не активен"
+
+  # TextField
+  write:
+    1: "Вводим текст \"{text}\" в {element} {name}"
+    2: "Вводим текст \"{text}\" в {element} {name} в виджете {parent}"
+
+  clear:
+    1: "Очищаем {element} {name}"
+    2: "Очищаем {element} {name} в {parent}"
+
+  text_field_press_enter:
+    1: "Нажимаем ENTER в {element} {name}"
+    2: "Нажимаем ENTER в {element} {name} в {parent}"
+
+  text_field_assert_blank:
+    1: "Проверяем, что {element} {name} пустое"
+    2: "Проверяем, что {element} {name} пустое в виджете {parent}"
+
+  text_field_assert_not_blank:
+    1: "Проверяем, что {element} {name} не пустое"
+    2: "Проверяем, что {element} {name} не пустое в виджете {parent}"
+
+  text_field_assert_value:
+    1: "Проверяем что в {element} {name} значение равно \"{value}\""
+    2: "Проверяем что в {element} {name}, находящимся в {parent}, значение равно \"{value}\"}"
+
+  text_field_assert_value_contains:
+    1: "Проверяем, что в {element} {name} значение содержит \"{value}\""
+    2: "Проверяем, что в {element} {name}, находящемся в {parent}, значение содержит \"{value}\""
+
+  # Req TextField
+  text_field_assert_marked_required:
+    1: "Проверяем, что {element} {name} отмечено как обязательное"
+    2: "Проверяем, что {element} {name}, располагающееся в {parent}, отмечено как обязательное"
+
+  text_field_assert_not_marked_required:
+    1: "Проверяем, что {element} {name} не отмечено как обязательное"
+    2: "Проверяем, что {element} {name}, располагающееся в {parent}, отмечено как обязательное"
+
+  # Checkbox
+  checkbox_check:
+    1: "Активируем чекбокс {name}"
+    2: "Активируем чекбокс {name} в {parent}"
+
+  # Link
+  assert_href:
+    1: "Проверяем, что ссылка {name} содержит значение {href}"
+    2: "Проверяем, что ссылка {name}, расположенная в {parent}, содержит значение {href}"
+
+  checkbox_uncheck:
+    1: "Деактивируем чекбокс {name}"
+    2: "Деактивируем чекбокс {name} в {parent}"
+
+  checkbox_assert_checked:
+    1: "Проверяем, что чекбокс {name} отмечен"
+    2: "Проверяем, что чекбокс {name} в {parent} отмечен"
+
+  checkbox_assert_unchecked:
+    1: "Проверяем, что чекбокс {name} не отмечен"
+    2: "Проверяем, что чекбокс {name} в {parent} не отмечен"
+
+  image_assert_src:
+    1: "Проверяем, что изображение {name} имеет ресурс со ссылкой на '{scr}'"
+    2: "Проверяем, что изображение {name}, в {parent}, имеет ресурс со ссылкой на '{scr}'"
+
+  # List
+  list_search_by_element_id:
+    1: "Ищем элемент по [id={id}] в списке '{name}'"
+    2: "Ищем элемент по [id={id}] в списке '{name}'"
+
+  list_strict_search_by_element:
+    1: "Ищем элемент строго с [id={id}] в списке '{name}'"
+    2: "Ищем элемент строго с [id={id}] в списке '{name}' в {parent}"
+
+  list_assert_visible:
+    1: "Проверяем, что список {name} виден на странице"
+    2: "Проверяем, что список {name} в {parent} видно"
+
+  list_assert_not_visible:
+    1: "Проверяем, что список {name} не виден на странице"
+    2: "Проверяем, что список  {name} в {parent} не видно"
+
+  assert_size:
+    1: "Проверяем, что длинна списка {name} равна {size}"
+    2: "Проверяем, что длинна списка {name} в {parent} равна {size}"
+
+  list_assert_empty:
+    1: "Проверяем, что список {name} пуст"
+    2: "Проверяем, что список {name} в {parent} - пуст"
+
+  assert_size_greater_than:
+    1: "Проверяем, что длинна списка {name} больше чем {size}"
+    2: "Проверяем, что длинна списка {name} в {parent} больше чем {size}"
+
+  assert_size_greater_than_or_equal:
+    1: "Проверяем, что длинна списка {name} больше или равна {size}"
+    2: "Проверяем, что длинна списка {name} в {parent} больше или равна {size}"
+
+  assert_size_less_than:
+    1: "Проверяем, что длинна списка {name} меньше чем {size}"
+    2: "Проверяем, что длинна списка {name} в {parent} меньше чем {size}"
+
+  assert_has_items_with_text:
+    1: "Проверяем, что список {name} содержит элемент(ы) с текстом \"{text}\""
+    2: "Проверяем, что список {name} в {parent} содержит элемент(ы) с текстом \"{text}\""
+
+  assert_has_no_items_with_text:
+    1: "Проверяем, что список {name} не содержит элемент(ы) с текстом \"{text}\""
+    2: "Проверяем, что список {name} в {parent} не содержит элемент(ы) с текстом \"{text}\""
+
+  list_assert_has_item:
+    1: "Проверяем, что список {name} содержит элемент с id = '{id}'"
+    2: "Проверяем, что список {name} в {parent} содержит элемент с id = '{id}'"
+
+  list_assert_has_not_item:
+    1: "Проверяем, что список {name} не содержит элемент с id = '{id}'"
+    2: "Проверяем, что список {name} в {parent} не содержит элемент с id = '{id}'"
+
+  list_should_conditions:
+    1: "Проверяем список {name} на требуемые условия"
+    2: "Проверяем список {name} в {parent} на требуемые условия"
+
+  # Switch
+  switcher_toggle:
+    1: "Переключаем {name} {element} в другое положение"
+    2: "Переключаем {name} {element} в {parent} в другое положение"
+
+  switcher_switch_on:
+    1: "Включаем {name} {element}"
+    2: "Включаем {name} {element} в {parent}"
+
+  switcher_switch_off:
+    1: "Выключаем {name} {element}"
+    2: "Выключаем {name} {element} в {parent}"
+
+  # Form
+  form_submit:
+    1: "Подтверждаем форму {name}"
+    2: "Подтверждаем форму {name} в {parent}"
+
+  # Carousel
+  carousel_scroll_forward:
+    1: "Переключаем {name} {element} на следующий слайд"
+    2: "Переключаем {name} {element} а {parent} на следующий слайд"
+
+  carousel_scroll_backward:
+    1: "Переключаем {name} {element} на предыдущий слайд"
+    2: "Переключаем {name} {element} а {parent} на предыдущий слайд"
