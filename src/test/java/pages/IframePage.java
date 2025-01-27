@@ -2,17 +2,17 @@ package pages;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import dm.tools.annotations.Name;
-import dm.tools.annotations.PageObject;
-import dm.tools.annotations.Widget;
-import dm.tools.inputs.TextField;
-import dm.tools.primitives.Button;
-import dm.tools.windows.Iframe;
+import allurium.annotations.Name;
+import allurium.annotations.PageObject;
+import allurium.annotations.Widget;
+import allurium.inputs.TextField;
+import allurium.primitives.Button;
+import allurium.windows.Iframe;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
-import static dm.tools.inputs.TextField.$textField;
-import static dm.tools.primitives.Button.$button;
+import static allurium.inputs.TextField.$textField;
+import static allurium.primitives.Button.$button;
 
 @PageObject
 @Getter

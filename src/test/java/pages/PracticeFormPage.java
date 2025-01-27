@@ -1,14 +1,14 @@
 package pages;
 
-import dm.tools.annotations.Locator;
-import dm.tools.annotations.Name;
-import dm.tools.annotations.PageObject;
-import dm.tools.inputs.CheckBox;
-import dm.tools.inputs.TextArea;
-import dm.tools.inputs.TextField;
-import dm.tools.inputs.UploadField;
-import dm.tools.primitives.Button;
-import dm.tools.inputs.RadioButton;
+import allurium.annotations.Locator;
+import allurium.annotations.Name;
+import allurium.annotations.PageObject;
+import allurium.inputs.CheckBox;
+import allurium.inputs.TextArea;
+import allurium.inputs.TextField;
+import allurium.inputs.UploadField;
+import allurium.primitives.Button;
+import allurium.inputs.RadioButton;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import widgets.LeftSideCategoriesMenu;

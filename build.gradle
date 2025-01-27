@@ -4,7 +4,7 @@ plugins {
     id "maven-publish"
     id "signing"
 }
-group 'dm.tools'
+group 'ipk-tools'
 version '0.9'
 
 compileJava.options.encoding = 'utf-8'
@@ -48,7 +48,7 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
 
-            groupId = 'dm.tools'
+            groupId = 'ipk-tools'
             artifactId = 'allurium'
             version = '0.9'
 

@@ -1,9 +1,9 @@
 package widgets;
 
-import dm.tools.AbstractWidget;
-import dm.tools.annotations.Locator;
-import dm.tools.annotations.Name;
-import dm.tools.annotations.Widget;
+import allurium.AbstractWidget;
+import allurium.annotations.Locator;
+import allurium.annotations.Name;
+import allurium.annotations.Widget;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 

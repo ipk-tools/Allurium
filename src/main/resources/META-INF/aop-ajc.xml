@@ -1,22 +1,22 @@
 <aspectj>
     <aspects>
-        <aspect name="dm.tools.aspects.WidgetAspects"/>
-        <aspect name="dm.tools.aspects.PageAspects"/>
-        <aspect name="dm.tools.aspects.UIElementAspects"/>
-        <aspect name="dm.tools.aspects.LinkAspects"/>
-        <aspect name="dm.tools.aspects.ImageAspects"/>
-        <aspect name="dm.tools.aspects.WidgetListAspects"/>
-        <aspect name="dm.tools.aspects.TextFieldAspects"/>
-        <aspect name="dm.tools.aspects.CarouselAspects"/>
-        <aspect name="dm.tools.aspects.SelectAspects"/>
-        <aspect name="dm.tools.aspects.DropdownAspects"/>
-        <aspect name="dm.tools.aspects.CheckBoxAspects"/>
-        <aspect name="dm.tools.aspects.AbstractInputElementAspects"/>
-        <aspect name="dm.tools.aspects.UploadFileInputAspects"/>
-        <aspect name="dm.tools.aspects.FormAspects"/>
-        <aspect name="dm.tools.aspects.SliderAspects"/>
-        <aspect name="dm.tools.aspects.SwitcherAspects"/>
-        <aspect name="dm.tools.aspects.RequiredTextFieldAspects"/>
-        <aspect name="dm.tools.aspects.IframeAspects"/>
+        <aspect name="allurium.aspects.WidgetAspects"/>
+        <aspect name="allurium.aspects.PageAspects"/>
+        <aspect name="allurium.aspects.UIElementAspects"/>
+        <aspect name="allurium.aspects.LinkAspects"/>
+        <aspect name="allurium.aspects.ImageAspects"/>
+        <aspect name="allurium.aspects.WidgetListAspects"/>
+        <aspect name="allurium.aspects.TextFieldAspects"/>
+        <aspect name="allurium.aspects.CarouselAspects"/>
+        <aspect name="allurium.aspects.SelectAspects"/>
+        <aspect name="allurium.aspects.DropdownAspects"/>
+        <aspect name="allurium.aspects.CheckBoxAspects"/>
+        <aspect name="allurium.aspects.AbstractInputElementAspects"/>
+        <aspect name="allurium.aspects.UploadFileInputAspects"/>
+        <aspect name="allurium.aspects.FormAspects"/>
+        <aspect name="allurium.aspects.SliderAspects"/>
+        <aspect name="allurium.aspects.SwitcherAspects"/>
+        <aspect name="allurium.aspects.RequiredTextFieldAspects"/>
+        <aspect name="allurium.aspects.IframeAspects"/>
     </aspects>
 </aspectj>

@@ -1,7 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Condition;
-import dm.tools.UiSteps;
+import allurium.UiSteps;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

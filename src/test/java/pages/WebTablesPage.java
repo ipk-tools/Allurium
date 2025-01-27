@@ -1,10 +1,10 @@
 package pages;
 
+import allurium.annotations.*;
 import com.codeborne.selenide.SelenideElement;
-import dm.tools.AbstractWidget;
-import dm.tools.annotations.*;
-import dm.tools.lists.ListWC;
-import dm.tools.primitives.UIElement;
+import allurium.AbstractWidget;
+import allurium.lists.ListWC;
+import allurium.primitives.UIElement;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
