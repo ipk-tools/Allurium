@@ -55,7 +55,7 @@ publishing {
             pom {
                 name.set("Allurium")
                 description.set("The browser testing and report composing framework woven with Selenide and Allure.")
-                url.set("https://github.com/IaroslavPK/Allurium")
+                url.set("https://github.com/ipk-tools/Allurium")
 
                 licenses {
                     license {
@@ -71,9 +71,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/your-username/allurium.git")
-                    developerConnection.set("scm:git:ssh://git@github.com:IaroslavPK/Allurium.git")
-                    url.set("https://github.com/IaroslavPK/Allurium")
+                    connection.set("scm:git:git://github.com/ipk-tools/allurium.git")
+                    developerConnection.set("scm:git:ssh://git@github.com:ipk-tools/Allurium.git")
+                    url.set("https://github.com/ipk-tools/Allurium")
                 }
             }
         }
