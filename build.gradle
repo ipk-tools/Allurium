@@ -172,7 +172,7 @@ allure {
 task generateChecksums {
     dependsOn publishToMavenLocal
     doLast {
-        def localRepoDir = file("${System.properties['user.home']}/.m2/repository/io/github/ipk-tools/allurium/0.9")
+        def localRepoDir = file("${System.properties['user.home']}/.m2/repository/io/github/ipk-tools/allurium/${project.version}")
 
         localRepoDir.eachFile { File artifact ->
             if (!artifact.name.endsWith(".md5") && !artifact.name.endsWith(".sha1")) {
@@ -199,10 +199,10 @@ static String computeHashHex(byte[] data, String algorithm) {
 
 task packageForCentral(type: Zip) {
     dependsOn generateChecksums
-    archiveFileName.set("allurium-0.9.zip")
+    archiveFileName.set("allurium-${project.version}.zip")
     destinationDirectory.set(file("$buildDir/dist"))
     from("${System.properties['user.home']}/.m2/repository") {
-        include "io/github/ipk-tools/allurium/0.9/**"
+        include "io/github/ipk-tools/allurium/${project.version}/**"
     }
 }
 
