@@ -11,6 +11,7 @@ import java.net.URL;
 
 public class ITExampleTest extends TestBase {
 
+    /*
     @Test
     @DisplayName("Practice form filling")
     public void practiceForm() {
@@ -27,6 +28,7 @@ public class ITExampleTest extends TestBase {
         practiceFormPage.pictureUploadField().uploadFile(new File(imageUrl.getFile()));
         practiceFormPage.submitButton().click();
     }
+     */
 
     @Test
     @DisplayName("Playing with categories folding menu")

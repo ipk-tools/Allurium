@@ -300,20 +300,20 @@ english:
 
 russian:
   click:
-    1: "Нажимаем - {element} {name}"
-    2: "Нажимаем - {element} {name} в {parent}"
+    1: "Нажимаем - {element}(у) {name}"
+    2: "Нажимаем - {element}(у) {name} в {parent}"
 
   double_click:
-    1: "Двойное нажатие на {element} {name}"
-    2: "Двойное нажатие на {element} {name} в {parent}"
+    1: "Двойное нажатие на {element}(у) {name}"
+    2: "Двойное нажатие на {element}(у) {name} в {parent}"
 
   context_click:
-    1: "Нажимаем правай кнопкой мыши на - {element} {name}"
-    2: "Нажимаем правай кнопкой мыши на - {element} {name} в {parent}"
+    1: "Нажимаем правай кнопкой мыши на - {element}(у) {name}"
+    2: "Нажимаем правай кнопкой мыши на - {element}(у) {name} в {parent}"
 
   drag_and_drop:
-    1: "Drag {from_name} to {to_name}"
-    2: "Drag {from_name} to {to_name}"
+    1: "Перетаскиваем {element} {from_name} в {to_name}"
+    2: "Перетаскиваем {from_name} в {to_name}"
 
   hover:
     1: "Наводим курсор на - {element} {name}"
@@ -340,8 +340,8 @@ russian:
     2: "Выбираем опцию с индексом {id} в выпадающем списке {name} в виджете {parent}"
 
   select_assert_has_option_with_delay:
-    1: "Ждём {sec} секунд и проверяем, что поле select-input {name} содержит опцию(и): \"{option}\""
-    2: "Ждём {sec} секунд и проверяем, что поле select-input, в {parent}, {name} содержит опцию(и): \"{option}\""
+    1: "Ждём {sec} секунд(у/ы) и проверяем, что поле select-input {name} содержит опцию(и): \"{option}\""
+    2: "Ждём {sec} секунд(у/ы) и проверяем, что поле select-input, в {parent}, {name} содержит опцию(и): \"{option}\""
 
   select_option:
     1: "Выбираем опцию \"{option}\" в выпадающем списке {name}"
@@ -384,8 +384,8 @@ russian:
     2: "Проверяем, что элемент {element1} и  {element2} эквивалентны в {parent}"
 
   assert_text:
-    1: "Проверяем, что текст в {element} {name} точно соответствует {text}"
-    2: "Проверяем, что текст в {element} {name}, расположенного в {parent}, точно соответствует {text}"
+    1: "Проверяем, что текст в {element} {name} строго соответствует {text}"
+    2: "Проверяем, что текст в {element} {name}, расположенного в {parent}, строго соответствует {text}"
 
   assert_has_text:
     1: "Проверяем {element} {name} на наличие текста: \"{text}\""
@@ -416,8 +416,8 @@ russian:
     2: "Проверяем, что {element} {name} отображается в видимой части страницы в виджете {parent}"
 
   assert_visible_with_duration:
-    1: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд"
-    2: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд в виджете {parent}"
+    1: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд(у/ы)"
+    2: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд(у/ы) в виджете {parent}"
 
   assert_has_css_class:
     1: "Проверяем, что {element} {name} имеет CSS класс {clazz}"
@@ -428,12 +428,12 @@ russian:
     2: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в виджете {parent}"
 
   assert_has_css_class_during_time:
-    1: "Проверяем, что {element} {name} имеет CSS класс {clazz} в течение {sec} секунд"
-    2: "Проверяем, что {element} {name} имеет CSS класс {clazz} в виджете {parent} в течение {sec} секунд"
+    1: "Проверяем, что {element} {name} имеет CSS класс {clazz} в течение {sec} секунд(у/ы)"
+    2: "Проверяем, что {element} {name} имеет CSS класс {clazz} в виджете {parent} в течение {sec} секунд(у/ы)"
 
   assert_has_not_css_class_during_time:
-    1: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в течении {seconds} секунд"
-    2: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в виджете {parent}  в течении {seconds} секунд"
+    1: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в течении {seconds} секунд(у/ы)"
+    2: "Проверяем, что {element} {name} не имеет CSS класс {clazz} в виджете {parent}  в течении {seconds} секунд(у/ы)"
 
   assert_element_empty:
     1: "Проверяем, что {element} {name} пустой"
@@ -444,12 +444,12 @@ russian:
     2: "Проверяем, что {element} {name} в {parent} не пустой"
 
   assert_enabled:
-    1: "Проверяем, что {element} {name} активен"
-    2: "Проверяем, что {element} {name} в {parent} активен"
+    1: "Проверяем, что {element} {name} активен(на)"
+    2: "Проверяем, что {element} {name} в {parent} активен(на)"
 
   assert_disabled:
-    1: "Проверяем, что {element} {name} не активен"
-    2: "Проверяем, что {element} {name} в {parent} не активен"
+    1: "Проверяем, что {element} {name} не активен(на)"
+    2: "Проверяем, что {element} {name} в {parent} не активен(на)"
 
   # TextField
   write:
@@ -574,8 +574,8 @@ russian:
 
   # Switch
   switcher_toggle:
-    1: "Переключаем {name} {element} в другое положение"
-    2: "Переключаем {name} {element} в {parent} в другое положение"
+    1: "Переключаем {name} {element} в противоположное положение"
+    2: "Переключаем {name} {element} в {parent} в противоположное положение"
 
   switcher_switch_on:
     1: "Включаем {name} {element}"

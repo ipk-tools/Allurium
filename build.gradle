@@ -1,10 +1,12 @@
+import java.security.MessageDigest
+
 plugins {
     id "java-library"
     id "io.qameta.allure" version "2.9.6"
     id "maven-publish"
     id "signing"
 }
-group 'ipk-tools'
+group 'io.github.ipk-tools'
 version '0.9'
 
 compileJava.options.encoding = 'utf-8'
@@ -43,12 +45,18 @@ repositories {
     }
 }
 
+println "signing.keyId: " + project.findProperty("signing.keyId")
+println "signing.password: " + (project.findProperty("signing.password") != null ? "Loaded" : "MISSING")
+println "signing.secretKey: " + (project.findProperty("signing.secretKey") != null ? "Loaded" : "MISSING")
+println "ossrhUsername: " + (project.findProperty("ossrhUsername") != null ? "Loaded" : "MISSING")
+println "ossrhPassword: " + (project.findProperty("ossrhPassword") != null ? "Loaded" : "MISSING")
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
 
-            groupId = 'ipk-tools'
+            groupId = 'io.github.ipk-tools'
             artifactId = 'allurium'
             version = '0.9'
 
@@ -57,12 +65,12 @@ publishing {
                 description.set("The browser testing and report composing framework woven with Selenide and Allure.")
                 url.set("https://github.com/ipk-tools/Allurium")
 
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
+                scm {
+                    connection.set("scm:git:git://github.com/ipk-tools/allurium.git")
+                    developerConnection.set("scm:git:ssh://git@github.com:ipk-tools/Allurium.git")
+                    url.set("https://github.com/ipk-tools/Allurium")
                 }
+
                 developers {
                     developer {
                         id.set("iaroslav.pilipenko")
@@ -70,10 +78,12 @@ publishing {
                         email.set("iaroslav.pk@gmail.com")
                     }
                 }
-                scm {
-                    connection.set("scm:git:git://github.com/ipk-tools/allurium.git")
-                    developerConnection.set("scm:git:ssh://git@github.com:ipk-tools/Allurium.git")
-                    url.set("https://github.com/ipk-tools/Allurium")
+
+                licenses {
+                    license {
+                        name.set("The MIT License (MIT)")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
                 }
             }
         }
@@ -85,11 +95,29 @@ publishing {
             url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
 
             credentials {
-                username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-                password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+                username = project.findProperty("ossrhUsername") ?: System.getenv("ossrhUsername")
+                password = project.findProperty("ossrhPassword") ?: System.getenv("ossrhPassword")
             }
         }
     }
+}
+
+signing {
+    def passphrase = project.findProperty("signing.password") as String
+    def keyFilePath = project.findProperty("signing.keyFile")
+
+    if (!keyFilePath) {
+        throw new GradleException("No keyFile provided. Set 'signing.keyFile' in gradle.properties.")
+    }
+    def keyFile = file(keyFilePath)
+    if (!keyFile.exists()) {
+        throw new GradleException("PGP key file not found at: $keyFilePath")
+    }
+
+    def privateKeyContent = keyFile.text
+
+    useInMemoryPgpKeys(privateKeyContent, passphrase)
+    sign publishing.publications.mavenJava
 }
 
 ext {
@@ -140,6 +168,43 @@ allure {
     }
 }
 
+
+task generateChecksums {
+    dependsOn publishToMavenLocal
+    doLast {
+        def localRepoDir = file("${System.properties['user.home']}/.m2/repository/io/github/ipk-tools/allurium/0.9")
+
+        localRepoDir.eachFile { File artifact ->
+            if (!artifact.name.endsWith(".md5") && !artifact.name.endsWith(".sha1")) {
+                def contentBytes = artifact.bytes
+
+                def md5Hex = computeHashHex(contentBytes, "MD5")
+                file("${artifact.absolutePath}.md5").text = md5Hex
+
+                def sha1Hex = computeHashHex(contentBytes, "SHA-1")
+                file("${artifact.absolutePath}.sha1").text = sha1Hex
+
+                println "Checksums generated for ${artifact.name}"
+            }
+        }
+    }
+}
+
+static String computeHashHex(byte[] data, String algorithm) {
+    def digest = MessageDigest.getInstance(algorithm)
+    byte[] hash = digest.digest(data)
+    // Convert each byte to a 2-digit hex string:
+    return hash.collect { String.format("%02x", it) }.join()
+}
+
+task packageForCentral(type: Zip) {
+    dependsOn generateChecksums
+    archiveFileName.set("allurium-0.9.zip")
+    destinationDirectory.set(file("$buildDir/dist"))
+    from("${System.properties['user.home']}/.m2/repository") {
+        include "io/github/ipk-tools/allurium/0.9/**"
+    }
+}
 
 test {
     ignoreFailures = true
