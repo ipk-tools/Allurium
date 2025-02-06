@@ -213,7 +213,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
             }
         components.clear();
         try {
-            this.sourceElements.asDynamicIterable().forEach(this::add);
+            sourceElements.filter(Condition.exist).asDynamicIterable().forEach(this::add);
         } catch (NullPointerException nEx) {
             log.info("there are no elements to refresh in the list: " + uiElementName);
         }
@@ -262,6 +262,9 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     @SuppressWarnings("unchecked")
     private ListWC<T> add(SelenideElement sourceElement) {
         try {
+            if (!sourceElement.isDisplayed()) {
+                sourceElement.scrollIntoView(true);
+            }
             Class<?> clazz = Class.forName(genericTypeName);
             Constructor<T> ctr = (Constructor<T>) clazz.getConstructor(SelenideElement.class);
             Object obj = ctr.newInstance(sourceElement);
