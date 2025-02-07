@@ -1,6 +1,8 @@
 package allurium;
 
+import com.codeborne.selenide.Configuration;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.IOException;
@@ -16,8 +18,9 @@ public class AlluriumConfig {
     @Getter private static final String stepDetailing;
     @Getter private static final String highlighterStart;
     @Getter private static final String highlighterEnd;
-    @Getter private static final Integer retryAmount;
-    @Getter private static final Long retryIntervalMs;
+    @Getter @Setter private static Long pageLoadTimeout;
+    @Getter private static Integer retryAmount;
+    @Getter private static Long retryIntervalMs;
 
     static {
         try (InputStream input = getConfigInputStream()) {
@@ -39,8 +42,22 @@ public class AlluriumConfig {
         stepDetailing = loadProperty("step.detailing", "2");
         highlighterStart = loadProperty("highlighter.start", "");
         highlighterEnd = loadProperty("highlighter.end", "");
+        pageLoadTimeout = Long.parseLong(loadProperty("page.load.timeout", "30000"));
         retryAmount = Integer.parseInt(loadProperty("retry.amount", "5"));
         retryIntervalMs = Long.parseLong(loadProperty("retry.interval.ms", "500"));
+        Configuration.pageLoadStrategy = loadProperty("page.load.strategy", "normal");
+        Configuration.pageLoadTimeout = pageLoadTimeout;
+        Configuration.timeout = AlluriumConfig.retryAmount() * AlluriumConfig.retryIntervalMs();
+    }
+
+    public static void setRetryAmount(Integer retryAmount) {
+        AlluriumConfig.retryAmount = retryAmount;
+        Configuration.timeout = retryAmount * retryIntervalMs();
+    }
+
+    public static void setRetryIntervalMs(Long retryIntervalMs) {
+        AlluriumConfig.retryIntervalMs = retryIntervalMs;
+        Configuration.timeout =AlluriumConfig.retryAmount() * retryIntervalMs;
     }
 
     private static InputStream getConfigInputStream() {

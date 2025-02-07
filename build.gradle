@@ -6,8 +6,9 @@ plugins {
     id "maven-publish"
     id "signing"
 }
+
 group 'io.github.ipk-tools'
-version '0.9'
+version '1.0.0'
 
 compileJava.options.encoding = 'utf-8'
 
@@ -58,7 +59,7 @@ publishing {
 
             groupId = 'io.github.ipk-tools'
             artifactId = 'allurium'
-            version = '0.9'
+            version = "${version}"
 
             pom {
                 name.set("Allurium")

@@ -1,5 +1,6 @@
 package tests;
 
+import allurium.AlluriumConfig;
 import com.codeborne.selenide.Condition;
 import allurium.UiSteps;
 import io.qameta.allure.Feature;
@@ -10,6 +11,9 @@ import java.io.File;
 import java.net.URL;
 
 public class ITExampleTest extends TestBase {
+
+    String iframePageUrl = System.getProperty("user.dir")+"/src/test/resources/html/iframe.html";
+    String simpleListPageUrl = "file:///D:/projects/java/allurium-showcase/allurium-showcase/src/test/resources/html/lists.html";
 
     /*
     @Test
@@ -31,6 +35,7 @@ public class ITExampleTest extends TestBase {
      */
 
     @Test
+    @Feature("List WC")
     @DisplayName("Playing with categories folding menu")
     public void composeComponentListsWithChainedLocators() {
         UiSteps.loadPage("https://demoqa.com/automation-practice-form");
@@ -45,19 +50,51 @@ public class ITExampleTest extends TestBase {
     }
 
     @Test
+    @Feature("List WC")
     @DisplayName("Using list to handle a table")
     public void usingListToHandleTable() {
-        UiSteps.loadPage("https://demoqa.com/webtabl" +
-                "es");
+        UiSteps.loadPage("https://demoqa.com/webtables");
         webTablesPage.listEmployee().get("Vega").firstName().click();
         webTablesPage.listEmployee().get("Cantrell").lastName().click();
         webTablesPage.listEmployee().get("Gentry").email().click();
     }
 
     @Test
+    @Feature("List WC")
+    @DisplayName("Walk through the lists of simple elements")
+    public void fillListOfSimpleInputElements() {
+        UiSteps.openBrowser(simpleListPageUrl);
+        simpleListsPage.inputTextFields().get(0).write("Eagle");
+        simpleListsPage.inputTextFields().get(1).write("Sparrow");
+        simpleListsPage.inputTextFields().get(2).write("Parrot");
+        simpleListsPage.inputTextFields().get(3).write("Penguin");
+        simpleListsPage.inputTextFields().get(4).write("Owl");
+        simpleListsPage.inputTextFields().get(5).write("Flamingo");
+        simpleListsPage.inputTextFields().get(6).write("Peacock");
+        simpleListsPage.inputTextFields().get(7).write("Hummingbird");
+        simpleListsPage.inputTextFields().get(8).write("Woodpecker");
+        simpleListsPage.inputTextFields().get(9).write("Crow");
+        simpleListsPage.inputTextFields().first();
+        simpleListsPage.inputTextFields().last();
+        simpleListsPage.inputTextFields().get(5).assertCurrentValue("Flamingo");
+        simpleListsPage.inputTextFields().get(7).assertCurrentValue("Hummingbird");
+        simpleListsPage.listBirdNameButtons().get("Eagle").click();
+        simpleListsPage.listBirdNameButtons().get("Sparrow").click();
+        simpleListsPage.listBirdNameButtons().get("Parrot").click();
+        simpleListsPage.listBirdNameButtons().get("Penguin").click();
+        simpleListsPage.listBirdNameButtons().get("Owl").click();
+        simpleListsPage.listBirdNameButtons().get("Flamingo").click();
+        simpleListsPage.listBirdNameButtons().get("Peacock").click();
+        simpleListsPage.listBirdNameButtons().get("Hummingbird").click();
+        simpleListsPage.listBirdNameButtons().get("Woodpecker").click();
+        simpleListsPage.listBirdNameButtons().get("Crow").click();
+        simpleListsPage.listBirdNameButtons().filter(Condition.text("Sparrow")).get(0).click();
+    }
+
+    @Test
+    @Feature("IFrame")
     @DisplayName("Using 'Iframe' class to easily work with iframe elements")
     public void iframeExample() {
-        String iframePageUrl = System.getProperty("user.dir")+"/src/test/resources/html/iframe.html";
         UiSteps.openBrowser(iframePageUrl);
 
         iframePage.fieldName().write("John");
@@ -77,32 +114,12 @@ public class ITExampleTest extends TestBase {
     }
 
     @Test
-    @Feature("Simple elements list")
-    @DisplayName("Walk through the lists of simple elements")
-    public void fillListOfSimpleInputElements() {
-        UiSteps.openBrowser("file:///D:/projects/java/allurium-showcase/allurium-showcase/src/test/resources/html/lists.html");
-        simpleListsPage.inputTextFields().get(0).write("Eagle");
-        simpleListsPage.inputTextFields().get(1).write("Sparrow");
-        simpleListsPage.inputTextFields().get(2).write("Parrot");
-        simpleListsPage.inputTextFields().get(3).write("Penguin");
-        simpleListsPage.inputTextFields().get(4).write("Owl");
-        simpleListsPage.inputTextFields().get(5).write("Flamingo");
-        simpleListsPage.inputTextFields().get(6).write("Peacock");
-        simpleListsPage.inputTextFields().get(7).write("Hummingbird");
-        simpleListsPage.inputTextFields().get(8).write("Woodpecker");
-        simpleListsPage.inputTextFields().get(9).write("Crow");
-        simpleListsPage.inputTextFields().get(5).assertCurrentValue("Flamingo");
-        simpleListsPage.inputTextFields().get(7).assertCurrentValue("Hummingbird");
-        simpleListsPage.listBirdNameButtons().get("Eagle").click();
-        simpleListsPage.listBirdNameButtons().get("Sparrow").click();
-        simpleListsPage.listBirdNameButtons().get("Parrot").click();
-        simpleListsPage.listBirdNameButtons().get("Penguin").click();
-        simpleListsPage.listBirdNameButtons().get("Owl").click();
-        simpleListsPage.listBirdNameButtons().get("Flamingo").click();
-        simpleListsPage.listBirdNameButtons().get("Peacock").click();
-        simpleListsPage.listBirdNameButtons().get("Hummingbird").click();
-        simpleListsPage.listBirdNameButtons().get("Woodpecker").click();
-        simpleListsPage.listBirdNameButtons().get("Crow").click();
-        simpleListsPage.listBirdNameButtons().filter(Condition.text("Sparrow")).get(0).click();
+    @Feature("Configuration")
+    @DisplayName("Change timeout parameters during a test")
+    public void changeTimeoutParametersOnFly() {
+        AlluriumConfig.setRetryAmount(30);
+        UiSteps.openBrowser(simpleListPageUrl);
+        simpleListsPage.listBirdNameButtons().get("Sparrows").click();
+
     }
 }

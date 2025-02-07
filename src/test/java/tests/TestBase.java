@@ -22,7 +22,6 @@ public class TestBase {
     protected static void beforeAll() {
         Configuration.browser = "chrome";
         Configuration.pageLoadTimeout = 30000;
-        Configuration.timeout = 15000;
         WebDriverManager.chromedriver().setup();
         UiSteps.openBrowser();
         WebDriverRunner.getWebDriver().manage().window().maximize();

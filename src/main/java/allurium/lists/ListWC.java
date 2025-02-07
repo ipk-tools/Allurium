@@ -213,7 +213,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
             }
         components.clear();
         try {
-            sourceElements.filter(Condition.exist).asDynamicIterable().forEach(this::add);
+            sourceElements.asDynamicIterable().forEach(this::add);
         } catch (NullPointerException nEx) {
             log.info("there are no elements to refresh in the list: " + uiElementName);
         }
@@ -262,15 +262,19 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     @SuppressWarnings("unchecked")
     private ListWC<T> add(SelenideElement sourceElement) {
         try {
-            if (!sourceElement.isDisplayed()) {
+            /*if (!sourceElement.isDisplayed()) {
                 sourceElement.scrollIntoView(true);
-            }
+            }*/
             Class<?> clazz = Class.forName(genericTypeName);
             Constructor<T> ctr = (Constructor<T>) clazz.getConstructor(SelenideElement.class);
             Object obj = ctr.newInstance(sourceElement);
             T listComponent = (T) obj;
             listComponent.setAssignNameMethod(assignNameMethod);
-            listComponent.setUiElementName(listComponent.getId());
+            if (sourceElement.exists()) {
+                listComponent.setUiElementName(listComponent.getId());
+            } else {
+                log.warn("Element of the source list does not exist in; skipping");
+            }
             FakeParent fakeParent = new FakeParent();
             fakeParent.setUiElementName(this.uiElementName);
             fakeParent.setUiElementType("list");
@@ -486,7 +490,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     public T getPreciseVisible(String id) {
         refresh();
         int counter = AlluriumConfig.retryAmount();
-        Optional<T> target = components.stream().filter(item -> item.getId().contains(id)).findFirst();
+        Optional<T> target = components.stream().filter(item -> item.getId().equals(id)).findFirst();
         while (counter > 0 && !target.isPresent()) {
             try {
                 Thread.sleep(AlluriumConfig.retryIntervalMs());

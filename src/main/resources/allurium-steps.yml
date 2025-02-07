@@ -1,12 +1,12 @@
 english:
 
   click:
-    1: "Click on the {name} {element} "
+    1: "Click on the {name} {element}"
     2: "Click on the {name} {element} of {parent}"
 
   double_click:
-    1: "Double click on the {name} {element} "
     2: "Double click on the {name} {element} of {parent}"
+    1: "Double click on the {name} {element}"
 
   context_click:
     1: "Context click on the {name} {element} "
@@ -316,16 +316,16 @@ russian:
     2: "Перетаскиваем {from_name} в {to_name}"
 
   hover:
-    1: "Наводим курсор на - {element} {name}"
-    2: "Наводим курсор на - {element} {name} в {parent}"
+    1: "Наводим курсор на - {element}(у) {name}"
+    2: "Наводим курсор на - {element}(у) {name} в {parent}"
 
   scroll:
-    1: "Прокручиваем к элементу {element} {name}"
-    2: "Прокручиваем к элементу {element} {name} в {parent}"
+    1: "Прокручиваем к {element}(и) {name}"
+    2: "Прокручиваем к {element}(и) {name} в {parent}"
 
   scroll_into_view:
-    1: "Прокручиваем вьюпорт до элемента {element} {name}"
-    2: "Прокручиваем вьюпорт до элемента {element} {name} в {parent}"
+    1: "Прокручиваем вьюпорт до {element}(и) {name}"
+    2: "Прокручиваем вьюпорт до {element}(и) {name} в {parent}"
 
   dropdown_extend:
     1: "Разворачиваем список {parent}"
@@ -530,7 +530,7 @@ russian:
 
   list_assert_not_visible:
     1: "Проверяем, что список {name} не виден на странице"
-    2: "Проверяем, что список  {name} в {parent} не видно"
+    2: "Проверяем, что список {name} в {parent} не видно"
 
   assert_size:
     1: "Проверяем, что длинна списка {name} равна {size}"

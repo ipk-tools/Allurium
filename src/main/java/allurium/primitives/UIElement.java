@@ -691,6 +691,11 @@ public class UIElement implements AlluriumElement, ListComponent {
      * @throws AssertionError if the element's text does not contain the specified substring
      */
     public void assertHasText(String text) {
+        int counter = AlluriumConfig.retryAmount();
+        while (!root.text().contains(text) && counter > 0) {
+            Selenide.sleep(AlluriumConfig.retryIntervalMs());
+            counter--;
+        }
         Assertions.assertThat(root.text()).as(getUiElementName()).contains(text);
     }
 

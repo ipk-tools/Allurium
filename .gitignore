@@ -14,4 +14,4 @@ core/build
 *.ipr
 ajcore*.txt
 
-gradle.properties
+#gradle.properties
