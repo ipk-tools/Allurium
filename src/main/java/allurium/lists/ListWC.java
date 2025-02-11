@@ -688,6 +688,11 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         return components.get(components.size() - 1);
     }
 
+    public List<T> getAll() {
+        refresh();
+        return components;
+    }
+
     /**
      * Asserts that the list satisfies the specified collection conditions.
      * <p>
@@ -726,9 +731,11 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     public void should(CollectionCondition... conditions) {
         components.clear();
         String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
+        String conditionsAsString = Arrays.stream(conditions).map(Object::toString).collect(Collectors.joining(", "));
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("list_should_conditions", this.getParent(),
-                        Pair.of("{name}", this.wrappedName())
+                        Pair.of("{name}", this.wrappedName()),
+                        Pair.of("{conditions}", conditionsAsString)
                 ));
         Allure.getLifecycle().startStep(stepUuid, stepResult);
         boolean errorStatus = false;
@@ -746,15 +753,6 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
             }
             Allure.getLifecycle().stopStep();
         }
-    }
-
-    public void assertConditions(CollectionCondition... conditions) {
-        should(conditions);
-    }
-
-    public List<T> getAll() {
-        refresh();
-        return components;
     }
 
     public ListWC<T> filter(Condition condition) {

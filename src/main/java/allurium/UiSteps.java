@@ -34,7 +34,7 @@ public class UiSteps {
      *
      * @param url the URL to open
      */
-    @Step("Open the browser on page {url}")
+    @Step("Open the browser and navigate to {url}")
     public void openBrowser(String url) {
         Selenide.open(url);
     }
@@ -54,7 +54,7 @@ public class UiSteps {
      * @param login   The login username.
      * @param password The login password.
      */
-    @Step("Open the page {url} with login {login} and password {password}")
+    @Step("Open the page {url} with the login {login} and the password {password}")
     public static void loadPage(String url, String login, String password) {
         boolean success = false;
         int retry = 1;
@@ -163,7 +163,7 @@ public class UiSteps {
      *
      * @param tabTitle the title of the tab to switch to
      */
-    @Step("Switch to the windows tab with the title '{tabTitle}'")
+    @Step("Switch to the browser  tab with the title '{tabTitle}'")
     public static void switchToTab(String tabTitle) {
         try {
             boolean tabFound = false;
@@ -191,7 +191,7 @@ public class UiSteps {
      * @param index the index of the tab to switch to (0-based)
      * @throws IndexOutOfBoundsException if the index is invalid
      */
-    @Step("Switch to the windows tab at index {index}")
+    @Step("Switch to the browser tab with index {index}")
     public void switchToTab(int index) {
         try {
             Set<String> windowHandles = getWebDriver().getWindowHandles();
@@ -667,7 +667,7 @@ public class UiSteps {
     /**
      * Maximizes the browser window to fill the screen.
      */
-    @Step("Maximize the browser window")
+    @Step("Expand the browser window to full size")
     public static void maximize() {
         try {
             WebDriver driver = WebDriverRunner.getWebDriver();

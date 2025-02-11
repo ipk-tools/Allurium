@@ -33,16 +33,16 @@ english:
     2: "Wait {sec} seconds and Assert that the {name} select-input of {parent}, contains option(s): \"{option}\""
 
   select_by_index:
-    1: "Select the option by index {id} of the {name} {element}"
-    2: "Select the option by index {id} of the {name} {element} of {parent}"
+    1: "Select the option by index {id} in the {name} {element}"
+    2: "Select the option by index {id} in the {name} {element} of {parent}"
 
   dropdown_extend:
     1: "Extend the {name} drop down list"
     2: "Extend the {name} drop down list of {parent}"
 
   select_option:
-    1: "Select the option \"{option}\" of the {name} {element}"
-    2: "Select the option \"{option}\" of the {name} {element} of {parent}"
+    1: "Select the option \"{option}\" in the {name} {element}"
+    2: "Select the option \"{option}\" in the {name} {element} of {parent}"
 
   select_option_first:
     1: "Select the first option \"{option}\" of the {name} {element} drop down list"
@@ -117,12 +117,12 @@ english:
     2: "Assert that the {name} {element} of {parent} will be visible during the next {sec} seconds"
 
   assert_has_css_class:
-    1: "Assert that the {name} {element} has the CSS class {clazz}"
-    2: "Assert that the {name} {element} of {parent} has the CSS class {clazz}"
+    1: "Assert that the {name} {element} has the CSS class \"{clazz}\""
+    2: "Assert that the {name} {element} of {parent} has the CSS class \"{clazz}\""
 
   assert_has_not_css_class:
-    1: "Assert that the {name} {element} has not the CSS class {clazz}"
-    2: "Assert that the {name} {element} of {parent} has not the CSS class {clazz}"
+    1: "Assert that the {name} {element} has not the CSS class \"{clazz}\""
+    2: "Assert that the {name} {element} of {parent} has not the CSS class \"{clazz}\""
 
   assert_has_css_class_during_time:
     1: "Assert that the {name} {element} has the CSS class {clazz} during the next {seconds} seconds"
@@ -259,16 +259,16 @@ english:
     2: "Assert that the {name} list of {parent} doesn't contain item(s) with the text \"{text}\""
 
   list_assert_has_item:
-    1: "Assert that the {name} list contains an element with the id = '\"{id}\""
-    2: "Assert that the {name} list of {parent} contains an element with the id = '\"{id}\""
+    1: "Assert that the {name} list contains an item with the id = '\"{id}\""
+    2: "Assert that the {name} list of {parent} contains an item with the id = '\"{id}\""
 
   list_assert_has_not_item:
-    1: "Assert that the {name} list doesn't contain an element with the id = '\"{id}\""
-    2: "Assert that the {name} list of {parent} doesn't contain an element with the id = '\"{id}\""
+    1: "Assert that the {name} list doesn't contain an item with the id = '\"{id}\""
+    2: "Assert that the {name} list of {parent} doesn't contain an item with the id = '\"{id}\""
 
   list_should_conditions:
-    1: "Check the {name} list for required conditions"
-    2: "Check the {name} list of {parent} for required conditions"
+    1: "Check the {name} list for the required conditions: {conditions}"
+    2: "Check the {name} list of {parent} for the required conditions: {conditions}"
 
   # Switch
   switcher_toggle:
@@ -569,8 +569,8 @@ russian:
     2: "Проверяем, что список {name} в {parent} не содержит элемент с id = '{id}'"
 
   list_should_conditions:
-    1: "Проверяем список {name} на требуемые условия"
-    2: "Проверяем список {name} в {parent} на требуемые условия"
+    1: "Проверяем, что список {name} соответствует требуемым условиям: {conditions}"
+    2: "Проверяем, что список {name} в {parent} соответствует требуемым условиям: {conditions}"
 
   # Switch
   switcher_toggle:
