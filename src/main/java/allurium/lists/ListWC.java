@@ -755,14 +755,65 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         }
     }
 
+    /**
+     * Filters the current {@code ListWC} instance and returns a new instance containing only the elements
+     * that satisfy the specified condition.
+     * <p>
+     * <strong>Behavior:</strong>
+     * <ul>
+     *   <li>Refreshes this list to ensure the underlying elements are up-to-date.</li>
+     *   <li>Applies the given {@link Condition} to the {@code sourceElements}.</li>
+     *   <li>Creates a new {@code ListWC} instance with the same {@code genericTypeName}, parent, and description as this instance.</li>
+     *   <li>Sets the new list's {@code uiElementName} to include the original name plus the condition's textual representation.</li>
+     *   <li>Invokes {@link #refresh()} on the new list to build its components.</li>
+     * </ul>
+     *
+     * @param condition the {@link Condition} to apply
+     * @return a new {@code ListWC} instance containing only the elements that match the specified condition
+     */
     public ListWC<T> filter(Condition condition) {
         refresh();
         ListWC<T> filteredList = new ListWC<>();
         filteredList.genericTypeName = this.genericTypeName;
-        filteredList.setUiElementName(this.uiElementName);
+        filteredList.setUiElementName(String.format("%s, filtered by: %s", this.uiElementName, condition.toString()));
         filteredList.setParent(this.parent);
         filteredList.setDescription(this.description);
         filteredList.setSourceElements(sourceElements.filter(condition));
+        filteredList.refresh();
+        return filteredList;
+    }
+
+    /**
+     * Filters the current {@code ListWC} instance and returns a new instance containing only the elements
+     * that satisfy all of the specified conditions.
+     * <p>
+     * <strong>Behavior:</strong>
+     * <ul>
+     *   <li>Refreshes this list to ensure the underlying elements are up-to-date.</li>
+     *   <li>Sequentially applies each provided {@link Condition} to the {@code sourceElements}.</li>
+     *   <li>Creates a new {@code ListWC} instance with the same {@code genericTypeName}, parent, and description as this instance.</li>
+     *   <li>Sets the new list's {@code uiElementName} to include the original name plus the textual representations of all conditions.</li>
+     *   <li>Invokes {@link #refresh()} on the new list to build its components.</li>
+     * </ul>
+     *
+     * @param conditions one or more {@link Condition} objects to apply; elements must pass all of them to remain in the filtered list
+     * @return a new {@code ListWC} instance containing only the elements that match all specified conditions
+     */
+    public ListWC<T> filter(Condition... conditions) {
+        refresh();
+        ElementsCollection filtered = sourceElements;
+        for (Condition cond : conditions) {
+            filtered = filtered.filter(cond);
+        }
+        String conditionsAsString = Arrays.stream(conditions)
+                .map(Condition::toString)
+                .collect(Collectors.joining(" & "));
+        ListWC<T> filteredList = new ListWC<>();
+        filteredList.genericTypeName = this.genericTypeName;
+        filteredList.setUiElementName(String.format("%s, filtered by: [%s]", this.uiElementName, conditionsAsString));
+        filteredList.setParent(this.parent);
+        filteredList.setDescription(this.description);
+        filteredList.setSourceElements(filtered);
         filteredList.refresh();
         return filteredList;
     }
