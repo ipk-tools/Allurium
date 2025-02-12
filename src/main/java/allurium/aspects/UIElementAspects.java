@@ -11,6 +11,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
+import java.util.UUID;
+
 /**
  * This class provides Aspect-Oriented Programming (AOP) enhancements for the {@link UIElement} class.
  * It integrates with the Allure framework to automatically log and report steps, statuses, and exceptions during
@@ -89,6 +91,34 @@ public class UIElementAspects {
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
         Allure.getLifecycle().startStep(stepUuid, stepResult);
+        boolean errorStatus = false;
+        try {
+            invocation.proceed();
+        } catch (Throwable throwable) {
+            errorStatus = true;
+            throwable.printStackTrace();
+            throw throwable;
+        } finally {
+            if (errorStatus)
+                stepResult.setStatus(Status.FAILED);
+            else {
+                stepResult.setStatus(Status.PASSED);
+            }
+            Allure.getLifecycle().stopStep();
+        }
+    }
+
+    @Around("execution (* allurium.primitives.UIElement.clickAndHold(long))")
+    public void stepClickAndHold(ProceedingJoinPoint invocation) throws Throwable {
+        UIElement uiElement = (UIElement) invocation.getThis();
+        long holdingTime = (long) invocation.getArgs()[0];
+        StepResult stepResult = new StepResult()
+                .setName(StepTextProvider.getStepText("click_and_hold", uiElement.getParent(),
+                        Pair.of("{element}", uiElement.getUiElementType()),
+                        Pair.of("{name}", uiElement.wrappedName()),
+                        Pair.of("{milliseconds}", String.valueOf(holdingTime))
+                ));
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();

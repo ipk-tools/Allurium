@@ -23,10 +23,7 @@ import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.codeborne.selenide.Condition.*;
@@ -499,6 +496,77 @@ public class UIElement implements AlluriumElement, ListComponent {
         boolean errorStatus = false;
         try {
             root.doubleClick();
+        } catch (Throwable throwable) {
+            errorStatus = true;
+            throwable.printStackTrace();
+            throw throwable;
+        } finally {
+            if (errorStatus)
+                stepResult.setStatus(Status.FAILED);
+            else {
+                stepResult.setStatus(Status.PASSED);
+            }
+            Allure.getLifecycle().stopStep();
+        }
+    }
+
+    /**
+     * Clicks on the element and holds the click for the specified duration in milliseconds,
+     * then releases the click.
+     * <p><b>< Step: Processed by Aspect ></b></p>
+     *
+     * @param milliseconds click holding period
+     */
+    public void clickAndHold(long milliseconds) {
+        root.scrollIntoView("{behavior: \"auto\", block: \"center\", inline: \"center\"}");
+        Selenide.actions()
+                .moveToElement(root.getWrappedElement())
+                .clickAndHold()
+                .pause(Duration.ofMillis(milliseconds))
+                .release()
+                .perform();
+    }
+
+    /**
+     *  Clicks on the element and holds the click for the specified duration in milliseconds with optional logging
+     *  to Allure reports
+     *
+     * @param milliseconds click holding period
+     * @param logAsStepOrNot whether to log the click and hold action as a step in
+     *                       Allure reports. If {@code true}, the action is logged.
+     */
+    public void clickAndHold(long milliseconds, boolean logAsStepOrNot) {
+        if (logAsStepOrNot) {
+            clickAndHold(milliseconds);
+        } else {
+            root.scrollIntoView("{behavior: \"auto\", block: \"center\", inline: \"center\"}");
+            Selenide.actions()
+                    .moveToElement(root.getWrappedElement())
+                    .clickAndHold()
+                    .pause(Duration.ofMillis(milliseconds))
+                    .release()
+                    .perform();
+        }
+    }
+
+    /**
+     * the custom message to log in the Allure report for the click and hold action.
+     *
+     * @param milliseconds click holding period
+     * @param uniqueStepText the custom message to log in the Allure report for the click and hold action.
+     */
+    public void clickAndHold(long milliseconds, String uniqueStepText) {
+        StepResult stepResult = new StepResult().setName(uniqueStepText);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
+        boolean errorStatus = false;
+        try {
+            root.scrollIntoView("{behavior: \"auto\", block: \"center\", inline: \"center\"}");
+            Selenide.actions()
+                    .moveToElement(root.getWrappedElement())
+                    .clickAndHold()
+                    .pause(Duration.ofMillis(milliseconds))
+                    .release()
+                    .perform();
         } catch (Throwable throwable) {
             errorStatus = true;
             throwable.printStackTrace();

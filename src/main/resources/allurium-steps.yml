@@ -8,6 +8,10 @@ english:
     2: "Double click on the {name} {element} of {parent}"
     1: "Double click on the {name} {element}"
 
+  click_and_hold:
+    1: "Click on the {name} {element} and hold for {milliseconds} milliseconds"
+    2: "Click on the {name} {element} of {parent} and hold for {milliseconds} milliseconds"
+
   context_click:
     1: "Context click on the {name} {element} "
     2: "Context click on the {name} {element} of {parent}"
@@ -306,6 +310,10 @@ russian:
   double_click:
     1: "Двойное нажатие на {element}(у) {name}"
     2: "Двойное нажатие на {element}(у) {name} в {parent}"
+
+  click_and_hold:
+    1: "Нажимаем на {element}(у) {name} и удерживаем {click_and_hold} миллисекунд(ы)"
+    2: "Нажимаем на {element}(у) {name} в {parent} и удерживаем {milliseconds} миллисекунд(ы)"
 
   context_click:
     1: "Нажимаем правай кнопкой мыши на - {element}(у) {name}"

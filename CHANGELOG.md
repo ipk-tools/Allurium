@@ -11,3 +11,9 @@ All notable changes will be documented here.
 - **Updated** steps description in `UiSteps.java`
 - Made Selenide timeout configurable based on **Allurium** `retryAmount` and `retryIntervalMs` parameters.
     - The configuration tim`]()`eout ]()is now i**nitially set to `retryAmount * retryIntervalMs`.
+
+## [1.0.1] - 2025-02-12
+
+## Changed
+- **New** step action "clickAndHold" for UiElement.
+- **Updated** initial "retry.amount" set back to the value 10.
