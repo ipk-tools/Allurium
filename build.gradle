@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'io.github.ipk-tools'
-version '1.0.1'
+version '1.1.0'
 
 compileJava.options.encoding = 'utf-8'
 

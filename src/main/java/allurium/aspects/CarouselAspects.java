@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.carousels.AbstractCarousel;
 import allurium.StepTextProvider;
 import io.qameta.allure.Allure;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
+import java.util.UUID;
 
 /**
  * Aspect class for enhancing interactions with carousel components using {@link AbstractCarousel}.
@@ -80,13 +83,12 @@ public class CarouselAspects {
     @Around("execution (* allurium.carousels.AbstractCarousel.scrollForward())")
     public void stepScrollForward(ProceedingJoinPoint invocation) throws Throwable {
         AbstractCarousel slider = (AbstractCarousel) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("carousel_scroll_forward", slider.getParent(),
                         Pair.of("{element}", slider.getUiElementType()),
                         Pair.of("{name}", slider.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -100,7 +102,7 @@ public class CarouselAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -116,13 +118,12 @@ public class CarouselAspects {
     @Around("execution (* allurium.carousels.AbstractCarousel.scrollBackward())")
     public void stepScrollBackward(ProceedingJoinPoint invocation) throws Throwable {
         AbstractCarousel slider = (AbstractCarousel) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("carousel_scroll_backward", slider.getParent(),
                         Pair.of("{element}", slider.getUiElementType()),
                         Pair.of("{name}", slider.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -136,7 +137,7 @@ public class CarouselAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 }

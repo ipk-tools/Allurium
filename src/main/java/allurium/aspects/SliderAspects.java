@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.carousels.AbstractCarousel;
 import allurium.StepTextProvider;
 import io.qameta.allure.Allure;
@@ -11,6 +12,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
+import java.util.UUID;
+
 @Aspect
 public class SliderAspects {
 
@@ -18,13 +21,12 @@ public class SliderAspects {
     @SuppressWarnings("unchecked")
     public void stepScrollForward(ProceedingJoinPoint invocation) throws Throwable {
         AbstractCarousel slider = (AbstractCarousel) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("slider_scroll_forward", slider.getParent(),
                         Pair.of("{element}", slider.getUiElementType()),
                         Pair.of("{name}", slider.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -38,7 +40,7 @@ public class SliderAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -46,13 +48,12 @@ public class SliderAspects {
     @SuppressWarnings("unchecked")
     public void stepScrollBackward(ProceedingJoinPoint invocation) throws Throwable {
         AbstractCarousel slider = (AbstractCarousel) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("slider_scroll_back", slider.getParent(),
                         Pair.of("{element}", slider.getUiElementType()),
                         Pair.of("{name}", slider.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -66,7 +67,7 @@ public class SliderAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 

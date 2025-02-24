@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.AbstractInputElement;
 import io.qameta.allure.Allure;
@@ -31,7 +32,7 @@ public class AbstractInputElementAspects {
                         Pair.of("{element}", inputElement.getUiElementType()),
                         Pair.of("{name}", inputElement.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.stopStepAsync();
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -45,7 +46,7 @@ public class AbstractInputElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -66,7 +67,7 @@ public class AbstractInputElementAspects {
                 Pair.of("{name}", inputElement.wrappedName()));
         StepResult stepResult = new StepResult()
                 .setName(stepText);
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.stopStepAsync();
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -80,7 +81,7 @@ public class AbstractInputElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 }

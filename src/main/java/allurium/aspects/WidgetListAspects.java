@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.lists.ListWC;
 import io.qameta.allure.Allure;
@@ -11,6 +12,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
+import java.util.UUID;
+
 @Aspect
 public class WidgetListAspects {
 
@@ -18,14 +21,13 @@ public class WidgetListAspects {
     public void stepAssertSize(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         Integer expectedSize = (Integer) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(
                 StepTextProvider.getStepText("assert_size",
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -38,7 +40,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -46,14 +48,13 @@ public class WidgetListAspects {
     public void stepAssertSizeGreaterThan(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         Integer expectedSize = (Integer) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(
                 StepTextProvider.getStepText("assert_size_greater_than",
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -66,7 +67,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -74,14 +75,13 @@ public class WidgetListAspects {
     public void stepAssertSizeEqualOrGreaterThen(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         Integer expectedSize = (Integer) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(
                 StepTextProvider.getStepText("assert_size_greater_then_or_equal", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -94,7 +94,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -102,14 +102,13 @@ public class WidgetListAspects {
     public void stepAssertSizeLessThan(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         Integer expectedSize = (Integer) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(
                 StepTextProvider.getStepText("assert_size_less_than", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -122,7 +121,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -134,7 +133,7 @@ public class WidgetListAspects {
                 .setName(StepTextProvider.getStepText("list_assert_empty", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -147,19 +146,18 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
     @Around("execution (* allurium.lists.ListWC.assertVisible())")
     public void stepAssertVisible(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("list_assert_visible", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -172,19 +170,18 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
     @Around("execution (* allurium.lists.ListWC.assertNotVisible())")
     public void stepAssertNotVisible(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("list_assert_not_visible", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -197,7 +194,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -205,13 +202,12 @@ public class WidgetListAspects {
     public void stepAssertHasItem(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         String itemId = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("list_assert_has_item", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{id}", itemId)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -224,7 +220,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -232,13 +228,12 @@ public class WidgetListAspects {
     public void stepAssertHasNotItem(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         String itemId = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("list_assert_has_not_item", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{id}", itemId)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -252,7 +247,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -260,13 +255,12 @@ public class WidgetListAspects {
     public void assertHasItemsWithText(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         String textPattern = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("assert_has_items_with_text", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{text}", textPattern)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -279,7 +273,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -287,13 +281,12 @@ public class WidgetListAspects {
     public void stepAssertHasNoItemsWithText(ProceedingJoinPoint invocation) throws Throwable {
         ListWC<?> listWC = (ListWC<?>) invocation.getThis();
         String textPattern = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("assert_has_no_items_with_text", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{text}", textPattern)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -306,7 +299,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -319,7 +312,7 @@ public class WidgetListAspects {
 //                .setName(StepTextProvider.getStepText("list_should_conditions", listWC.getParent(),
 //                        Pair.of("{name}", listWC.wrappedName())
 //                ));
-//        Allure.getLifecycle().startStep(stepUuid, stepResult);
+//        AsyncAllureLogger.stopStepAsync();
 //        boolean errorStatus = false;
 //        try {
 //            errorStatus = !(boolean) invocation.proceed();
@@ -333,7 +326,7 @@ public class WidgetListAspects {
 //            else {
 //                stepResult.setStatus(Status.PASSED);
 //            }
-//            Allure.getLifecycle().stopStep();
+//            AsyncAllureLogger.stopStepAsync();
 //        }
 //    }
 

@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.TextField;
 import io.qameta.allure.Allure;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
+import java.util.UUID;
 
 /**
  * Aspect for enhancing the behavior of the {@link TextField} class by adding Allure reporting capabilities.
@@ -56,13 +59,12 @@ public class TextFieldAspects {
     public void stepWriteInjection(ProceedingJoinPoint invocation) throws Throwable {
         TextField inputField = (TextField) invocation.getThis();
         String typingText = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("write", inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType()),
                 Pair.of("{text}", typingText)
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -75,7 +77,7 @@ public class TextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -89,12 +91,11 @@ public class TextFieldAspects {
     @SuppressWarnings("unchecked")
     public void stepClearInjection(ProceedingJoinPoint invocation) throws Throwable {
         TextField inputField = (TextField) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("clear", inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -107,7 +108,7 @@ public class TextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -121,13 +122,12 @@ public class TextFieldAspects {
     @SuppressWarnings("unchecked")
     public void stepPressEnterInjection(ProceedingJoinPoint invocation) throws Throwable {
         TextField inputField = (TextField) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("text_field_press_enter",
                 inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -140,7 +140,7 @@ public class TextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -154,13 +154,12 @@ public class TextFieldAspects {
     @SuppressWarnings("unchecked")
     public void stepAssertEmptyInjection(ProceedingJoinPoint invocation) throws Throwable {
         TextField inputField = (TextField) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("text_field_assert_blank",
                 inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -173,7 +172,7 @@ public class TextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -186,13 +185,12 @@ public class TextFieldAspects {
     @Around("execution (* allurium.inputs.TextField.assertNotEmpty(..))")
     public void stepAssertNotEmpty(ProceedingJoinPoint invocation) throws Throwable {
         TextField inputField = (TextField) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("text_field_assert_not_blank",
                 inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -205,7 +203,7 @@ public class TextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -219,14 +217,13 @@ public class TextFieldAspects {
     public void stepAssertCurrentValue(ProceedingJoinPoint invocation) throws Throwable {
         TextField inputField = (TextField) invocation.getThis();
         String value = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("text_field_assert_value",
                 inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType()),
                 Pair.of("{value}", value)
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -239,7 +236,7 @@ public class TextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -253,14 +250,13 @@ public class TextFieldAspects {
     public void stepAssertCurrentValueContains(ProceedingJoinPoint invocation) throws Throwable {
         TextField inputField = (TextField) invocation.getThis();
         String value = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("text_field_assert_value_contains",
                 inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType()),
                 Pair.of("{value}", value)
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -273,7 +269,7 @@ public class TextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 

@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.primitives.Image;
 import allurium.StepTextProvider;
 import io.qameta.allure.Allure;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
+import java.util.UUID;
 
 /**
  * Aspect for intercepting methods in the {@link Image} class to enhance Allure reporting.
@@ -58,14 +61,13 @@ public class ImageAspects {
     public void stepAssertSrcUrl(ProceedingJoinPoint invocation) throws Throwable {
         Image image = (Image) invocation.getThis();
         String expectedSrc = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("image_assert_src", image.getParent(),
                 Pair.of("{name}", image.wrappedName()),
                 Pair.of("{element}", image.getUiElementType()),
                 Pair.of("{src}", expectedSrc)
         ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -78,7 +80,7 @@ public class ImageAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 

@@ -1,5 +1,6 @@
 package allurium.lists;
 
+import allurium.AsyncAllureLogger;
 import allurium.aspects.WidgetAspects;
 import allurium.exceptions.ListComponentTypeException;
 import allurium.exceptions.LocatorByException;
@@ -359,9 +360,9 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
                         StepTextProvider.getStepText("list_strict_search_by_element", getParent(),
                                 Pair.of("{name}", uiElementName), Pair.of("{id}", id))
                 );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         stepResult.setStatus(Status.FAILED);
-        Allure.getLifecycle().stopStep();
+        AsyncAllureLogger.stopStepAsync();
         Assertions.fail("Element wasn't found in the list " + uiElementName + " by id=" + id);
         return null;
     }
@@ -409,9 +410,9 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
                         StepTextProvider.getStepText("list_search_by_element_id", getParent(),
                                 Pair.of("{name}", uiElementName), Pair.of("{id}", id))
                 );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         stepResult.setStatus(Status.FAILED);
-        Allure.getLifecycle().stopStep();
+        AsyncAllureLogger.stopStepAsync();
         Assertions.fail("Element wasn't found in the list " + uiElementName + " by id=" + id);
         return null;
     }
@@ -460,9 +461,9 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
                         StepTextProvider.getStepText("list_search_by_element_id", getParent(),
                                 Pair.of("{name}", uiElementName), Pair.of("{id}", id))
                 );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         stepResult.setStatus(Status.FAILED);
-        Allure.getLifecycle().stopStep();
+        AsyncAllureLogger.stopStepAsync();
         Assertions.fail("Element wasn't found in the list " + uiElementName + " by id=" + id);
         return null;
     }
@@ -512,9 +513,9 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
                         StepTextProvider.getStepText("list_search_by_element_id", getParent(),
                                 Pair.of("{name}", uiElementName), Pair.of("{id}", id))
                 );
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         stepResult.setStatus(Status.FAILED);
-        Allure.getLifecycle().stopStep();
+        AsyncAllureLogger.stopStepAsync();
         Assertions.fail("Element wasn't found in the list " + uiElementName + " by id=" + id);
         return null;
     }
@@ -737,7 +738,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
                         Pair.of("{name}", this.wrappedName()),
                         Pair.of("{conditions}", conditionsAsString)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             Arrays.stream(conditions).forEach(condition -> sourceElements.should(condition));
@@ -751,7 +752,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 

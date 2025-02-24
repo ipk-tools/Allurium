@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.forms.AbstractForm;
 import io.qameta.allure.Allure;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
+import java.util.UUID;
 
 /**
  * Aspect class for intercepting and logging actions performed on {@link AbstractForm} instances.
@@ -69,13 +72,13 @@ public class FormAspects {
     @SuppressWarnings("unchecked")
     public void stepSubmit(ProceedingJoinPoint invocation) throws Throwable {
         AbstractForm form = (AbstractForm) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("form_submit", form.getParent(),
                         Pair.of("{element}", form.getUiElementType()),
                         Pair.of("{name}", form.wrappedName())
                 ));
         boolean errorStatus = false;
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         try {
             invocation.proceed();
         } catch (Throwable throwable) {
@@ -88,7 +91,7 @@ public class FormAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 

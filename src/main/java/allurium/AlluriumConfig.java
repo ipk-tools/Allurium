@@ -14,6 +14,7 @@ public class AlluriumConfig {
 
     private static final Properties alluriumProperties = new Properties();
 
+    @Getter private static final Boolean profilingAspectTime;
     @Getter private static final String localization;
     @Getter private static final String stepDetailing;
     @Getter private static final String highlighterStart;
@@ -38,6 +39,8 @@ public class AlluriumConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        profilingAspectTime = Boolean.parseBoolean(loadProperty("profiling.aspects.time", "false"));
+        System.out.println(profilingAspectTime + ">>>>>>>>>");
         localization = loadProperty("localization", "en");
         stepDetailing = loadProperty("step.detailing", "2");
         highlighterStart = loadProperty("highlighter.start", "");

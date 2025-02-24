@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.Select;
 import io.qameta.allure.Allure;
@@ -12,6 +13,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Aspect class for handling additional behavior and logging for the {@link Select} class.
@@ -42,14 +44,13 @@ public class SelectAspects {
     public void stepSelect(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_option", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName()),
                         Pair.of("{option}", option)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -63,7 +64,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -78,14 +79,13 @@ public class SelectAspects {
     public void stepSelectByIndex(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         int option = (int) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_by_index", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName()),
                         Pair.of("{id}", String.valueOf(option))
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -99,7 +99,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -136,14 +136,13 @@ public class SelectAspects {
     public void stepSelectByArrowsLeftAndRightInjection(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_option", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName()),
                         Pair.of("{option}", option)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -157,7 +156,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -171,13 +170,12 @@ public class SelectAspects {
     @SuppressWarnings("unchecked")
     public void stepSelectFirstInjection(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_option_first", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -191,7 +189,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -205,13 +203,12 @@ public class SelectAspects {
     @SuppressWarnings("unchecked")
     public void stepSelectLastInjection(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_option_last", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -225,7 +222,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -239,13 +236,12 @@ public class SelectAspects {
     @SuppressWarnings("unchecked")
     public void stepSelectAnyInjection(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_option_any", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -259,7 +255,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -273,13 +269,12 @@ public class SelectAspects {
     @SuppressWarnings("unchecked")
     public void stepSelectAnyBesidesInjection(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_option_any_but_not", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -293,7 +288,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -307,14 +302,13 @@ public class SelectAspects {
     public void stepAssertCurrentValue(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_assert_current_value", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName()),
                         Pair.of("{option}", option)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -328,7 +322,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -342,14 +336,13 @@ public class SelectAspects {
     public void stepAssertCurrentValueIsNot(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_assert_current_value_not", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName()),
                         Pair.of("{option}", option)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -363,7 +356,7 @@ public class SelectAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -377,7 +370,6 @@ public class SelectAspects {
     public void stepAssertHasItems(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         List<String> option = (List<String>) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StringBuilder sb = new StringBuilder();
         option.forEach(item -> sb.append(item));
         StepResult stepResult = new StepResult()
@@ -386,7 +378,7 @@ public class SelectAspects {
                         Pair.of("{name}", select.wrappedName()),
                         Pair.of("{option}", sb.toString())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -400,7 +392,7 @@ public class SelectAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 

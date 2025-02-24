@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.switchers.AbstractSwitcher;
 import allurium.StepTextProvider;
 import io.qameta.allure.Allure;
@@ -11,6 +12,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.openqa.selenium.WebDriverException;
+
+import java.util.UUID;
 
 /**
  * Aspect class for intercepting and logging actions performed on {@link AbstractSwitcher} with additional behaviors.
@@ -76,7 +79,6 @@ public class SwitcherAspects {
     @SuppressWarnings("unchecked")
     public void stepShift(ProceedingJoinPoint invocation) throws Throwable {
         AbstractSwitcher switcher = (AbstractSwitcher) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult;
         boolean errorStatus = false;
 
@@ -92,10 +94,10 @@ public class SwitcherAspects {
             ex.printStackTrace();
             throw ex;
         } finally {
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
 
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
 
         try {
             invocation.proceed();
@@ -109,7 +111,7 @@ public class SwitcherAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -123,13 +125,12 @@ public class SwitcherAspects {
     @SuppressWarnings("unchecked")
     public void stepSwitchOn(ProceedingJoinPoint invocation) throws Throwable {
         AbstractSwitcher switcher = (AbstractSwitcher) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("switcher_switch_on", switcher.getParent(),
                         Pair.of("{element}", switcher.getUiElementType()),
                         Pair.of("{name}", switcher.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -143,7 +144,7 @@ public class SwitcherAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -157,13 +158,12 @@ public class SwitcherAspects {
     @SuppressWarnings("unchecked")
     public void stepSwitchOff(ProceedingJoinPoint invocation) throws Throwable {
         AbstractSwitcher switcher = (AbstractSwitcher) invocation.getThis();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("switcher_switch_off", switcher.getParent(),
                         Pair.of("{element}", switcher.getUiElementType()),
                         Pair.of("{name}", switcher.wrappedName())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -177,7 +177,7 @@ public class SwitcherAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 

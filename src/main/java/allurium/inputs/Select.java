@@ -19,6 +19,7 @@ import org.openqa.selenium.Keys;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -140,8 +141,7 @@ public class Select extends UIElement implements Selectable {
      */
     @Override
     public void select(String option) {
-        options = root.findAll(By.cssSelector("option"));
-        options.filterBy(Condition.attribute("text",option)).first().click();
+        root.selectOption(option);
     }
 
     /**
@@ -166,8 +166,7 @@ public class Select extends UIElement implements Selectable {
      * @param index the index of the option to select
      */
     public void select(int index) {
-        options = root.$$("option");
-        options.get(index).click();
+        root.selectOption(index);
     }
 
     /**
@@ -230,7 +229,7 @@ public class Select extends UIElement implements Selectable {
      */
     @Override
     public void selectAny() {
-        options.get(0).click();
+        options.get(new Random().nextInt(options.size())).click();
     }
 
     /**
@@ -270,7 +269,8 @@ public class Select extends UIElement implements Selectable {
      * @param value the expected value to match
      */
     public void assertCurrentValue(String value) {
-        Assertions.assertThat(root.getValue()).as(getUiElementName()+"'s value").isEqualTo(value);
+//        Assertions.assertThat(root.getValue()).as(getUiElementName()+"'s value").isEqualTo(value);
+        root.shouldHave(Condition.value(value));
     }
 
     /**
@@ -295,7 +295,7 @@ public class Select extends UIElement implements Selectable {
      * @param value the value to ensure is not selected
      */
     public void assertCurrentValueIsNot(String value) {
-        Assertions.assertThat(root.getValue()).as(getUiElementName()+"'s value").isNotEqualTo(value);
+        root.shouldNotHave(Condition.value(value));
     }
 
     /**

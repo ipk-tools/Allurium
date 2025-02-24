@@ -2,6 +2,7 @@ package allurium.inputs;
 
 import allurium.primitives.UIElement;
 import com.codeborne.selenide.ClickOptions;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import allurium.ElementType;
 import org.assertj.core.api.Assertions;
@@ -169,7 +170,7 @@ public class CheckBox extends AbstractInputElement {
             }
         }
         else {
-            logStep("checkbox is already ON");
+            logStep("the " + uiElementName + "checkbox is already ON");
         }
     }
 
@@ -190,7 +191,7 @@ public class CheckBox extends AbstractInputElement {
             }
         }
         else {
-            logStep("checkbox is already OFF");
+            logStep("the " + uiElementName + "checkbox is already OFF");
         }
     }
 
@@ -214,7 +215,7 @@ public class CheckBox extends AbstractInputElement {
      * </p>
      */
     public void assertChecked() {
-        Assertions.assertThat(isChecked()).as(getUiElementName()+" checkBox state").isTrue();
+        root.shouldBe(Condition.checked);
     }
 
     /**
@@ -224,7 +225,8 @@ public class CheckBox extends AbstractInputElement {
      * </p>
      */
     public void assertUnchecked() {
-        Assertions.assertThat(isChecked()).as(getUiElementName()+" checkBox state").isFalse();
+//        Assertions.assertThat(isChecked()).as(getUiElementName()+" checkBox state").isFalse();
+        root.shouldNotBe(Condition.checked);
     }
 
     /*

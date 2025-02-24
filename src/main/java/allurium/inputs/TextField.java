@@ -2,6 +2,7 @@ package allurium.inputs;
 
 import allurium.interfaces.TextInputAsserts;
 import allurium.interfaces.Writable;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import allurium.ElementType;
@@ -279,6 +280,20 @@ public class TextField extends AbstractInputElement implements Writable, TextInp
         }
     }
 
+//    @Override
+//    public void assertCurrentValue(String value) {
+//        long timer = Configuration.timeout / 1000;
+//        while (!root.getValue().equals(value) && timer > 0) {
+//            timer--;
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        Assertions.assertThat(root.getValue()).as(wrappedName()).isEqualTo(value);
+//    }
+
     /**
      * Asserts that the current value of the text field matches the specified value.
      * <p><b>< Step: Processed by Aspect ></b></p>
@@ -287,16 +302,7 @@ public class TextField extends AbstractInputElement implements Writable, TextInp
      */
     @Override
     public void assertCurrentValue(String value) {
-        long timer = Configuration.timeout / 1000;
-        while (!root.getValue().equals(value) && timer > 0) {
-            timer--;
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        Assertions.assertThat(root.getValue()).as(wrappedName()).isEqualTo(value);
+        root.shouldHave(Condition.value(value));
     }
 
     /**

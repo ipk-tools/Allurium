@@ -118,7 +118,7 @@ public class AbstractInputElement extends UIElement implements InputElement {
      * @throws AssertionError if the input element is disabled
      */
     public void assertEnabled() {
-        assertThat(root.isEnabled()).as(wrappedName()).isTrue();
+        root.shouldBe(Condition.enabled);
     }
 
     /**
@@ -128,6 +128,6 @@ public class AbstractInputElement extends UIElement implements InputElement {
      * @throws AssertionError if the input element is enabled
      */
     public void assertDisabled() {
-        assertThat(root.isEnabled()).as(wrappedName()).isFalse();
+        root.shouldBe(Condition.disabled);
     }
 }

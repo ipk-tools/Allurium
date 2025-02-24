@@ -1,9 +1,6 @@
 package allurium.primitives;
 
-import allurium.AbstractWidget;
-import allurium.AllureUtils;
-import allurium.AlluriumConfig;
-import allurium.StepTextProvider;
+import allurium.*;
 import allurium.interfaces.AlluriumElement;
 import allurium.interfaces.ListComponent;
 import com.codeborne.selenide.*;
@@ -88,7 +85,6 @@ public class UIElement implements AlluriumElement, ListComponent {
     /**
      * Name of the UI element. If not explicitly set, it may be derived dynamically based on attributes.
      */
-    @Getter
     @Setter
     protected String uiElementName = "";
 
@@ -323,6 +319,13 @@ public class UIElement implements AlluriumElement, ListComponent {
         logStep(StepTextProvider.getStepText(stepName, patterns));
     }
 
+    public String getUiElementName() {
+        if (uiElementName.equals("")) {
+            applyName(assignNameMethod);
+        }
+        return uiElementName;
+    }
+
     protected void applyName() {
         if (uiElementName.equals(""))
             applyName(assignNameMethod);
@@ -389,7 +392,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      *  method is overridable
      */
     public void click() {
-        click(ClickOptions.usingDefaultMethod(), false);
+        root.click();
     }
 
     /**
@@ -429,7 +432,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     public void click(String uniqueStepText) {
         String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(uniqueStepText);
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             root.click();
@@ -443,7 +446,7 @@ public class UIElement implements AlluriumElement, ListComponent {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -492,7 +495,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     public void doubleClick(String uniqueStepText) {
         String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(uniqueStepText);
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             root.doubleClick();
@@ -506,7 +509,7 @@ public class UIElement implements AlluriumElement, ListComponent {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -557,7 +560,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      */
     public void clickAndHold(long milliseconds, String uniqueStepText) {
         StepResult stepResult = new StepResult().setName(uniqueStepText);
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
+        AsyncAllureLogger.startStepAsync(UUID.randomUUID().toString(), stepResult);
         boolean errorStatus = false;
         try {
             root.scrollIntoView("{behavior: \"auto\", block: \"center\", inline: \"center\"}");
@@ -577,7 +580,7 @@ public class UIElement implements AlluriumElement, ListComponent {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -612,7 +615,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     public void contextClick(String uniqueStepText) {
         String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(uniqueStepText);
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             root.contextClick();
@@ -626,7 +629,7 @@ public class UIElement implements AlluriumElement, ListComponent {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -662,7 +665,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     public void hover(String uniqueStepText) {
         String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(uniqueStepText);
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             root.hover();
@@ -676,7 +679,7 @@ public class UIElement implements AlluriumElement, ListComponent {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -711,7 +714,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     public void scrollTo(String uniqueStepText) {
         String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(uniqueStepText);
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             root.scrollTo();
@@ -725,7 +728,7 @@ public class UIElement implements AlluriumElement, ListComponent {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -788,23 +791,27 @@ public class UIElement implements AlluriumElement, ListComponent {
                 .as(uiElementName).isEqualTo("true");
     }
 
+//    public void assertVisible() {
+//        int counter = AlluriumConfig.retryAmount();
+//        boolean isVisible = root.is(visible);
+//        while (counter > 0 && !isVisible) {
+//            try {
+//                Thread.sleep(AlluriumConfig.retryIntervalMs());
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            isVisible = root.is(visible);
+//            counter--;
+//        }
+//        assertThat(root.is(visible)).as(uiElementName).isTrue();
+//    }
+
     /**
      * Asserts that the element is visible.
      * <p><b>< Step: Processed by Aspect ></b></p>
      */
     public void assertVisible() {
-        int counter = AlluriumConfig.retryAmount();
-        boolean isVisible = root.is(visible);
-        while (counter > 0 && !isVisible) {
-            try {
-                Thread.sleep(AlluriumConfig.retryIntervalMs());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            isVisible = root.is(visible);
-            counter--;
-        }
-        assertThat(root.is(visible)).as(uiElementName).isTrue();
+        root.shouldBe(visible);
     }
 
     /**
@@ -815,17 +822,6 @@ public class UIElement implements AlluriumElement, ListComponent {
      */
     public void assertVisible(String uniqueStepText) {
         logStep(uniqueStepText);
-        int counter = AlluriumConfig.retryAmount();
-        boolean isVisible = root.is(visible);
-        while (counter > 0 && !isVisible) {
-            try {
-                Thread.sleep(AlluriumConfig.retryIntervalMs());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            isVisible = root.is(visible);
-            counter--;
-        }
         assertThat(root.is(visible)).as(uiElementName).isTrue();
     }
 
@@ -1025,7 +1021,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     public void softAssertEmpty() {
         String stepUuid = RandomStringUtils.random(20);
         StepResult stepResult = new StepResult().setName(getStepText("assert_element_empty"));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.stopStepAsync();
         Allure.addAttachment("content", root.text());
         AllureUtils.attachElementScreenshotToStep(root, uiElementName +" view", stepResult);
         if (root.text().isEmpty())
@@ -1052,7 +1048,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     public void softAssertIsNotEmpty() {
         String stepUuid = RandomStringUtils.random(20);
         StepResult stepResult = new StepResult().setName(getStepText("assert_element_not_empty"));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.stopStepAsync();
         Allure.addAttachment("content", root.text());
         AllureUtils.attachElementScreenshotToStep(root, uiElementName +" view", stepResult);
         if (!root.text().isEmpty())

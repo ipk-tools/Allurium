@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.primitives.Link;
 import allurium.StepTextProvider;
 import io.qameta.allure.Allure;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
+import java.util.UUID;
 
 /**
  * Aspect for enhancing the behavior of the {@link Link} class by adding Allure reporting capabilities.
@@ -53,14 +56,13 @@ public class LinkAspects {
     public void stepAssertHref(ProceedingJoinPoint invocation) throws Throwable {
         Link uiElement = (Link) invocation.getThis();
         String href = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("assert_href", uiElement.getParent(),
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName()),
                         Pair.of("{href}", href)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -74,7 +76,7 @@ public class LinkAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 }

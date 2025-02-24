@@ -1,19 +1,28 @@
 # Changelog
 All notable changes will be documented here.
 
-## [1.0.0] - 2025-02-07
+## [1.1.0] - 2025-02-12
 
 ### Changed
-- **Optimized** the logic of list items initialization in `ListWC.java`.
-- **Improved** retry logic for `UiElement.java `**assertions**.
-- **Updated** ListWC "should" assertion me[thod. Now it logs all conditions (arguments) into allure step.
-- **Updated** allurium steps presets
-- **Updated** steps description in `UiSteps.java`
-- Made Selenide timeout configurable based on **Allurium** `retryAmount` and `retryIntervalMs` parameters.
-    - The configuration tim`]()`eout ]()is now i**nitially set to `retryAmount * retryIntervalMs`.
+- Global performance optimization.
+- **Fixed** "assertCurrentValue" method of select elements.
 
 ## [1.0.1] - 2025-02-12
 
-## Changed
-- **New** step action "clickAndHold" for UiElement.
-- **Updated** initial "retry.amount" set back to the value 10.
+### Added
+- **New step action:** `clickAndHold` for `UiElement`.
+
+### Changed
+- **Restored** initial `"retry.amount"` value back to `10`.
+
+## [1.0.0] - 2025-02-07
+
+### Changed
+- **Optimized** list item initialization logic in `ListWC.java`.
+- **Improved** retry logic for `UiElement.java` assertions.
+- **Updated** `ListWC` `"should"` assertion method to log all conditions (arguments) into an Allure step.
+- **Updated** Allurium steps presets.
+- **Updated** step descriptions in `UiSteps.java`.
+- **Made** Selenide timeout configurable based on **Allurium** `retryAmount` and `retryIntervalMs` parameters.
+  - **Timeout calculation:** `retryAmount * retryIntervalMs`.
+

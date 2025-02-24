@@ -1,5 +1,6 @@
 package allurium.aspects;
 
+import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.UploadField;
 import io.qameta.allure.Allure;
@@ -12,6 +13,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  * Aspect for adding Allure reporting capabilities to the {@link UploadField} class.
@@ -55,13 +57,12 @@ public class UploadFileInputAspects {
     public void stepUploadFileViaPath(ProceedingJoinPoint invocation) throws Throwable {
         UploadField uploadField = (UploadField) invocation.getThis();
         String filePath = (String) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("upload_file", uploadField.getParent(),
                         Pair.of("{name}", uploadField.wrappedName()),
                         Pair.of("{path}", filePath)
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -75,7 +76,7 @@ public class UploadFileInputAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
@@ -89,13 +90,12 @@ public class UploadFileInputAspects {
     public void stepUploadFile(ProceedingJoinPoint invocation) throws Throwable {
         UploadField uploadField = (UploadField) invocation.getThis();
         File file = (File) invocation.getArgs()[0];
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("upload_file", uploadField.getParent(),
                         Pair.of("{name}", uploadField.wrappedName()),
                         Pair.of("{path}", file.getAbsolutePath())
                 ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
+        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -109,7 +109,7 @@ public class UploadFileInputAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            AsyncAllureLogger.stopStepAsync();
         }
     }
 
