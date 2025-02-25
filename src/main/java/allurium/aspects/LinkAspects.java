@@ -62,7 +62,7 @@ public class LinkAspects {
                         Pair.of("{name}", uiElement.wrappedName()),
                         Pair.of("{href}", href)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -76,7 +76,7 @@ public class LinkAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 }

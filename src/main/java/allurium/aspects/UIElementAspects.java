@@ -67,7 +67,7 @@ public class UIElementAspects {
         if (AlluriumConfig.profilingAspectTime())
             System.out.println("step definition has taken: " + (System.nanoTime() - stepDefinitionStart) / 1_000_000 + " ms");
 
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             long invocationStart = System.nanoTime();
@@ -85,11 +85,10 @@ public class UIElementAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
+            if (AlluriumConfig.profilingAspectTime())
+                System.out.println("[(Click) on "+uiElement.getUiElementName()+"] aspect duration: " + (System.nanoTime() - startTime) / 1_000_000 + " ms");
         }
-
-        if (AlluriumConfig.profilingAspectTime())
-            System.out.println("[(Click) on "+uiElement.getUiElementName()+"] aspect duration: " + (System.nanoTime() - startTime) / 1_000_000 + " ms");
     }
 
     /**
@@ -105,7 +104,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -119,7 +118,7 @@ public class UIElementAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -133,7 +132,7 @@ public class UIElementAspects {
                         Pair.of("{name}", uiElement.wrappedName()),
                         Pair.of("{milliseconds}", String.valueOf(holdingTime))
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -147,7 +146,7 @@ public class UIElementAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -167,7 +166,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -181,7 +180,7 @@ public class UIElementAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -198,7 +197,7 @@ public class UIElementAspects {
         String text = (String) invocation.getArgs()[0];
         StepResult stepResult = new StepResult()
                 .setName(uiElement.getAllureCompiledStep("assert_text", Pair.of("{text}", text)));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -212,7 +211,7 @@ public class UIElementAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -230,7 +229,7 @@ public class UIElementAspects {
         String text = (String) invocation.getArgs()[0];
         StepResult stepResult = new StepResult()
                 .setName(uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text)));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -244,7 +243,7 @@ public class UIElementAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -266,7 +265,7 @@ public class UIElementAspects {
                         Pair.of("{text}", text),
                         Pair.of("{duration}", String.valueOf(duration))
                     ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -280,7 +279,7 @@ public class UIElementAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -298,7 +297,7 @@ public class UIElementAspects {
         String text = (String) invocation.getArgs()[0];
         StepResult stepResult = new StepResult()
                 .setName(uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text)));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -312,7 +311,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -333,7 +332,7 @@ public class UIElementAspects {
                         Pair.of("{element1}", uiElement.wrappedName()),
                         Pair.of("{element2}", objToEq.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -346,7 +345,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -366,7 +365,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -380,7 +379,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -391,7 +390,7 @@ public class UIElementAspects {
      * @param invocation the join point representing the {@code assertVisibleWithDuration(int)} method
      * @throws Throwable if an exception occurs during method execution
      */
-    @Around("execution (* allurium.primitives.UIElement.assertVisibleWithDuration(..))")
+    @Around("execution (* allurium.primitives.UIElement.assertVisible(int))")
     @SuppressWarnings("unchecked")
     public void stepAssertVisibleWithDuration(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
@@ -402,7 +401,7 @@ public class UIElementAspects {
                         Pair.of("{name}", uiElement.wrappedName()),
                         Pair.of("{sec}", String.valueOf(seconds))
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -416,7 +415,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -429,7 +428,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -443,7 +442,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -463,7 +462,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -476,7 +475,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -496,7 +495,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -509,7 +508,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -529,7 +528,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -543,7 +542,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -565,7 +564,7 @@ public class UIElementAspects {
                         Pair.of("{name}", uiElement.wrappedName()),
                         Pair.of("{clazz}", clazz)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -579,7 +578,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -601,7 +600,7 @@ public class UIElementAspects {
                         Pair.of("{name}", uiElement.wrappedName()),
                         Pair.of("{clazz}", clazz)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -615,7 +614,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -639,7 +638,7 @@ public class UIElementAspects {
                         Pair.of("{clazz}", clazz),
                         Pair.of("{seconds}", String.valueOf(duringSec))
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -653,7 +652,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -677,7 +676,7 @@ public class UIElementAspects {
                         Pair.of("{clazz}", clazz),
                         Pair.of("{seconds}", String.valueOf(duringSec))
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -691,7 +690,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -711,7 +710,7 @@ public class UIElementAspects {
                         Pair.of("{element}", uiElement.getUiElementType()),
                         Pair.of("{name}", uiElement.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -724,7 +723,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -745,7 +744,7 @@ public class UIElementAspects {
                         Pair.of("{name}", uiElement.wrappedName()
                         )
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -758,7 +757,7 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -777,7 +776,7 @@ public class UIElementAspects {
                 Pair.of("{name}", uiElement.wrappedName()));
         StepResult stepResult = new StepResult()
                 .setName(stepText);
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -791,14 +790,8 @@ public class UIElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
-
-//    @Around("execution (* allurium.primitives.UIElement.softAssertEmpty())")
-//    public void stepSoftAssertEmpty() {}
-//
-//    @Around("execution (* allurium.primitives.UIElement.softAssertIsNotEmpty())")
-//    public void stepSoftAssertIsNotEmpty() {}
 
 }

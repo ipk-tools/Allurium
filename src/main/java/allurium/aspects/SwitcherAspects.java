@@ -94,10 +94,10 @@ public class SwitcherAspects {
             ex.printStackTrace();
             throw ex;
         } finally {
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
 
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
 
         try {
             invocation.proceed();
@@ -111,7 +111,7 @@ public class SwitcherAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -130,7 +130,7 @@ public class SwitcherAspects {
                         Pair.of("{element}", switcher.getUiElementType()),
                         Pair.of("{name}", switcher.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -144,7 +144,7 @@ public class SwitcherAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -163,7 +163,7 @@ public class SwitcherAspects {
                         Pair.of("{element}", switcher.getUiElementType()),
                         Pair.of("{name}", switcher.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -177,7 +177,7 @@ public class SwitcherAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 

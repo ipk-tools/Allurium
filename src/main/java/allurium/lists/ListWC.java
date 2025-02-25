@@ -25,6 +25,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -130,6 +131,8 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     @Getter
     @Setter
     protected Optional<AbstractWidget> parent = Optional.empty();
+    private boolean isBuilt = false;             // Has our 'components' list been built yet?
+    private boolean staleRecoveryTried = false;  // Have we already retried after a stale error?
 
     /**
      * Constructs a `ListWC` with the provided source elements and component class type.
@@ -192,6 +195,32 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     public List<T> getComponents() {
         refresh();
         return components;
+    }
+
+    private void lazyBuild() {
+        if (!isBuilt) {
+            refresh();
+            isBuilt = true;
+        }
+    }
+
+    /**
+     * Wraps an operation so that if we hit a StaleElementReferenceException,
+     * we do 'refresh()' once, then retry the same operation.
+     */
+    private <R> R runWithStaleRecovery(Supplier<R> operation) {
+        try {
+            return operation.get();
+        } catch (StaleElementReferenceException e) {
+            // If haven't retried yet, do one forced refresh and try again
+            if (!staleRecoveryTried) {
+                staleRecoveryTried = true;
+                refresh();
+                return operation.get();
+            }
+            // If it's still stale after a second try, rethrow or fail.
+            throw e;
+        }
     }
 
     /**
@@ -263,9 +292,6 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     @SuppressWarnings("unchecked")
     private ListWC<T> add(SelenideElement sourceElement) {
         try {
-            /*if (!sourceElement.isDisplayed()) {
-                sourceElement.scrollIntoView(true);
-            }*/
             Class<?> clazz = Class.forName(genericTypeName);
             Constructor<T> ctr = (Constructor<T>) clazz.getConstructor(SelenideElement.class);
             Object obj = ctr.newInstance(sourceElement);
@@ -291,23 +317,23 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
             log.warn(noSelenideConstructorEx.getMessage());
             //throw new ListElementIsNotValidException(""); //todo: invent how  to show rigth exception not failing each 'add'
 
-            try {
-                Class<?> clazz = Class.forName(genericTypeName);
-                Constructor<T> ctr = (Constructor<T>) clazz.getConstructor();
-                Object obj = ctr.newInstance();
-                T listComponent = (T) obj;
-                listComponent.setAssignNameMethod(assignNameMethod);
-                //listComponent.setUiElementName(listComponent.getId());
-                components.add(listComponent);
-            } catch (NoSuchMethodException
-                    | ClassNotFoundException
-                    | InvocationTargetException
-                    | InstantiationException
-                    | IllegalAccessException noEmptyConstructorEx)
-            {
-                log.warn("there is no constructor() found for class - " + genericTypeName);
-                log.warn(noEmptyConstructorEx.getMessage());
-            }
+//            try {
+//                Class<?> clazz = Class.forName(genericTypeName);
+//                Constructor<T> ctr = (Constructor<T>) clazz.getConstructor();
+//                Object obj = ctr.newInstance();
+//                T listComponent = (T) obj;
+//                listComponent.setAssignNameMethod(assignNameMethod);
+//                //listComponent.setUiElementName(listComponent.getId());
+//                components.add(listComponent);
+//            } catch (NoSuchMethodException
+//                    | ClassNotFoundException
+//                    | InvocationTargetException
+//                    | InstantiationException
+//                    | IllegalAccessException noEmptyConstructorEx)
+//            {
+//                log.warn("there is no constructor() found for class - " + genericTypeName);
+//                log.warn(noEmptyConstructorEx.getMessage());
+//            }
         }
         return this;
     }
@@ -338,7 +364,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @throws AssertionError if the element is not found after all retry attempts
      */
     public T getPrecise(String id) {
-        refresh();
+        lazyBuild();
         int counter = AlluriumConfig.retryAmount();
         Optional<T> target = components.stream().filter(item -> item.getId().equals(id)).findFirst();
         while (counter > 0 && !target.isPresent()) {
@@ -354,7 +380,6 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         if (target.isPresent()) return target.get();
 
         // if element wasn't found,then adding step "get" to allure report with failed status and message
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult()
                 .setName(
                         StepTextProvider.getStepText("list_strict_search_by_element", getParent(),
@@ -387,8 +412,38 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @return the matching element of type {@code T} if found
      * @throws AssertionError if the element is not found after all retry attempts
      */
+//    public T get(String id) {
+//        refresh();
+//        int counter = AlluriumConfig.retryAmount();
+//        Optional<T> target = components.stream().filter(item -> item.getId().contains(id)).findFirst();
+//        while (counter > 0 && !target.isPresent()) {
+//            try {
+//                Thread.sleep(AlluriumConfig.retryIntervalMs());
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            refresh();
+//            target = components.stream().filter(item -> item.getId().contains(id)).findFirst();
+//            counter--;
+//        }
+//        if (target.isPresent()) return target.get();
+//
+//        // if element wasn't found,then adding step "get" to allure report with failed status and message
+//        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
+//        StepResult stepResult = new StepResult()
+//                .setName(
+//                        StepTextProvider.getStepText("list_search_by_element_id", getParent(),
+//                                Pair.of("{name}", uiElementName), Pair.of("{id}", id))
+//                );
+//        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+//        stepResult.setStatus(Status.FAILED);
+//        AsyncAllureLogger.stopStepAsync();
+//        Assertions.fail("Element wasn't found in the list " + uiElementName + " by id=" + id);
+//        return null;
+//    }
+
     public T get(String id) {
-        refresh();
+        lazyBuild();
         int counter = AlluriumConfig.retryAmount();
         Optional<T> target = components.stream().filter(item -> item.getId().contains(id)).findFirst();
         while (counter > 0 && !target.isPresent()) {
@@ -416,6 +471,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         Assertions.fail("Element wasn't found in the list " + uiElementName + " by id=" + id);
         return null;
     }
+
 
     /**
      * Retrieves a visible element from the list by a partial match of its ID, retrying if not immediately found.
@@ -572,7 +628,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @return a {@link List} of matching elements, or an empty list if no matches are found
      */
     public List<T> getMultiple(String id) {
-        refresh();
+        lazyBuild();
         int counter = AlluriumConfig.retryAmount();
         List<T> target = components.stream().filter(item -> item.getId().contains(id)).collect(Collectors.toList());
         while (counter > 0 && target.size() <= 0) {
@@ -606,7 +662,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @return a {@link List} of elements with the exact matching ID, or an empty list if no matches are found
      */
     public List<T> getPreciseMultiple(String id) {
-        refresh();
+        lazyBuild();
         int counter = AlluriumConfig.retryAmount();
         List<T> target = components.stream().filter(item -> item.getId().equals(id)).collect(Collectors.toList());
         while (counter > 0 && target.size() <= 0) {
@@ -731,7 +787,6 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      */
     public void should(CollectionCondition... conditions) {
         components.clear();
-        String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         String conditionsAsString = Arrays.stream(conditions).map(Object::toString).collect(Collectors.joining(", "));
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("list_should_conditions", this.getParent(),
@@ -842,10 +897,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @return {@code true} if at least one element is visible; {@code false} otherwise
      */
     public boolean isDisplayed() {
-        List<SelenideElement> elems = sourceElements.stream()
-                .filter(SelenideElement::isDisplayed)
-                .collect(Collectors.toList());
-        return elems.size() != 0;
+        return sourceElements.stream().anyMatch(SelenideElement::isDisplayed);
     }
 
     /**
@@ -861,8 +913,8 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @return the number of components in the list
      */
     public int size() {
-        refresh();
-        return components.size();
+        lazyBuild();
+        return sourceElements.size();
     }
 
     /**
@@ -974,29 +1026,10 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @throws IllegalArgumentException if the expected size is negative
      */
     public void assertSize(Integer size) {
-        if (size.equals(0)) {
-            AtomicInteger counter = new AtomicInteger(AlluriumConfig.retryAmount());
-            while (components.size() != 0 && counter.get() > 0) {
-                try {
-                    refresh();
-                } catch (NoSuchElementException noseEx) {
-                    components.clear();
-                }
-                counter.getAndDecrement();
-            }
-            Assertions.assertThat(components.size()).isEqualTo(0);
-        } else if (size < 0) {
+        if (size < 0) {
             throw new IllegalArgumentException("Assertion size cannot be negative");
         } else {
-            refresh();
-            AtomicInteger counter = new AtomicInteger(AlluriumConfig.retryAmount());
-            while (getComponents().size() != size && counter.get() > 0) {
-                System.out.println(">>> Waiting unlit " + getUiElementName() + " size = " + size );
-                Selenide.sleep(AlluriumConfig.retryIntervalMs());
-                refresh();
-                counter.getAndDecrement();
-            }
-            Assertions.assertThat(getComponents()).size().isEqualTo(size);
+            sourceElements.shouldHave(CollectionCondition.size(size));
         }
     }
 
@@ -1007,21 +1040,8 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param expectedSize the expected number of visible components
      */
     public void assertVisibleSize(int expectedSize) {
-        refresh();
-        retryUntilConditionMet(() -> {
-                    int visibleCount = (int) components.stream()
-                            .filter(component -> component.getRoot().is(Condition.visible))
-                            .count();
-                    return visibleCount == expectedSize;
-                }, AlluriumConfig.retryAmount(),
-                () -> log.info("Waiting until visible component count equals {}", expectedSize)
-        );
-        int visibleCount = (int) components.stream()
-                .filter(component -> component.getRoot().is(Condition.visible))
-                .count();
-        Assertions.assertThat(visibleCount)
-                .as("Expected visible size of the list '" + uiElementName + "'")
-                .isEqualTo(expectedSize);
+        lazyBuild();
+        sourceElements.filter(Condition.visible).shouldHave(CollectionCondition.size(expectedSize));
     }
 
     /**
@@ -1032,18 +1052,21 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param size the value that the list size should be greater than
      */
     public void assertSizeGreaterThan(int size) {
-        refresh();
-        if (size < 0) {
-            throw new IllegalArgumentException("Expected size cannot be negative");
-        }
-        retryUntilConditionMet(() ->
-                    getComponents().size() > size,
-                            AlluriumConfig.retryAmount(),
-                            () -> log.info("Waiting until the list size of '{}' is greater than {}", uiElementName, size)
-                );
-        Assertions.assertThat(getComponents().size())
-                .as(String.format("Expected size of the list '%s' to be greater than %d" , uiElementName, size))
-                .isGreaterThan(size);
+//        lazyBuild();
+//        if (size < 0) {
+//            throw new IllegalArgumentException("Expected size cannot be negative");
+//        }
+//        retryUntilConditionMet(() ->
+//                    getComponents().size() > size,
+//                            AlluriumConfig.retryAmount(),
+//                            () -> log.info("Waiting until the list size of '{}' is greater than {}", uiElementName, size)
+//                );
+//        Assertions.assertThat(getComponents().size())
+//                .as(String.format("Expected size of the list '%s' to be greater than %d" , uiElementName, size))
+//                .isGreaterThan(size);
+
+        lazyBuild();
+        sourceElements.shouldHave(CollectionCondition.sizeGreaterThan(size));
     }
 
     /**
@@ -1054,17 +1077,20 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param size the maximum size the list should have
      */
     public void assertSizeLessThan(int size) {
-        refresh();
-        if (size < 0) {
-            throw new IllegalArgumentException("Expected size cannot be negative");
-        }
-        retryUntilConditionMet(() -> getComponents().size() < size,
-                AlluriumConfig.retryAmount(),
-                () -> log.info("Waiting until the list size of '{}' is less than {}", uiElementName, size)
-        );
-        Assertions.assertThat(getComponents().size())
-                .as(String.format("Expected size of the list '%s' to be less than %d", uiElementName, size))
-                .isLessThan(size);
+//        lazyBuild();
+//        if (size < 0) {
+//            throw new IllegalArgumentException("Expected size cannot be negative");
+//        }
+//        retryUntilConditionMet(() -> getComponents().size() < size,
+//                AlluriumConfig.retryAmount(),
+//                () -> log.info("Waiting until the list size of '{}' is less than {}", uiElementName, size)
+//        );
+//        Assertions.assertThat(getComponents().size())
+//                .as(String.format("Expected size of the list '%s' to be less than %d", uiElementName, size))
+//                .isLessThan(size);
+
+        lazyBuild();
+        sourceElements.shouldHave(CollectionCondition.sizeLessThan(size));
     }
 
     /**
@@ -1073,14 +1099,15 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * < Step: Processed by Aspect >
      */
     public void assertEmpty() {
-        retryUntilConditionMet(
-                () -> getComponents().isEmpty(),
-                AlluriumConfig.retryAmount(),
-                () -> log.info("Waiting until the list '{}' is empty", uiElementName)
-        );
-        Assertions.assertThat(getComponents().size())
-                .as(String.format("Expected the list '%s' to be empty", (uiElementName)))
-                .isEqualTo(0);
+//        retryUntilConditionMet(
+//                () -> getComponents().isEmpty(),
+//                AlluriumConfig.retryAmount(),
+//                () -> log.info("Waiting until the list '{}' is empty", uiElementName)
+//        );
+//        Assertions.assertThat(getComponents().size())
+//                .as(String.format("Expected the list '%s' to be empty", (uiElementName)))
+//                .isEqualTo(0);
+        sourceElements.shouldBe(CollectionCondition.empty);
     }
 
     /**
@@ -1102,13 +1129,8 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * Assert that all elements of the list are not visible
      */
     public void assertNotVisible() {
-        AtomicInteger counter = new AtomicInteger(AlluriumConfig.retryAmount());
-        while (isDisplayed() && counter.get() > 0) {
-            Selenide.sleep(AlluriumConfig.retryIntervalMs());
-            refresh();
-            counter.getAndDecrement();
-        }
-        Assertions.assertThat(isDisplayed()).as(getUiElementName()).isFalse();
+        lazyBuild();
+        sourceElements.filter(Condition.visible).shouldHave(CollectionCondition.size(0));
     }
 
     /**
@@ -1116,23 +1138,29 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param text pattern for search
      */
     public void assertHasItemsWithText(String text) {
-        AtomicInteger counter = new AtomicInteger(AlluriumConfig.retryAmount());
-        while (!hasItemWithText(text) && counter.get() > 0) {
-            Selenide.sleep(AlluriumConfig.retryIntervalMs());
-            refresh();
-            counter.getAndDecrement();
-        }
-        Assertions.assertThat(hasItemWithText(text)).as("expected value = '" + text + "'").isTrue();
+//        AtomicInteger counter = new AtomicInteger(AlluriumConfig.retryAmount());
+//        while (!hasItemWithText(text) && counter.get() > 0) {
+//            Selenide.sleep(AlluriumConfig.retryIntervalMs());
+//            refresh();
+//            counter.getAndDecrement();
+//        }
+//        Assertions.assertThat(hasItemWithText(text)).as("expected value = '" + text + "'").isTrue();
+
+        lazyBuild();
+        sourceElements.findBy(Condition.text(text)).shouldBe(Condition.exist);
     }
 
     public void assertHasNoItemsWithText(String text) {
-        AtomicInteger counter = new AtomicInteger(AlluriumConfig.retryAmount());
-        while (hasItemWithText(text) && counter.get() > 0) {
-            Selenide.sleep(AlluriumConfig.retryIntervalMs());
-            refresh();
-            counter.getAndDecrement();
-        }
-        Assertions.assertThat(hasItemWithText(text)).as("expected value != '" + text + "'").isFalse();
+//        AtomicInteger counter = new AtomicInteger(AlluriumConfig.retryAmount());
+//        while (hasItemWithText(text) && counter.get() > 0) {
+//            Selenide.sleep(AlluriumConfig.retryIntervalMs());
+//            refresh();
+//            counter.getAndDecrement();
+//        }
+//        Assertions.assertThat(hasItemWithText(text)).as("expected value != '" + text + "'").isFalse();
+
+        lazyBuild();
+        sourceElements.findBy(Condition.text(text)).shouldNot(Condition.exist);
     }
 
     /**
@@ -1163,28 +1191,14 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         Assertions.assertThat(hasItem(id)).isFalse();
     }
 
-    public String getStepText(String stepName) {
-        String parentName = "";
-        if (parent.isPresent()) parentName = parent.get().getUiElementName();
-        return StepTextProvider.getStepText(stepName,
-                Pair.of("{name}", uiElementName),
-                Pair.of("{element}", "list"),
-                Pair.of("{parent}", parentName));
-    }
-
-    public void waitForSize(int size, int timeoutSeconds) {
-        refresh();
-        if (components.size() != size && timeoutSeconds > 0) {
-            try {
-                Thread.sleep(timeoutSeconds*1000L);
-                waitForSize(size, timeoutSeconds-1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            assertSize(size);
-        }
-    }
+//    public String getStepText(String stepName) {
+//        String parentName = "";
+//        if (parent.isPresent()) parentName = parent.get().getUiElementName();
+//        return StepTextProvider.getStepText(stepName,
+//                Pair.of("{name}", uiElementName),
+//                Pair.of("{element}", "list"),
+//                Pair.of("{parent}", parentName));
+//    }
 
     public void logDump() {
         log.info("---list dump---");

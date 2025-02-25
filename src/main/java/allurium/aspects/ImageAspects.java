@@ -67,7 +67,7 @@ public class ImageAspects {
                 Pair.of("{element}", image.getUiElementType()),
                 Pair.of("{src}", expectedSrc)
         ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -80,7 +80,7 @@ public class ImageAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 

@@ -46,6 +46,7 @@ public class LocatorBuilder {
                         } else if (!locator.className().equals("")) {
                             abstractElement.setRoot(By.className(locator.className()));
                         }
+                        abstractElement.setRoot(abstractElement.getRoot().as(abstractElement.getUiElementName()));
                     }
                 }
             }
@@ -80,6 +81,7 @@ public class LocatorBuilder {
                         } else if (!locator.className().equals("")) {
                             abstractElement.setRoot(abstractElement.getParent().get().getRoot().find(By.className(locator.className())));
                         }
+                        abstractElement.setRoot(abstractElement.getRoot().as(abstractElement.getUiElementName()));
                     }
                 }
             }
@@ -111,6 +113,7 @@ public class LocatorBuilder {
                         } else if (!locator.className().equals("")) {
                             abstractElement.setRoot(abstractElement.getParent().get().getRoot().find(By.className(locator.className())));
                         }
+                        abstractElement.setRoot(abstractElement.getRoot().as(abstractElement.getUiElementName()));
                     }
                 }
             }

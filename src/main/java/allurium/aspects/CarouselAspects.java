@@ -88,7 +88,7 @@ public class CarouselAspects {
                         Pair.of("{element}", slider.getUiElementType()),
                         Pair.of("{name}", slider.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -102,7 +102,7 @@ public class CarouselAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -123,7 +123,7 @@ public class CarouselAspects {
                         Pair.of("{element}", slider.getUiElementType()),
                         Pair.of("{name}", slider.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -137,7 +137,7 @@ public class CarouselAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 }

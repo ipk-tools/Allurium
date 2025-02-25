@@ -27,7 +27,7 @@ public class WidgetListAspects {
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -40,7 +40,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -54,7 +54,7 @@ public class WidgetListAspects {
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -67,7 +67,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -81,7 +81,7 @@ public class WidgetListAspects {
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -94,7 +94,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -108,7 +108,7 @@ public class WidgetListAspects {
                         Pair.of("{size}", String.valueOf(expectedSize))
                 )
         );
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -121,7 +121,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -133,7 +133,7 @@ public class WidgetListAspects {
                 .setName(StepTextProvider.getStepText("list_assert_empty", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -146,7 +146,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -157,7 +157,7 @@ public class WidgetListAspects {
                 .setName(StepTextProvider.getStepText("list_assert_visible", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -170,7 +170,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -181,7 +181,7 @@ public class WidgetListAspects {
                 .setName(StepTextProvider.getStepText("list_assert_not_visible", listWC.getParent(),
                         Pair.of("{name}", listWC.wrappedName())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -194,7 +194,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -207,7 +207,7 @@ public class WidgetListAspects {
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{id}", itemId)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -220,7 +220,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -233,7 +233,7 @@ public class WidgetListAspects {
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{id}", itemId)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -247,7 +247,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -260,7 +260,7 @@ public class WidgetListAspects {
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{text}", textPattern)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -273,7 +273,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -286,7 +286,7 @@ public class WidgetListAspects {
                         Pair.of("{name}", listWC.wrappedName()),
                         Pair.of("{text}", textPattern)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -299,7 +299,7 @@ public class WidgetListAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -312,7 +312,7 @@ public class WidgetListAspects {
 //                .setName(StepTextProvider.getStepText("list_should_conditions", listWC.getParent(),
 //                        Pair.of("{name}", listWC.wrappedName())
 //                ));
-//        AsyncAllureLogger.stopStepAsync();
+//        Allure.getLifecycle().stopStep();
 //        boolean errorStatus = false;
 //        try {
 //            errorStatus = !(boolean) invocation.proceed();
@@ -326,7 +326,7 @@ public class WidgetListAspects {
 //            else {
 //                stepResult.setStatus(Status.PASSED);
 //            }
-//            AsyncAllureLogger.stopStepAsync();
+//            Allure.getLifecycle().stopStep();
 //        }
 //    }
 

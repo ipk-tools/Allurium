@@ -32,7 +32,7 @@ public class AbstractInputElementAspects {
                         Pair.of("{element}", inputElement.getUiElementType()),
                         Pair.of("{name}", inputElement.wrappedName())
                 ));
-        AsyncAllureLogger.stopStepAsync();
+        Allure.getLifecycle().stopStep();
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -46,7 +46,7 @@ public class AbstractInputElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -67,7 +67,7 @@ public class AbstractInputElementAspects {
                 Pair.of("{name}", inputElement.wrappedName()));
         StepResult stepResult = new StepResult()
                 .setName(stepText);
-        AsyncAllureLogger.stopStepAsync();
+        Allure.getLifecycle().stopStep();
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -81,7 +81,7 @@ public class AbstractInputElementAspects {
             } else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 }

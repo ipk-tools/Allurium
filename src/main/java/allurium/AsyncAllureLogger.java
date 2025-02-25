@@ -7,8 +7,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/*
+This is not usable at this state and in dev. Serves to slightly accelerate aspect steps logging.
+Currently, there are problems with steps shuffling while more than one thread.
+ */
 public class AsyncAllureLogger {
-    // Use a single-thread executor to maintain step order.
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public static void startStepAsync(final String stepUuid, final StepResult stepResult) {

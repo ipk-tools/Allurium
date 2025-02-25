@@ -26,7 +26,7 @@ public class RequiredTextFieldAspects {
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
         ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -39,7 +39,7 @@ public class RequiredTextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -52,7 +52,7 @@ public class RequiredTextFieldAspects {
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
         ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -65,7 +65,7 @@ public class RequiredTextFieldAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 

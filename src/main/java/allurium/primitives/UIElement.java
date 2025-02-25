@@ -132,6 +132,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     protected UIElement(String selenideLocator, String name) {
         root = Selenide.$(selenideLocator);
         this.uiElementName = name;
+        root = root.as(uiElementName);
     }
 
     /**
@@ -154,6 +155,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     protected UIElement(By locator, String name) {
         root = Selenide.$(locator);
         this.uiElementName = name;
+        root = root.as(uiElementName);
     }
 
     public UIElement(SelenideElement selenideElement) {
@@ -163,6 +165,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     protected UIElement(SelenideElement selenideElement, String name) {
         root = selenideElement;
         this.uiElementName = name;
+        root = root.as(uiElementName);
     }
 
     /**
@@ -258,7 +261,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      * @param stepText the text to log for the step
      */
     protected void logStep(String stepText) {
-        if (stepsConsoleLoggingEnabled) log.info(stepText);
+        //if (stepsConsoleLoggingEnabled) log.info(stepText);
         if (stepsReportLoggingEnabled) Allure.step(stepText);
     }
 
@@ -739,19 +742,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      * @param text the expected text
      */
     public void assertText(String text) {
-        AtomicInteger counter ;
-        try {
-            counter = new AtomicInteger(AlluriumConfig.retryAmount());
-        } catch (NullPointerException nEx) {
-            counter = new AtomicInteger(10);
-        }
-
-        while (!root.text().equals(text) && counter.get() > 0) {
-            log.info(String.format("waiting value of %s to contain [%s]", uiElementName, text));
-            Selenide.sleep(AlluriumConfig.retryIntervalMs());
-            counter.getAndSet(counter.get() - (AlluriumConfig.retryIntervalMs().intValue()/1000));
-        }
-        Assertions.assertThat(root.text()).as(getUiElementName()).isEqualTo(text);
+        root.shouldHave(Condition.exactText(text));
     }
 
     /**
@@ -762,22 +753,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      * @throws AssertionError if the element's text does not contain the specified substring
      */
     public void assertHasText(String text) {
-        int counter = AlluriumConfig.retryAmount();
-        while (!root.text().contains(text) && counter > 0) {
-            Selenide.sleep(AlluriumConfig.retryIntervalMs());
-            counter--;
-        }
-        Assertions.assertThat(root.text()).as(getUiElementName()).contains(text);
-    }
-
-    public void assertHasText(String text, Integer withinTime) {
-        AtomicInteger counter = new AtomicInteger(withinTime);
-        while (!root.text().contains(text) && counter.get() > 0) {
-            log.info(String.format("waiting value of %s to contain [%s]", uiElementName, text));
-            Selenide.sleep(AlluriumConfig.retryIntervalMs());
-            counter.getAndSet(counter.get() - AlluriumConfig.retryIntervalMs().intValue());
-        }
-        Assertions.assertThat(root.text()).as(getUiElementName()).contains(text);
+        root.shouldHave(Condition.text(text));
     }
 
     /**
@@ -790,21 +766,6 @@ public class UIElement implements AlluriumElement, ListComponent {
         assertThat((String) executeJavaScript(JsScripts.isVisibleInViewport, root))
                 .as(uiElementName).isEqualTo("true");
     }
-
-//    public void assertVisible() {
-//        int counter = AlluriumConfig.retryAmount();
-//        boolean isVisible = root.is(visible);
-//        while (counter > 0 && !isVisible) {
-//            try {
-//                Thread.sleep(AlluriumConfig.retryIntervalMs());
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            isVisible = root.is(visible);
-//            counter--;
-//        }
-//        assertThat(root.is(visible)).as(uiElementName).isTrue();
-//    }
 
     /**
      * Asserts that the element is visible.
@@ -843,18 +804,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      * <p><b>< Step: Processed by Aspect ></b></p>
      */
     public void assertNotVisible() {
-        int counter = AlluriumConfig.retryAmount();
-        boolean isVisible = root.is(visible);
-        while (counter > 0 && isVisible) {
-            try {
-                Thread.sleep(AlluriumConfig.retryIntervalMs());
-            } catch (InterruptedException e) {
-                log.debug(e.getMessage());
-            }
-            isVisible = root.is(visible);
-            counter--;
-        }
-        assertThat(root.is(visible)).as(uiElementName).isFalse();
+        root.shouldNotBe(visible);
     }
 
     /**
@@ -896,24 +846,24 @@ public class UIElement implements AlluriumElement, ListComponent {
      * Asserts that the element is visible within the specified duration.
      * <p><b>< Step: Processed by Aspect ></b></p>
      *
-     * @param seconds the duration in seconds
+     * @param durationSeconds the duration in seconds
      */
     @SuppressWarnings("unchecked")
-    public void assertVisibleWithDuration(int seconds) {
-        logStepToReport("assert_visible_with_duration", Pair.of("{sec}", String.valueOf(seconds)));
-        root.shouldBe(visible, Duration.ofSeconds(seconds));
+    public void assertVisible(int durationSeconds) {
+        logStepToReport("assert_visible_with_duration", Pair.of("{sec}", String.valueOf(durationSeconds)));
+        root.shouldBe(visible, Duration.ofSeconds(durationSeconds));
     }
 
     /**
      * Asserts that the element exists in the DOM.
+     * <p><b>< Step: Processed by Aspect ></b></p>
      */
     public void assertExists() {
-        assertThat(root.exists()).as(uiElementName).isTrue();
+        root.should(exist);
     }
 
     /**
      * Asserts that the element exists in the DOM, with optional logging to a report.
-     * <p><b>< Step: Processed by Aspect ></b></p>
      *
      * @param logAsStepOrNot whether to log the assertion as a step
      */
@@ -921,7 +871,7 @@ public class UIElement implements AlluriumElement, ListComponent {
         if (logAsStepOrNot)
             assertExists();
         else
-            assertThat(root.exists()).as(uiElementName).isTrue();
+            root.should(exist);
     }
 
     /**
@@ -929,7 +879,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      * <p><b>< Step: Processed by Aspect ></b></p>
      */
     public void assertNotExist() {
-        assertThat(root.exists()).as(uiElementName).isFalse();
+        root.shouldNot(exist);
     }
 
     /**
@@ -939,7 +889,7 @@ public class UIElement implements AlluriumElement, ListComponent {
         if (logAsStepOrNot)
             assertNotExist();
         else
-            assertThat(root.exists()).as(uiElementName).isFalse();
+            root.shouldNot(exist);
     }
 
     /**
@@ -1018,12 +968,11 @@ public class UIElement implements AlluriumElement, ListComponent {
     /**
      * Performs a soft assertion to check if the element is empty, logging the result.
      */
-    public void softAssertEmpty() {
-        String stepUuid = RandomStringUtils.random(20);
+    public void verifyEmpty() {
         StepResult stepResult = new StepResult().setName(getStepText("assert_element_empty"));
         AsyncAllureLogger.stopStepAsync();
         Allure.addAttachment("content", root.text());
-        AllureUtils.attachElementScreenshotToStep(root, uiElementName +" view", stepResult);
+        //AllureUtils.attachElementScreenshotToStep(root, uiElementName +" view", stepResult);
         if (root.text().isEmpty())
             stepResult.setStatus(Status.PASSED);
         else {
@@ -1045,7 +994,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     /**
      * Performs a soft assertion to check if the element is not empty, logging the result.
      */
-    public void softAssertIsNotEmpty() {
+    public void verifyIsNotEmpty() {
         String stepUuid = RandomStringUtils.random(20);
         StepResult stepResult = new StepResult().setName(getStepText("assert_element_not_empty"));
         AsyncAllureLogger.stopStepAsync();
@@ -1061,16 +1010,4 @@ public class UIElement implements AlluriumElement, ListComponent {
         }
     }
 
-    /*
-    public boolean waitFor(Condition condition, int seconds) {
-        boolean conditionIsFulfilled = false;
-        int sec = seconds;
-        while (seconds > 0 && !conditionIsFulfilled) {
-            conditionIsFulfilled = root.is(condition);
-            Selenide.sleep(1000);
-            seconds--;
-        }
-        return conditionIsFulfilled;
-    }
-     */
 }

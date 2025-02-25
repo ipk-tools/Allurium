@@ -116,7 +116,7 @@ english:
     1: "Assert that the {name} {element} is visible in the view port on the page"
     2: "Assert that the {name} {element} of {parent} is visible in the view port on the page"
 
-  assert_visible_with_duration:
+  assert_visible_with_duration_seconds:
     1: "Assert that the {name} {element} will be visible during the next {sec} seconds"
     2: "Assert that the {name} {element} of {parent} will be visible during the next {sec} seconds"
 
@@ -423,7 +423,7 @@ russian:
     1: "Проверяем, что {element} {name} отображается в видимой части страницы"
     2: "Проверяем, что {element} {name} отображается в видимой части страницы в виджете {parent}"
 
-  assert_visible_with_duration:
+  assert_visible_with_duration_seconds:
     1: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд(у/ы)"
     2: "Проверяем, что {element} {name} отображается на странице в течение {sec} секунд(у/ы) в виджете {parent}"
 

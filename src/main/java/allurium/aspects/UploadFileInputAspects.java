@@ -62,7 +62,7 @@ public class UploadFileInputAspects {
                         Pair.of("{name}", uploadField.wrappedName()),
                         Pair.of("{path}", filePath)
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -76,7 +76,7 @@ public class UploadFileInputAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
@@ -95,7 +95,7 @@ public class UploadFileInputAspects {
                         Pair.of("{name}", uploadField.wrappedName()),
                         Pair.of("{path}", file.getAbsolutePath())
                 ));
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -109,7 +109,7 @@ public class UploadFileInputAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 

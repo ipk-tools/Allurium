@@ -78,7 +78,7 @@ public class FormAspects {
                         Pair.of("{name}", form.wrappedName())
                 ));
         boolean errorStatus = false;
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
         try {
             invocation.proceed();
         } catch (Throwable throwable) {
@@ -91,7 +91,7 @@ public class FormAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep();
         }
     }
 
