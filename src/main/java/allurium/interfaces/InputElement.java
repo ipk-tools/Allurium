@@ -23,7 +23,7 @@ package allurium.interfaces;
  * </ul>
  *
  * <h3>Usage Example:</h3>
- * <pre>{@code
+ * <pre><code>
  * public class CustomInput implements InputElement {
  *
  *     @Override
@@ -32,7 +32,7 @@ package allurium.interfaces;
  *         return getRoot().isDisabled(); // Example logic
  *     }
  * }
- * }</pre>
+ * </code></pre>
  */
 public interface InputElement {
 

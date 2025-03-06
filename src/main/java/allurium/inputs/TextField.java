@@ -189,7 +189,7 @@ public class TextField extends AbstractInputElement implements Writable, TextInp
 
     /**
      * Writes the specified text into the text field.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param text the text to be typed into the text field
      */
@@ -219,7 +219,7 @@ public class TextField extends AbstractInputElement implements Writable, TextInp
 
     /**
      * Clears the text field.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     @Override
     public void clear() {
@@ -259,7 +259,7 @@ public class TextField extends AbstractInputElement implements Writable, TextInp
 
     /**
      * Asserts that the text field is not empty.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     @Override
     public void assertNotEmpty() {
@@ -296,7 +296,7 @@ public class TextField extends AbstractInputElement implements Writable, TextInp
 
     /**
      * Asserts that the current value of the text field matches the specified value.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param value the expected value
      */
@@ -307,7 +307,7 @@ public class TextField extends AbstractInputElement implements Writable, TextInp
 
     /**
      * Asserts that the current value of the text field contains the specified substring.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param value the substring to check for
      */

@@ -3,6 +3,7 @@ package allurium.aspects;
 import allurium.AsyncAllureLogger;
 import allurium.switchers.AbstractSwitcher;
 import allurium.StepTextProvider;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -79,40 +80,19 @@ public class SwitcherAspects {
     @SuppressWarnings("unchecked")
     public void stepShift(ProceedingJoinPoint invocation) throws Throwable {
         AbstractSwitcher switcher = (AbstractSwitcher) invocation.getThis();
-        StepResult stepResult;
-        boolean errorStatus = false;
-
+        String stepName;
         try {
-            stepResult = new StepResult()
-                    .setName(StepTextProvider.getStepText("switcher_toggle", switcher.getParent(),
-                            Pair.of("{element}", switcher.getUiElementType()),
-                            Pair.of("{name}", switcher.wrappedName())
-                    ));
+            stepName = StepTextProvider.getStepText(
+                    "switcher_toggle",
+                    switcher.getParent(),
+                    Pair.of("{element}", switcher.getUiElementType()),
+                    Pair.of("{name}", switcher.wrappedName())
+            );
         } catch (WebDriverException ex) {
-            stepResult = new StepResult().setName(switcher.wrappedName() + " " + ex.getMessage());
-            stepResult.setStatus(Status.FAILED);
-            ex.printStackTrace();
+            stepName = switcher.wrappedName() + " " + ex.getMessage();
             throw ex;
-        } finally {
-            Allure.getLifecycle().stopStep();
         }
-
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -125,27 +105,13 @@ public class SwitcherAspects {
     @SuppressWarnings("unchecked")
     public void stepSwitchOn(ProceedingJoinPoint invocation) throws Throwable {
         AbstractSwitcher switcher = (AbstractSwitcher) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("switcher_switch_on", switcher.getParent(),
-                        Pair.of("{element}", switcher.getUiElementType()),
-                        Pair.of("{name}", switcher.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "switcher_switch_on",
+                switcher.getParent(),
+                Pair.of("{element}", switcher.getUiElementType()),
+                Pair.of("{name}", switcher.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -158,27 +124,13 @@ public class SwitcherAspects {
     @SuppressWarnings("unchecked")
     public void stepSwitchOff(ProceedingJoinPoint invocation) throws Throwable {
         AbstractSwitcher switcher = (AbstractSwitcher) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("switcher_switch_off", switcher.getParent(),
-                        Pair.of("{element}", switcher.getUiElementType()),
-                        Pair.of("{name}", switcher.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "switcher_switch_off",
+                switcher.getParent(),
+                Pair.of("{element}", switcher.getUiElementType()),
+                Pair.of("{name}", switcher.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
 }

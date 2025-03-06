@@ -232,6 +232,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void runAssertionStep(String stepKey, Runnable assertionCode, Pair<String, String>... placeholders) {
         String stepUuid = UUID.randomUUID().toString();
         String stepName = StepTextProvider.getStepText(stepKey, getParent(), placeholders);
@@ -391,6 +392,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @return the matching element of type {@code T} if found
      * @throws AssertionError if the element is not found after all retry attempts
      */
+    @SuppressWarnings("unchecked")
     public T getPrecise(String id) {
         lazyBuild();
         int counter = AlluriumConfig.retryAmount();
@@ -441,6 +443,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @return the matching element of type {@code T} if found
      * @throws AssertionError if the element is not found after all retry attempts
      */
+    @SuppressWarnings("unchecked")
     public T get(String id) {
         lazyBuild();
         int counter = AlluriumConfig.retryAmount();
@@ -1027,6 +1030,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param size the expected size of the list
      * @throws IllegalArgumentException if the expected size is negative
      */
+    @SuppressWarnings("unchecked")
     public void assertSize(Integer size) {
         lazyBuild();
         runAssertionStep(
@@ -1059,6 +1063,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      *
      * @param size the value that the list size should be greater than
      */
+    @SuppressWarnings("unchecked")
     public void assertSizeGreaterThan(int size) {
         lazyBuild();
         runAssertionStep(
@@ -1077,6 +1082,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      *
      * @param size the maximum size the list should have
      */
+    @SuppressWarnings("unchecked")
     public void assertSizeLessThan(int size) {
         lazyBuild();
         runAssertionStep(
@@ -1096,6 +1102,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * Asserts that the list is empty (i.e., contains no components).
      * Retries until the condition is met or the retry limit is exhausted.
      */
+    @SuppressWarnings("unchecked")
     public void assertEmpty() {
         lazyBuild();
         runAssertionStep(
@@ -1114,6 +1121,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * If no elements are visible, an assertion error is thrown.
      * </p>
      */
+    @SuppressWarnings("unchecked")
     public void assertVisible() {
         lazyBuild();
         runAssertionStep(
@@ -1133,6 +1141,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * If any element is found to be visible, an assertion error is thrown.
      * </p>
      */
+    @SuppressWarnings("unchecked")
     public void assertNotVisible() {
         lazyBuild();
         runAssertionStep(
@@ -1147,6 +1156,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      *
      * @param text the text pattern to search for in the list elements
      */
+    @SuppressWarnings("unchecked")
     public void assertHasItemsWithText(String text) {
         lazyBuild();
         runAssertionStep(
@@ -1162,6 +1172,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      *
      * @param text the text pattern to search for in the list elements
      */
+    @SuppressWarnings("unchecked")
     public void assertHasNoItemsWithText(String text) {
         lazyBuild();
         runAssertionStep(
@@ -1177,6 +1188,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      *
      * @param id the ID of the expected list item
      */
+    @SuppressWarnings("unchecked")
     public void assertHasItem(String id) {
         lazyBuild();
         runAssertionStep(
@@ -1202,6 +1214,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      *
      * @param id the ID of the list item to check for absence
      */
+    @SuppressWarnings("unchecked")
     public void assertHasNotItem(String id) {
         lazyBuild();
         runAssertionStep(

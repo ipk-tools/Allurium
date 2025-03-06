@@ -3,6 +3,7 @@ package allurium.aspects;
 import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.AbstractRequiredTextField;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -21,52 +22,26 @@ public class RequiredTextFieldAspects {
     @SuppressWarnings("unchecked")
     public void stepAssertMarkedAsRequired(ProceedingJoinPoint invocation) throws Throwable {
         AbstractRequiredTextField inputField = (AbstractRequiredTextField) invocation.getThis();
-        StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("text_field_assert_marked_required",
+        String stepName = StepTextProvider.getStepText(
+                "text_field_assert_marked_required",
                 inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
-        ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable stepFailException) {
-            errorStatus = true;
-            throw stepFailException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     @Around("execution (* allurium.inputs.AbstractRequiredTextField.assertNotMarkedAsRequired(..))")
     @SuppressWarnings("unchecked")
     public void stepAssertNotMarkedAsRequired(ProceedingJoinPoint invocation) throws Throwable {
         AbstractRequiredTextField inputField = (AbstractRequiredTextField) invocation.getThis();
-        StepResult stepResult = new StepResult().setName(StepTextProvider.getStepText("text_field_assert_not_marked_required",
+        String stepName = StepTextProvider.getStepText(
+                "text_field_assert_not_marked_required",
                 inputField.getParent(),
                 Pair.of("{name}", inputField.wrappedName()),
                 Pair.of("{element}", inputField.getUiElementType())
-        ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable stepFailException) {
-            errorStatus = true;
-            throw stepFailException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
 }

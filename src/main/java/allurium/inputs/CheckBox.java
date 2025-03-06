@@ -156,7 +156,7 @@ public class CheckBox extends AbstractInputElement {
     /**
      * Toggles the checkbox to the checked state.
      * <p>
-     * < Processed by Aspect >
+     * <p><b>Step: Processed by Aspect</b></p>
      * </p>
      */
     public void check() {
@@ -177,7 +177,7 @@ public class CheckBox extends AbstractInputElement {
     /**
      * Toggles the checkbox to the unchecked state.
      * <p>
-     * < Processed by Aspect >
+     * <p><b>Step: Processed by Aspect</b></p>
      * </p>
      */
     public void uncheck() {
@@ -211,7 +211,7 @@ public class CheckBox extends AbstractInputElement {
     /**
      * Asserts that the checkbox is currently checked.
      * <p>
-     * < Processed by Aspect >
+     * <p><b>Step: Processed by Aspect</b></p>
      * </p>
      */
     public void assertChecked() {
@@ -221,7 +221,7 @@ public class CheckBox extends AbstractInputElement {
     /**
      * Asserts that the checkbox is currently unchecked.
      * <p>
-     * < Processed by Aspect >
+     * <p><b>Step: Processed by Aspect</b></p>
      * </p>
      */
     public void assertUnchecked() {

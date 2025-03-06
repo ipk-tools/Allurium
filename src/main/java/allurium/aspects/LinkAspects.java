@@ -3,6 +3,7 @@ package allurium.aspects;
 import allurium.AsyncAllureLogger;
 import allurium.primitives.Link;
 import allurium.StepTextProvider;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -56,27 +57,14 @@ public class LinkAspects {
     public void stepAssertHref(ProceedingJoinPoint invocation) throws Throwable {
         Link uiElement = (Link) invocation.getThis();
         String href = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_href", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()),
-                        Pair.of("{href}", href)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw new AssertionError();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "assert_href",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName()),
+                Pair.of("{href}", href)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
+
 }

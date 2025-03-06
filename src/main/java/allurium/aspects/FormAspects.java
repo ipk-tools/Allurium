@@ -3,6 +3,7 @@ package allurium.aspects;
 import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.forms.AbstractForm;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -32,7 +33,7 @@ import java.util.UUID;
  * </ul>
  *
  * <h3>Example:</h3>
- * <pre>{@code
+ * <pre><code>
  * public class LoginForm extends AbstractForm {
  *
  *     @Name("Submit")
@@ -47,7 +48,7 @@ import java.util.UUID;
  *         btnSubmit.click();
  *     }
  * }
- * }</pre>
+ * </code></pre>
  *
  * <p>
  * The above class's {@code submit()} method will automatically be intercepted by this aspect,
@@ -72,27 +73,13 @@ public class FormAspects {
     @SuppressWarnings("unchecked")
     public void stepSubmit(ProceedingJoinPoint invocation) throws Throwable {
         AbstractForm form = (AbstractForm) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("form_submit", form.getParent(),
-                        Pair.of("{element}", form.getUiElementType()),
-                        Pair.of("{name}", form.wrappedName())
-                ));
-        boolean errorStatus = false;
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "form_submit",
+                form.getParent(),
+                Pair.of("{element}", form.getUiElementType()),
+                Pair.of("{name}", form.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
 }

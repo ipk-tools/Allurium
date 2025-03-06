@@ -113,7 +113,7 @@ public class AbstractInputElement extends UIElement implements InputElement {
 
     /**
      * Asserts that the element is enabled.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @throws AssertionError if the input element is disabled
      */
@@ -123,7 +123,7 @@ public class AbstractInputElement extends UIElement implements InputElement {
 
     /**
      * Asserts that the element is disabled.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @throws AssertionError if the input element is enabled
      */

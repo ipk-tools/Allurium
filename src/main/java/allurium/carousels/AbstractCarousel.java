@@ -28,7 +28,7 @@ import org.openqa.selenium.By;
  * </ul>
  *
  * <h3>Usage Example:</h3>
- * <pre>{@code
+ * </pre><code>
  * public class ImageCarousel extends AbstractCarousel {
  *
  *     public ImageCarousel(SelenideElement rootElement) {
@@ -45,7 +45,7 @@ import org.openqa.selenium.By;
  *         getRoot().$("button.prev").click();
  *     }
  * }
- * }</pre>
+ * </code></pre>
  *
  * <h3>Constructors:</h3>
  * <ul>
@@ -120,7 +120,7 @@ public abstract class AbstractCarousel extends AbstractWidget {
      * This method must be implemented by subclasses to provide the specific behavior for scrolling the
      * carousel to the next set of items.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public abstract void scrollForward();
 
@@ -130,7 +130,7 @@ public abstract class AbstractCarousel extends AbstractWidget {
      * This method must be implemented by subclasses to provide the specific behavior for scrolling the
      * carousel to the previous set of items.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public abstract void scrollBackward();
 }

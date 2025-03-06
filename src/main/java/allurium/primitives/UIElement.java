@@ -139,7 +139,6 @@ public class UIElement implements AlluriumElement, ListComponent {
      * Creates a UIElement from a Selenium locator.
      *
      * @param locator the Selenium locator (e.g., By.id, By.xpath)
-     * @return a new UIElement instance
      */
     protected UIElement(By locator) {
         root = Selenide.$(locator);
@@ -150,7 +149,6 @@ public class UIElement implements AlluriumElement, ListComponent {
      *
      * @param locator the Selenium locator
      * @param name    the name to assign to the element
-     * @return a new UIElement instance
      */
     protected UIElement(By locator, String name) {
         root = Selenide.$(locator);
@@ -217,6 +215,7 @@ public class UIElement implements AlluriumElement, ListComponent {
         this.root = Selenide.$(selenideElement);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T as(String name) {
         this.uiElementName = name;
         return (T) this;
@@ -282,6 +281,7 @@ public class UIElement implements AlluriumElement, ListComponent {
      * @param additionalPatterns additional placeholder-value pairs for substitution
      * @return the compiled step text
      */
+    @SuppressWarnings("unchecked")
     public String getAllureCompiledStep(String stepName, Pair<String,String>... additionalPatterns) {
         applyName();
         String parentName = "";

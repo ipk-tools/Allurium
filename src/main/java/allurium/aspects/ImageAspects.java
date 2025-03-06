@@ -3,6 +3,7 @@ package allurium.aspects;
 import allurium.AsyncAllureLogger;
 import allurium.primitives.Image;
 import allurium.StepTextProvider;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -61,27 +62,14 @@ public class ImageAspects {
     public void stepAssertSrcUrl(ProceedingJoinPoint invocation) throws Throwable {
         Image image = (Image) invocation.getThis();
         String expectedSrc = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("image_assert_src", image.getParent(),
+        String stepName = StepTextProvider.getStepText(
+                "image_assert_src",
+                image.getParent(),
                 Pair.of("{name}", image.wrappedName()),
                 Pair.of("{element}", image.getUiElementType()),
                 Pair.of("{src}", expectedSrc)
-        ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable stepFailException) {
-            errorStatus = true;
-            throw stepFailException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
 }

@@ -18,7 +18,7 @@ package allurium.interfaces;
  * for efficient interaction.
  *
  * <h3>Code Example:</h3>
- * <pre>{@code
+ * <pre><code>
  * @Getter
  * public class Form implements ListComponent {
  *     private SelenideElement root;
@@ -49,7 +49,7 @@ package allurium.interfaces;
  *     form.getEmailInput().write("example@email.com");
  *     form.getDescription().write("example description");
  * }
- * }</pre>
+ * </code></pre>
  *
  * <h3>Methods:</h3>
  * <ul>

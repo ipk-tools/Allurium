@@ -1,19 +1,14 @@
 package allurium.aspects;
 
-import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.UploadField;
-import io.qameta.allure.Allure;
-import io.qameta.allure.model.Status;
-import io.qameta.allure.model.StepResult;
-import org.apache.commons.lang3.RandomStringUtils;
+import allurium.utilities.AllureStepHelper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import java.io.File;
-import java.util.UUID;
 
 /**
  * Aspect for adding Allure reporting capabilities to the {@link UploadField} class.
@@ -54,30 +49,17 @@ public class UploadFileInputAspects {
      * @throws Throwable if the original method throws an exception
      */
     @Around("execution (* allurium.inputs.UploadField.uploadFile(String))")
+    @SuppressWarnings("unchecked")
     public void stepUploadFileViaPath(ProceedingJoinPoint invocation) throws Throwable {
         UploadField uploadField = (UploadField) invocation.getThis();
         String filePath = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("upload_file", uploadField.getParent(),
-                        Pair.of("{name}", uploadField.wrappedName()),
-                        Pair.of("{path}", filePath)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            assertionException.printStackTrace();
-            errorStatus = true;
-            throw assertionException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "upload_file",
+                uploadField.getParent(),
+                Pair.of("{name}", uploadField.wrappedName()),
+                Pair.of("{path}", filePath)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -87,30 +69,17 @@ public class UploadFileInputAspects {
      * @throws Throwable if the original method throws an exception
      */
     @Around("execution (* allurium.inputs.UploadField.uploadFile(File))")
+    @SuppressWarnings("unchecked")
     public void stepUploadFile(ProceedingJoinPoint invocation) throws Throwable {
         UploadField uploadField = (UploadField) invocation.getThis();
         File file = (File) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("upload_file", uploadField.getParent(),
-                        Pair.of("{name}", uploadField.wrappedName()),
-                        Pair.of("{path}", file.getAbsolutePath())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            assertionException.printStackTrace();
-            errorStatus = true;
-            throw assertionException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "upload_file",
+                uploadField.getParent(),
+                Pair.of("{name}", uploadField.wrappedName()),
+                Pair.of("{path}", file.getAbsolutePath())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
 }

@@ -38,7 +38,7 @@ import org.openqa.selenium.By;
  * </ul>
  *
  * <h3>Example Implementation:</h3>
- * <pre>{@code
+ * <pre><code>
  * public class ButtonToggle extends AbstractSwitcher {
  *
  *     public ButtonToggle(String selenideLocator) {
@@ -69,7 +69,7 @@ import org.openqa.selenium.By;
  *         }
  *     }
  * }
- * </pre>
+ * </code></pre>
  *
  * <h3>Subclasses Must Implement:</h3>
  * <ul>
@@ -166,7 +166,7 @@ public abstract class AbstractSwitcher extends UIElement {
      * This method changes the state of the switcher from ON to OFF or vice versa.
      * It should be implemented in subclasses.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public abstract void toggle();
 
@@ -176,7 +176,7 @@ public abstract class AbstractSwitcher extends UIElement {
      * If the switcher is already ON, this method does nothing.
      * Otherwise, it performs the necessary actions to turn the switcher ON.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public abstract void switchOn();
 
@@ -186,7 +186,7 @@ public abstract class AbstractSwitcher extends UIElement {
      * If the switcher is already OFF, this method does nothing.
      * Otherwise, it performs the necessary actions to turn the switcher OFF.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public abstract void switchOff();
 }

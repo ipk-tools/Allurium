@@ -1,19 +1,14 @@
 package allurium.aspects;
 
-import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.Select;
-import io.qameta.allure.Allure;
-import io.qameta.allure.model.Status;
-import io.qameta.allure.model.StepResult;
-import org.apache.commons.lang3.RandomStringUtils;
+import allurium.utilities.AllureStepHelper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Aspect class for handling additional behavior and logging for the {@link Select} class.
@@ -44,28 +39,13 @@ public class SelectAspects {
     public void stepSelect(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_option", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName()),
-                        Pair.of("{option}", option)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_option", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName()),
+                Pair.of("{option}", option)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -79,28 +59,13 @@ public class SelectAspects {
     public void stepSelectByIndex(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         int option = (int) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_by_index", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName()),
-                        Pair.of("{id}", String.valueOf(option))
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_by_index", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName()),
+                Pair.of("{id}", String.valueOf(option))
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /*
@@ -133,31 +98,16 @@ public class SelectAspects {
      */
     @Around("execution (* allurium.inputs.Select.selectByArrowsLeftAndRight(String))")
     @SuppressWarnings("unchecked")
-    public void stepSelectByArrowsLeftAndRightInjection(ProceedingJoinPoint invocation) throws Throwable {
+    public void stepSelectByArrowsLeftAndRight(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_option", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName()),
-                        Pair.of("{option}", option)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_option", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName()),
+                Pair.of("{option}", option)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -168,29 +118,14 @@ public class SelectAspects {
      */
     @Around("execution (* allurium.inputs.Select.selectFirst())")
     @SuppressWarnings("unchecked")
-    public void stepSelectFirstInjection(ProceedingJoinPoint invocation) throws Throwable {
+    public void stepSelectFirst(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_option_first", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_option_first", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -201,29 +136,14 @@ public class SelectAspects {
      */
     @Around("execution (* allurium.inputs.Select.selectLast())")
     @SuppressWarnings("unchecked")
-    public void stepSelectLastInjection(ProceedingJoinPoint invocation) throws Throwable {
+    public void stepSelectLast(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_option_last", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_option_last", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -234,29 +154,14 @@ public class SelectAspects {
      */
     @Around("execution (* allurium.inputs.Select.selectAny())")
     @SuppressWarnings("unchecked")
-    public void stepSelectAnyInjection(ProceedingJoinPoint invocation) throws Throwable {
+    public void stepSelectAny(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_option_any", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_option_any", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -267,29 +172,16 @@ public class SelectAspects {
      */
     @Around("execution (* allurium.inputs.Select.selectAnyBesides(String))")
     @SuppressWarnings("unchecked")
-    public void stepSelectAnyBesidesInjection(ProceedingJoinPoint invocation) throws Throwable {
+    public void stepSelectAnyBesides(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_option_any_but_not", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String option = (String) invocation.getArgs()[0];
+        String stepName = StepTextProvider.getStepText(
+                "select_option_any_but_not", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName()),
+                Pair.of("{option}", option)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -299,31 +191,17 @@ public class SelectAspects {
      * @throws Throwable if the intercepted method throws any exception
      */
     @Around("execution (* allurium.inputs.Select.assertCurrentValue(String))")
+    @SuppressWarnings("unchecked")
     public void stepAssertCurrentValue(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_assert_current_value", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName()),
-                        Pair.of("{option}", option)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_assert_current_value", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName()),
+                Pair.of("{option}", option)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -333,34 +211,18 @@ public class SelectAspects {
      * @throws Throwable if the intercepted method throws any exception
      */
     @Around("execution (* allurium.inputs.Select.assertCurrentValueIsNot(String))")
+    @SuppressWarnings("unchecked")
     public void stepAssertCurrentValueIsNot(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
         String option = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_assert_current_value_not", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName()),
-                        Pair.of("{option}", option)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "select_assert_current_value_not", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName()),
+                Pair.of("{option}", option)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
-
-    public void assertHasItem() {}
 
     /**
      * Intercepts and logs the step for asserting that the options list contains all of required options
@@ -369,34 +231,18 @@ public class SelectAspects {
      * @throws Throwable
      */
     @Around("execution (* allurium.inputs.Select.assertHasItems(List))")
+    @SuppressWarnings("unchecked")
     public void stepAssertHasItems(ProceedingJoinPoint invocation) throws Throwable {
         Select select = (Select) invocation.getThis();
-        List<String> option = (List<String>) invocation.getArgs()[0];
-        StringBuilder sb = new StringBuilder();
-        option.forEach(item -> sb.append(item));
-        String stepUuid = String.valueOf(UUID.randomUUID());
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("select_assert_has_option", select.getParent(),
-                        Pair.of("{element}", select.getUiElementType()),
-                        Pair.of("{name}", select.wrappedName()),
-                        Pair.of("{option}", sb.toString())
-                ));
-        Allure.getLifecycle().startStep(stepUuid, stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            assertionException.printStackTrace();
-            errorStatus = true;
-            throw assertionException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep(stepUuid);
-        }
+        List<String> options = (List<String>) invocation.getArgs()[0];
+        String optionList = String.join(", ", options);
+        String stepName = StepTextProvider.getStepText(
+                "select_assert_has_option", select.getParent(),
+                Pair.of("{element}", select.getUiElementType()),
+                Pair.of("{name}", select.wrappedName()),
+                Pair.of("{option}", optionList)
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
 }

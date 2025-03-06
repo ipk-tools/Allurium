@@ -31,7 +31,7 @@ import org.openqa.selenium.By;
  * <p>
  * Extend this class to implement custom forms in your application.
  * </p>
- * <pre>{@code
+ * <pre><code>
  * public class LoginForm extends AbstractForm {
  *     @Name("Submit")
  *     protected Button btnSubmit = $button(".green-btn");
@@ -46,7 +46,7 @@ import org.openqa.selenium.By;
  *         btnSubmit.click();
  *     }
  * }
- * }</pre>
+ * </code></pre>
  */
 public abstract class AbstractForm extends AbstractWidget {
 
@@ -94,7 +94,7 @@ public abstract class AbstractForm extends AbstractWidget {
      * This method must be overridden by subclasses to define custom form submission logic.
      * It is also processed by aspects for monitoring submission actions.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public abstract void submit();
 }

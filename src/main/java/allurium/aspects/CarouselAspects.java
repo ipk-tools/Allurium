@@ -3,6 +3,7 @@ package allurium.aspects;
 import allurium.AsyncAllureLogger;
 import allurium.carousels.AbstractCarousel;
 import allurium.StepTextProvider;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -42,7 +43,7 @@ import java.util.UUID;
  * </ul>
  *
  * <h3>Usage Example:</h3>
- * <pre>{@code
+ * <pre><code>
  * public class ImageCarousel extends AbstractCarousel {
  *
  *     public ImageCarousel(SelenideElement root) {
@@ -64,7 +65,7 @@ import java.util.UUID;
  * ImageCarousel carousel = new ImageCarousel($(".carousel"));
  * carousel.scrollForward();
  * carousel.scrollBackward();
- * }</pre>
+ * </code></pre>
  *
  * @see AbstractCarousel
  */
@@ -81,29 +82,16 @@ public class CarouselAspects {
      * @throws Throwable if the intercepted method throws an exception
      */
     @Around("execution (* allurium.carousels.AbstractCarousel.scrollForward())")
+    @SuppressWarnings("unchecked")
     public void stepScrollForward(ProceedingJoinPoint invocation) throws Throwable {
         AbstractCarousel slider = (AbstractCarousel) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("carousel_scroll_forward", slider.getParent(),
-                        Pair.of("{element}", slider.getUiElementType()),
-                        Pair.of("{name}", slider.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-         } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "carousel_scroll_forward",
+                slider.getParent(),
+                Pair.of("{element}", slider.getUiElementType()),
+                Pair.of("{name}", slider.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -116,28 +104,16 @@ public class CarouselAspects {
      * @throws Throwable if the intercepted method throws an exception
      */
     @Around("execution (* allurium.carousels.AbstractCarousel.scrollBackward())")
+    @SuppressWarnings("unchecked")
     public void stepScrollBackward(ProceedingJoinPoint invocation) throws Throwable {
         AbstractCarousel slider = (AbstractCarousel) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("carousel_scroll_backward", slider.getParent(),
-                        Pair.of("{element}", slider.getUiElementType()),
-                        Pair.of("{name}", slider.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "carousel_scroll_backward",
+                slider.getParent(),
+                Pair.of("{element}", slider.getUiElementType()),
+                Pair.of("{name}", slider.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
+
 }

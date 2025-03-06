@@ -3,6 +3,7 @@ package allurium.aspects;
 import allurium.AsyncAllureLogger;
 import allurium.StepTextProvider;
 import allurium.inputs.CheckBox;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -77,29 +78,16 @@ public class CheckBoxAspects {
      * @throws Throwable any exception thrown by the intercepted method
      */
     @Around("execution (* allurium.inputs.CheckBox.check())")
+    @SuppressWarnings("unchecked")
     public void stepCheck(ProceedingJoinPoint invocation) throws Throwable {
         CheckBox checkBox = (CheckBox) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("checkbox_check", checkBox.getParent(),
-                        Pair.of("{element}", checkBox.getUiElementType()),
-                        Pair.of("{name}", checkBox.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "checkbox_check",
+                checkBox.getParent(),
+                Pair.of("{element}", checkBox.getUiElementType()),
+                Pair.of("{name}", checkBox.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -109,29 +97,16 @@ public class CheckBoxAspects {
      * @throws Throwable any exception thrown by the intercepted method
      */
     @Around("execution (* allurium.inputs.CheckBox.uncheck())")
+    @SuppressWarnings("unchecked")
     public void stepUncheck(ProceedingJoinPoint invocation) throws Throwable {
         CheckBox checkBox = (CheckBox) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("checkbox_uncheck", checkBox.getParent(),
-                        Pair.of("{element}", checkBox.getUiElementType()),
-                        Pair.of("{name}", checkBox.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "checkbox_uncheck",
+                checkBox.getParent(),
+                Pair.of("{element}", checkBox.getUiElementType()),
+                Pair.of("{name}", checkBox.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -141,29 +116,16 @@ public class CheckBoxAspects {
      * @throws Throwable any exception thrown by the intercepted method
      */
     @Around("execution (* allurium.inputs.CheckBox.assertChecked())")
+    @SuppressWarnings("unchecked")
     public void stepAssertChecked(ProceedingJoinPoint invocation) throws Throwable {
         CheckBox checkBox = (CheckBox) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("checkbox_assert_checked", checkBox.getParent(),
-                        Pair.of("{element}", checkBox.getUiElementType()),
-                        Pair.of("{name}", checkBox.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionError) {
-            errorStatus = true;
-            assertionError.printStackTrace();
-            throw assertionError;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "checkbox_assert_checked",
+                checkBox.getParent(),
+                Pair.of("{element}", checkBox.getUiElementType()),
+                Pair.of("{name}", checkBox.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -173,28 +135,16 @@ public class CheckBoxAspects {
      * @throws Throwable any exception thrown by the intercepted method
      */
     @Around("execution (* allurium.inputs.CheckBox.assertUnchecked())")
-    public void stepAsserUnchecked(ProceedingJoinPoint invocation) throws Throwable {
+    @SuppressWarnings("unchecked")
+    public void stepAssertUnchecked(ProceedingJoinPoint invocation) throws Throwable {
         CheckBox checkBox = (CheckBox) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("checkbox_assert_unchecked", checkBox.getParent(),
-                        Pair.of("{element}", checkBox.getUiElementType()),
-                        Pair.of("{name}", checkBox.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionError) {
-            errorStatus = true;
-            assertionError.printStackTrace();
-            throw assertionError;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText(
+                "checkbox_assert_unchecked",
+                checkBox.getParent(),
+                Pair.of("{element}", checkBox.getUiElementType()),
+                Pair.of("{name}", checkBox.wrappedName())
+        );
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
+
 }

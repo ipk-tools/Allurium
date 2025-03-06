@@ -135,7 +135,7 @@ public class Select extends UIElement implements Selectable {
 
     /**
      * Selects an option by its visible text.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param option the text of the option to select
      */
@@ -161,7 +161,7 @@ public class Select extends UIElement implements Selectable {
 
     /**
      * Selects an option by its index.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param index the index of the option to select
      */
@@ -186,7 +186,7 @@ public class Select extends UIElement implements Selectable {
 
     /**
      * Selects an option by navigating using keyboard arrows.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param text the text of the option to select
      */
@@ -207,7 +207,7 @@ public class Select extends UIElement implements Selectable {
 
     /**
      * Selects the first available option.
-     * <p>< Processed by Aspect ></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     @Override
     public void selectFirst() {
@@ -216,7 +216,7 @@ public class Select extends UIElement implements Selectable {
 
     /**
      * Selects the last available option.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     @Override
     public void selectLast() {
@@ -225,7 +225,7 @@ public class Select extends UIElement implements Selectable {
 
     /**
      * Selects a random option from the selectOptionsList.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     @Override
     public void selectAny() {
@@ -238,7 +238,7 @@ public class Select extends UIElement implements Selectable {
      * This method filters the dropdown options to exclude the specified value
      * and then selects the first available option that does not match.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param value the text of the option to exclude
      * @throws IllegalArgumentException if no option besides the specified value exists
@@ -253,7 +253,7 @@ public class Select extends UIElement implements Selectable {
      * This method verifies the `value` attribute of the select element and ensures it matches
      * the provided input.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * <h3>Example Usage:</h3>
      * <pre>{@code
@@ -279,7 +279,7 @@ public class Select extends UIElement implements Selectable {
      * This method verifies the `value` attribute of the select element and ensures it is not equal
      * to the provided input.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * <h3>Example Usage:</h3>
      * <pre>{@code
@@ -304,7 +304,7 @@ public class Select extends UIElement implements Selectable {
      * This method checks the list of available options within the dropdown and verifies
      * that the specified item exists.
      * </p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * <h3>Example Usage:</h3>
      * <pre>{@code
@@ -350,7 +350,7 @@ public class Select extends UIElement implements Selectable {
 
     /**
      * method is overridable
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param items
      */

@@ -22,7 +22,7 @@ package allurium.interfaces;
  * </ul>
  *
  * <h3>Usage Example:</h3>
- * <pre>{@code
+ * <pre><code>
  * public class CustomDropdown implements Dropdown {
  *
  *     @Override
@@ -35,7 +35,7 @@ package allurium.interfaces;
  *         // Implementation to select an option by its value
  *     }
  * }
- * }</pre>
+ * </code></pre>
  *
  * @see AlluriumElement
  */

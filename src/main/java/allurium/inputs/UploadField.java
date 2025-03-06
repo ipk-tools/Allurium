@@ -174,7 +174,7 @@ public class UploadField extends UIElement {
     /**
      * Uploads a file to the upload field using an absolute file path.
      * <p>
-     * < Processed by Aspect >
+     * <p><b>Step: Processed by Aspect</b></p>
      * </p>
      *
      * @param filePath the absolute path to the file

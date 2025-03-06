@@ -135,7 +135,7 @@ public class Link extends UIElement {
 
     /**
      * Asserts that the `href` attribute of the link matches the expected value.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      *
      * @param href the expected `href` value
      */

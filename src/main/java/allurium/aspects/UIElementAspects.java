@@ -1,14 +1,12 @@
 package allurium.aspects;
 
 import allurium.AlluriumConfig;
-import allurium.AsyncAllureLogger;
-import allurium.primitives.UIElement;
 import allurium.StepTextProvider;
+import allurium.primitives.UIElement;
 import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -98,6 +96,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.doubleClick())")
+    @SuppressWarnings("unchecked")
     public void stepDoubleClick(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("double_click",
@@ -105,11 +104,11 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     @Around("execution (* allurium.primitives.UIElement.clickAndHold(long))")
+    @SuppressWarnings("unchecked")
     public void stepClickAndHold(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         long holdingTime = (long) invocation.getArgs()[0];
@@ -119,7 +118,6 @@ public class UIElementAspects {
                 Pair.of("{name}", uiElement.wrappedName()),
                 Pair.of("{milliseconds}", String.valueOf(holdingTime))
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -131,6 +129,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.contextClick())")
+    @SuppressWarnings("unchecked")
     public void stepContextClick(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("context_click",
@@ -138,7 +137,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -150,11 +148,11 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertText(String))")
+    @SuppressWarnings("unchecked")
     public void stepAssertText(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
         String stepName = uiElement.getAllureCompiledStep("assert_text", Pair.of("{text}", text));
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -166,11 +164,11 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasText(String))")
+    @SuppressWarnings("unchecked")
     public void stepAssertHasText(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
         String stepName = uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text));
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -182,6 +180,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasText(String,Integer))")
+    @SuppressWarnings("unchecked")
     public void stepAssertHasTextWithinTime(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
@@ -190,7 +189,6 @@ public class UIElementAspects {
                 Pair.of("{text}", text),
                 Pair.of("{duration}", String.valueOf(duration))
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -202,13 +200,11 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.softAssertHasText(String))")
+    @SuppressWarnings("unchecked")
     public void stepSoftAssertHasText(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
         String stepName = uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text));
-
-        // If you need custom logic for "soft" assertions, you can still do so,
-        // but 99% can remain in the helper.
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -220,6 +216,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertEquals(Object))")
+    @SuppressWarnings("unchecked")
     public void stepAssertEquals(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         UIElement objToEq = (UIElement) invocation.getArgs()[0];
@@ -228,7 +225,6 @@ public class UIElementAspects {
                 Pair.of("{element1}", uiElement.wrappedName()),
                 Pair.of("{element2}", objToEq.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -240,6 +236,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertVisible())")
+    @SuppressWarnings("unchecked")
     public void stepAssertVisible(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("assert_visible",
@@ -247,7 +244,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -259,6 +255,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertVisible(int))")
+    @SuppressWarnings("unchecked")
     public void stepAssertVisibleWithDuration(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         int seconds = (int) invocation.getArgs()[0];
@@ -268,11 +265,11 @@ public class UIElementAspects {
                 Pair.of("{name}", uiElement.wrappedName()),
                 Pair.of("{sec}", String.valueOf(seconds))
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     @Around("execution (* allurium.primitives.UIElement.assertNotVisible())")
+    @SuppressWarnings("unchecked")
     public void stepAssertNotVisible(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("assert_not_visible",
@@ -280,7 +277,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -292,6 +288,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertExists())")
+    @SuppressWarnings("unchecked")
     public void stepAssertExists(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("assert_exist",
@@ -299,7 +296,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -311,6 +307,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertNotExists())")
+    @SuppressWarnings("unchecked")
     public void stepAssertNotExists(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("assert_not_exist",
@@ -318,7 +315,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -330,6 +326,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.hover())")
+    @SuppressWarnings("unchecked")
     public void stepHover(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("hover",
@@ -351,6 +348,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasCssClass(String))")
+    @SuppressWarnings("unchecked")
     public void stepAssertHasCssClass(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
@@ -360,7 +358,6 @@ public class UIElementAspects {
                 Pair.of("{name}", uiElement.wrappedName()),
                 Pair.of("{clazz}", clazz)
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -372,6 +369,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasNotCssClass(String))")
+    @SuppressWarnings("unchecked")
     public void stepAssertHasNotCssClass(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
@@ -381,7 +379,6 @@ public class UIElementAspects {
                 Pair.of("{name}", uiElement.wrappedName()),
                 Pair.of("{clazz}", clazz)
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -393,6 +390,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasCssClass(String,int))")
+    @SuppressWarnings("unchecked")
     public void stepAssertHasCssClassDuringSeconds(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
@@ -404,7 +402,6 @@ public class UIElementAspects {
                 Pair.of("{clazz}", clazz),
                 Pair.of("{seconds}", String.valueOf(duringSec))
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -416,6 +413,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasNotCssClass(String,int))")
+    @SuppressWarnings("unchecked")
     public void stepAssertHasNotCssClassDuringSeconds(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
@@ -427,7 +425,6 @@ public class UIElementAspects {
                 Pair.of("{clazz}", clazz),
                 Pair.of("{seconds}", String.valueOf(duringSec))
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -439,6 +436,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertEmpty())")
+    @SuppressWarnings("unchecked")
     public void stepAssertEmpty(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("assert_element_not_empty",
@@ -446,7 +444,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -458,6 +455,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertIsNotEmpty())")
+    @SuppressWarnings("unchecked")
     public void stepAssertNotEmpty(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("assert_element_not_empty",
@@ -465,7 +463,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
@@ -477,6 +474,7 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.scrollTo())")
+    @SuppressWarnings("unchecked")
     public void stepScrollTo(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String stepName = StepTextProvider.getStepText("scroll",
@@ -484,7 +482,6 @@ public class UIElementAspects {
                 Pair.of("{element}", uiElement.getUiElementType()),
                 Pair.of("{name}", uiElement.wrappedName())
         );
-
         AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 

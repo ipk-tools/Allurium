@@ -40,7 +40,7 @@ public class BrowserSteps {
      * <ul>
      *     <li>Ensure a clean state for tests by removing all local storage items.</li>
      * </ul>
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Clear the local storage}</pre>
      */
     @Step("Clear the local storage")
@@ -59,7 +59,7 @@ public class BrowserSteps {
      * <p>This method uses JavaScript to add an item with the specified key and value into the browser's local storage.</p>
      * @param key   the key of the local storage item
      * @param value the value to associate with the key
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Insert the item '{key}' with the value '{value}' into the local storage}</pre>
      */
     @Step("Insert the item '{key}' with the value '{value}' into the local storage")
@@ -75,7 +75,7 @@ public class BrowserSteps {
      * </p>
      * @param key      the key of the local storage item to update
      * @param newValue the new value to set for the item
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Update the local storage item '{key}' with the new value '{newValue}'}</pre>
      */
     @Step("Update the local storage item '{key}' with the new value '{newValue}'")
@@ -93,7 +93,7 @@ public class BrowserSteps {
      * Removes an item from the browser's local storage by its key.
      * <p> This method deletes the local storage item with the specified key, if it exists.</p>
      * @param variable the key of the local storage item to remove
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Removing the '{variable}' from the local storage}</pre>
      */
     @Step("Removing the '{variable}' from the local storage")
@@ -116,7 +116,7 @@ public class BrowserSteps {
      *
      * @param key           the key of the local storage item
      * @param expectedValue the expected value for the key
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Assert the local storage item '{key}' has the value '{expectedValue}'}</pre>
      */
     @Step("Assert the local storage item '{key}' has the value '{expectedValue}'")
@@ -149,7 +149,7 @@ public class BrowserSteps {
      * </p>
      *
      * @param key the key to check in the local storage
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Assert that the local storage does not contain an item with the key '{key}'}</pre>
      */
     @Step("Assert that the local storage does not contain an item with the key '{key}'")
@@ -176,7 +176,7 @@ public class BrowserSteps {
      * This method verifies that there are no items in the local storage by checking its length.
      * Throws an assertion error if the local storage is not empty.
      * </p>
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Assert that the local storage is blank}</pre>
      */
     @Step("Assert that the local storage is blank")
@@ -207,7 +207,7 @@ public class BrowserSteps {
      *
      * @param nameCookie  the name of the cookie
      * @param valueCookie the value of the cookie
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Add the cookie '{nameCookie}' with the value='{valueCookie}'}</pre>
      */
     @Step("Add the cookie '{nameCookie}' with the value='{valueCookie}'")
@@ -256,7 +256,7 @@ public class BrowserSteps {
      *
      * @param nameCookie     the name of the cookie to update
      * @param newValueCookie the new value for the cookie
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Update the cookie '{nameCookie}' with the new value='{newValueCookie}'}</pre>
      */
     @Step("Update the cookie '{nameCookie}' with the new value='{newValueCookie}'")
@@ -278,7 +278,7 @@ public class BrowserSteps {
      * </p>
      *
      * @param nameCookie the name of the cookie to remove
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Remove the cookie '{nameCookie}'}</pre>
      */
     @Step("Remove the cookie '{nameCookie}'")
@@ -297,7 +297,7 @@ public class BrowserSteps {
      * This method clears all cookies stored in the browser and then refreshes the page
      * to reflect the changes.
      * </p>
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Remove all cookies}</pre>
      */
     @Step("Remove all cookies")
@@ -315,7 +315,7 @@ public class BrowserSteps {
      * <p>This method checks if the cookie exists within the browser's storage, retrying until the timeout is reached.</p>
      *
      * @param cookieName the name of the cookie to check
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Assert that the cookie '{cookieName}' presents}</pre>
      * <h3>Example Usage:</h3>
      * <pre>{@code
@@ -348,7 +348,7 @@ public class BrowserSteps {
      * <p>This method ensures that the cookie does not exist, retrying until the timeout is reached.</p>
      *
      * @param cookieName the name of the cookie to check
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Assert that the cookie '{cookieName}' is absent in the local storage}</pre>
      * <h3>Example Usage:</h3>
      * <pre>{@code
@@ -384,7 +384,7 @@ public class BrowserSteps {
      *
      * @param cookieName    the name of the cookie to check
      * @param expectedValue the expected value of the cookie
-     * <h3>Step:</h3>
+     * <h3>Step</h3>
      * <pre>{@code Assert that the cookie '{cookieName}' has the value '{expectedValue}'}</pre>
      * <h3>Example Usage:</h3>
      * <pre>{@code

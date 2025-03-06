@@ -113,7 +113,7 @@ public abstract class AbstractRequiredTextField extends TextField implements Req
     /**
      * Asserts that the text field is marked as required.
      * <p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public void assertMarkedAsRequired() {
         Assertions.assertThat(isMarked()).as("Required field indicator").isTrue();
@@ -122,7 +122,7 @@ public abstract class AbstractRequiredTextField extends TextField implements Req
     /**
      * Asserts that the text field is not marked as required.
      * <p>
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * <p><b>Step: Processed by Aspect</b></p>
      */
     public void assertNotMarkedAsRequired() {
         Assertions.assertThat(isMarked()).as("Required field indicator").isFalse();

@@ -6,6 +6,7 @@ All notable changes will be documented here.
 ### Changed
 - Global performance optimization.
 - **Fixed** "assertCurrentValue" method of select elements.
+- **Updated** selenide version to 6.19.1
 
 ## [1.0.1] - 2025-02-12
 
