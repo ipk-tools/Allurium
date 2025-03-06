@@ -348,15 +348,6 @@ public class Select extends UIElement implements Selectable {
         ));
     }
 
-    public void assertHasItems(String item) {
-        this.options = root.$$("option");
-        SelenideElement[] options = new SelenideElement[] {};
-        options = this.options.toArray(options);
-        Assertions.assertThat(Arrays.stream(options).map(SelenideElement::text).collect(Collectors.toList()))
-                .as(uiElementName)
-                .contains(item);
-    }
-
     /**
      * method is overridable
      * <p><b>< Step: Processed by Aspect ></b></p>

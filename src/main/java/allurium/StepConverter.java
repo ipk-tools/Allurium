@@ -14,7 +14,7 @@ public class StepConverter {
     public static <T> void wrapIntoStep(Callable<T> stepBody, String stepText) throws Throwable {
         String stepUuid = RandomStringUtils.random(25,"12344567890qwertyuioasdfghjklzxcvbnm");
         StepResult stepResult = new StepResult().setName(stepText);
-        AsyncAllureLogger.startStepAsync(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(stepUuid, stepResult);
 
         boolean errorStatus = false;
         try {
@@ -29,7 +29,7 @@ public class StepConverter {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            AsyncAllureLogger.stopStepAsync();
+            Allure.getLifecycle().stopStep(stepUuid);
         }
     }
 

@@ -400,7 +400,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Clicks on the element. Supports additional logging options.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param clickOptions   click options for customization
      */
@@ -473,7 +473,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Performs double click on the element.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void doubleClick() {
         root.doubleClick();
@@ -519,7 +519,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     /**
      * Clicks on the element and holds the click for the specified duration in milliseconds,
      * then releases the click.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param milliseconds click holding period
      */
@@ -589,7 +589,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Performs a context click (right-click) action on the element.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void contextClick() {
         root.contextClick();
@@ -638,7 +638,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Performs a hover action on the element.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void hover() {
         root.hover();
@@ -688,7 +688,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Scrolls the element into view.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void scrollTo() {
         root.scrollTo();
@@ -737,7 +737,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Verifies that the element's text matches the specified value.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param text the expected text
      */
@@ -747,7 +747,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element's text contains the specified substring.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param text the substring that the element's text should contain
      * @throws AssertionError if the element's text does not contain the specified substring
@@ -758,7 +758,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is visible in the viewport.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @throws AssertionError if the element is not visible
      */
@@ -769,7 +769,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is visible.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void assertVisible() {
         root.shouldBe(visible);
@@ -777,7 +777,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is visible, logging the specified step text.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param uniqueStepText the step text to log
      */
@@ -788,7 +788,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is visible, with optional logging to a report.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param logAsStepOrNot whether to log the assertion as a step
      */
@@ -801,7 +801,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is not visible.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void assertNotVisible() {
         root.shouldNotBe(visible);
@@ -809,7 +809,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is not visible, logging the specified step text.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param uniqueStepText the step text to log
      */
@@ -831,7 +831,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is not visible, with optional logging to a report.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param logAsStepOrNot whether to log the assertion as a step
      */
@@ -844,7 +844,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is visible within the specified duration.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param durationSeconds the duration in seconds
      */
@@ -856,7 +856,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element exists in the DOM.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void assertExists() {
         root.should(exist);
@@ -876,7 +876,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element does not exist in the DOM.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void assertNotExist() {
         root.shouldNot(exist);
@@ -893,7 +893,7 @@ public class UIElement implements AlluriumElement, ListComponent {
     }
 
     /**
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      * @param obj to compare
      */
     public void assertEquals(Object obj) {
@@ -902,7 +902,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element has the specified CSS class.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param clazz the CSS class to check
      */
@@ -913,7 +913,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element does not have the specified CSS class.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      *
      * @param clazz the CSS class to check
      */
@@ -959,7 +959,7 @@ public class UIElement implements AlluriumElement, ListComponent {
 
     /**
      * Asserts that the element is empty.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void assertEmpty() {
         assertThat(root.text()).as(wrappedName()).isEmpty();
@@ -969,10 +969,9 @@ public class UIElement implements AlluriumElement, ListComponent {
      * Performs a soft assertion to check if the element is empty, logging the result.
      */
     public void verifyEmpty() {
+        String stepUuid = UUID.randomUUID().toString();
         StepResult stepResult = new StepResult().setName(getStepText("assert_element_empty"));
-        AsyncAllureLogger.stopStepAsync();
-        Allure.addAttachment("content", root.text());
-        //AllureUtils.attachElementScreenshotToStep(root, uiElementName +" view", stepResult);
+        Allure.getLifecycle().startStep(UUID.randomUUID().toString(), stepResult);
         if (root.text().isEmpty())
             stepResult.setStatus(Status.PASSED);
         else {
@@ -981,11 +980,12 @@ public class UIElement implements AlluriumElement, ListComponent {
                     "Expected to be empty"
             ));
         }
+        Allure.getLifecycle().stopStep(stepUuid);
     }
 
     /**
      * Asserts that the element is not empty.
-     * <p><b>< Step: Processed by Aspect ></b></p>
+     * = Step: Processed by Aspect =
      */
     public void assertIsNotEmpty() {
         assertThat(root.text()).as(wrappedName()).isNotEmpty();
@@ -995,11 +995,10 @@ public class UIElement implements AlluriumElement, ListComponent {
      * Performs a soft assertion to check if the element is not empty, logging the result.
      */
     public void verifyIsNotEmpty() {
-        String stepUuid = RandomStringUtils.random(20);
+        String stepUuid = UUID.randomUUID().toString();
         StepResult stepResult = new StepResult().setName(getStepText("assert_element_not_empty"));
-        AsyncAllureLogger.stopStepAsync();
-        Allure.addAttachment("content", root.text());
-        AllureUtils.attachElementScreenshotToStep(root, uiElementName +" view", stepResult);
+        Allure.getLifecycle().stopStep();
+//        AllureUtils.attachElementScreenshotToStep(root, uiElementName +" view", stepResult);
         if (!root.text().isEmpty())
             stepResult.setStatus(Status.PASSED);
         else {
@@ -1008,6 +1007,7 @@ public class UIElement implements AlluriumElement, ListComponent {
                     "Expected not to be empty"
             ));
         }
+        Allure.getLifecycle().stopStep(stepUuid);
     }
 
 }

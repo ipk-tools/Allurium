@@ -4,6 +4,7 @@ import allurium.AlluriumConfig;
 import allurium.AsyncAllureLogger;
 import allurium.primitives.UIElement;
 import allurium.StepTextProvider;
+import allurium.utilities.AllureStepHelper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
@@ -99,55 +100,27 @@ public class UIElementAspects {
     @Around("execution (* allurium.primitives.UIElement.doubleClick())")
     public void stepDoubleClick(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("double_click", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("double_click",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     @Around("execution (* allurium.primitives.UIElement.clickAndHold(long))")
     public void stepClickAndHold(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         long holdingTime = (long) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("click_and_hold", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()),
-                        Pair.of("{milliseconds}", String.valueOf(holdingTime))
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable throwable) {
-            errorStatus = true;
-            throwable.printStackTrace();
-            throw throwable;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("click_and_hold",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName()),
+                Pair.of("{milliseconds}", String.valueOf(holdingTime))
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -158,30 +131,15 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.contextClick())")
-    @SuppressWarnings("unchecked")
     public void stepContextClick(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("context_click", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            assertionException.printStackTrace();
-            errorStatus = true;
-            throw assertionException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("context_click",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -195,24 +153,9 @@ public class UIElementAspects {
     public void stepAssertText(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(uiElement.getAllureCompiledStep("assert_text", Pair.of("{text}", text)));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            assertionException.printStackTrace();
-            errorStatus = true;
-            throw assertionException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = uiElement.getAllureCompiledStep("assert_text", Pair.of("{text}", text));
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -223,28 +166,12 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasText(String))")
-    @SuppressWarnings("unchecked")
     public void stepAssertHasText(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text)));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            assertionException.printStackTrace();
-            errorStatus = true;
-            throw assertionException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text));
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -255,32 +182,16 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasText(String,Integer))")
-    @SuppressWarnings("unchecked")
     public void stepAssertHasTextWithinTime(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
         Integer duration = (Integer) invocation.getArgs()[1];
-        StepResult stepResult = new StepResult()
-                .setName(uiElement.getAllureCompiledStep("assert_has_text",
-                        Pair.of("{text}", text),
-                        Pair.of("{duration}", String.valueOf(duration))
-                    ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            assertionException.printStackTrace();
-            errorStatus = true;
-            throw assertionException;
-        } finally {
-            if (errorStatus)
-                stepResult.setStatus(Status.FAILED);
-            else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = uiElement.getAllureCompiledStep("assert_has_text",
+                Pair.of("{text}", text),
+                Pair.of("{duration}", String.valueOf(duration))
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -291,28 +202,14 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.softAssertHasText(String))")
-    @SuppressWarnings("unchecked")
     public void stepSoftAssertHasText(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String text = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text)));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-            if (!uiElement.text().equals(text)) errorStatus = true;
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = uiElement.getAllureCompiledStep("assert_has_text", Pair.of("{text}", text));
+
+        // If you need custom logic for "soft" assertions, you can still do so,
+        // but 99% can remain in the helper.
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -323,30 +220,16 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertEquals(Object))")
-    @SuppressWarnings("unchecked")
     public void stepAssertEquals(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         UIElement objToEq = (UIElement) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_equals", uiElement.getParent(),
-                        Pair.of("{element1}", uiElement.wrappedName()),
-                        Pair.of("{element2}", objToEq.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_equals",
+                uiElement.getParent(),
+                Pair.of("{element1}", uiElement.wrappedName()),
+                Pair.of("{element2}", objToEq.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -357,30 +240,15 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertVisible())")
-    @SuppressWarnings("unchecked")
     public void stepAssertVisible(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_visible", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_visible",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -391,59 +259,29 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertVisible(int))")
-    @SuppressWarnings("unchecked")
     public void stepAssertVisibleWithDuration(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         int seconds = (int) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_visible_with_duration", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()),
-                        Pair.of("{sec}", String.valueOf(seconds))
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_visible_with_duration",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName()),
+                Pair.of("{sec}", String.valueOf(seconds))
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     @Around("execution (* allurium.primitives.UIElement.assertNotVisible())")
-    @SuppressWarnings("unchecked")
     public void stepAssertNotVisible(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_not_visible", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_not_visible",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -454,29 +292,15 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertExists())")
-    @SuppressWarnings("unchecked")
     public void stepAssertExists(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_exist", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_exist",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -487,29 +311,15 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertNotExists())")
-    @SuppressWarnings("unchecked")
     public void stepAssertNotExists(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_not_exist", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_not_exist",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -520,30 +330,17 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.hover())")
-    @SuppressWarnings("unchecked")
     public void stepHover(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("hover", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw new AssertionError();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("hover",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        // If you need to catch certain exceptions and rethrow differently,
+        // you can do that either in the helper or inline here. But 90% is the same.
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -554,32 +351,17 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasCssClass(String))")
-    @SuppressWarnings("unchecked")
     public void stepAssertHasCssClass(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_has_css_class", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()),
-                        Pair.of("{clazz}", clazz)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw new AssertionError();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_has_css_class",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName()),
+                Pair.of("{clazz}", clazz)
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -590,32 +372,17 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasNotCssClass(String))")
-    @SuppressWarnings("unchecked")
     public void stepAssertHasNotCssClass(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_has_not_css_class", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()),
-                        Pair.of("{clazz}", clazz)
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw new AssertionError();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_has_not_css_class",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName()),
+                Pair.of("{clazz}", clazz)
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -626,34 +393,19 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasCssClass(String,int))")
-    @SuppressWarnings("unchecked")
     public void stepAssertHasCssClassDuringSeconds(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
-        String duringSec = (String) invocation.getArgs()[1];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_has_css_class_during_time", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()),
-                        Pair.of("{clazz}", clazz),
-                        Pair.of("{seconds}", String.valueOf(duringSec))
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw new AssertionError();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        int duringSec = (int) invocation.getArgs()[1];
+        String stepName = StepTextProvider.getStepText("assert_has_css_class_during_time",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName()),
+                Pair.of("{clazz}", clazz),
+                Pair.of("{seconds}", String.valueOf(duringSec))
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -664,34 +416,19 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertHasNotCssClass(String,int))")
-    @SuppressWarnings("unchecked")
     public void stepAssertHasNotCssClassDuringSeconds(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
         String clazz = (String) invocation.getArgs()[0];
-        String duringSec = (String) invocation.getArgs()[1];
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_has_not_css_class_during_time", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()),
-                        Pair.of("{clazz}", clazz),
-                        Pair.of("{seconds}", String.valueOf(duringSec))
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw new AssertionError();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        int duringSec = (int) invocation.getArgs()[1];
+        String stepName = StepTextProvider.getStepText("assert_has_not_css_class_during_time",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName()),
+                Pair.of("{clazz}", clazz),
+                Pair.of("{seconds}", String.valueOf(duringSec))
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -702,29 +439,15 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertEmpty())")
-    @SuppressWarnings("unchecked")
     public void stepAssertEmpty(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_element_not_empty", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName())
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_element_not_empty",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -735,30 +458,15 @@ public class UIElementAspects {
      * @throws Throwable if an exception occurs during method execution
      */
     @Around("execution (* allurium.primitives.UIElement.assertIsNotEmpty())")
-    @SuppressWarnings("unchecked")
     public void stepAssertNotEmpty(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        StepResult stepResult = new StepResult()
-                .setName(StepTextProvider.getStepText("assert_element_not_empty", uiElement.getParent(),
-                        Pair.of("{element}", uiElement.getUiElementType()),
-                        Pair.of("{name}", uiElement.wrappedName()
-                        )
-                ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (Throwable assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+        String stepName = StepTextProvider.getStepText("assert_element_not_empty",
+                uiElement.getParent(),
+                Pair.of("{element}", uiElement.getUiElementType()),
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
     /**
@@ -771,27 +479,13 @@ public class UIElementAspects {
     @Around("execution (* allurium.primitives.UIElement.scrollTo())")
     public void stepScrollTo(ProceedingJoinPoint invocation) throws Throwable {
         UIElement uiElement = (UIElement) invocation.getThis();
-        String stepText = StepTextProvider.getStepText("scroll", uiElement.getParent(),
+        String stepName = StepTextProvider.getStepText("scroll",
+                uiElement.getParent(),
                 Pair.of("{element}", uiElement.getUiElementType()),
-                Pair.of("{name}", uiElement.wrappedName()));
-        StepResult stepResult = new StepResult()
-                .setName(stepText);
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
-        boolean errorStatus = false;
-        try {
-            invocation.proceed();
-        } catch (AssertionError assertionException) {
-            errorStatus = true;
-            assertionException.printStackTrace();
-            throw assertionException;
-        } finally {
-            if (errorStatus) {
-                stepResult.setStatus(Status.FAILED);
-            } else {
-                stepResult.setStatus(Status.PASSED);
-            }
-            Allure.getLifecycle().stopStep();
-        }
+                Pair.of("{name}", uiElement.wrappedName())
+        );
+
+        AllureStepHelper.runAllureAspectStep(invocation, stepName);
     }
 
 }

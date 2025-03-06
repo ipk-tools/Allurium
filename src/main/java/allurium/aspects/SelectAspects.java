@@ -360,6 +360,8 @@ public class SelectAspects {
         }
     }
 
+    public void assertHasItem() {}
+
     /**
      * Intercepts and logs the step for asserting that the options list contains all of required options
      *
@@ -372,13 +374,14 @@ public class SelectAspects {
         List<String> option = (List<String>) invocation.getArgs()[0];
         StringBuilder sb = new StringBuilder();
         option.forEach(item -> sb.append(item));
+        String stepUuid = String.valueOf(UUID.randomUUID());
         StepResult stepResult = new StepResult()
                 .setName(StepTextProvider.getStepText("select_assert_has_option", select.getParent(),
                         Pair.of("{element}", select.getUiElementType()),
                         Pair.of("{name}", select.wrappedName()),
                         Pair.of("{option}", sb.toString())
                 ));
-        Allure.getLifecycle().startStep(String.valueOf(UUID.randomUUID()), stepResult);
+        Allure.getLifecycle().startStep(stepUuid, stepResult);
         boolean errorStatus = false;
         try {
             invocation.proceed();
@@ -392,7 +395,7 @@ public class SelectAspects {
             else {
                 stepResult.setStatus(Status.PASSED);
             }
-            Allure.getLifecycle().stopStep();
+            Allure.getLifecycle().stopStep(stepUuid);
         }
     }
 

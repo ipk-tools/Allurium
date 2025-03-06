@@ -125,7 +125,7 @@ ext {
     allureVersion = '2.17.0'
     aspectjVersion = '1.9.21'
     lombokVersion = '1.18.26'
-    selenideVersion = '6.15.0'
+    selenideVersion = '6.19.1'
     junitVersion = '5.9.2'
     loggerVersion = '2.22.0'
 }
