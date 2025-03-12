@@ -312,7 +312,7 @@ russian:
     2: "Двойное нажатие на {element}(у) {name} в {parent}"
 
   click_and_hold:
-    1: "Нажимаем на {element}(у) {name} и удерживаем {click_and_hold} миллисекунд(ы)"
+    1: "Нажимаем на {element}(у) {name} и удерживаем {milliseconds} миллисекунд(ы)"
     2: "Нажимаем на {element}(у) {name} в {parent} и удерживаем {milliseconds} миллисекунд(ы)"
 
   context_click:

@@ -1,6 +1,10 @@
 # Changelog
 All notable changes will be documented here.
 
+## [1.1.1] - 2025-02-12
+### Changed
+- **Fixed** "click_and_hold" step template.
+
 ## [1.1.0] - 2025-02-12
 
 ### Changed
