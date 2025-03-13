@@ -1,7 +1,23 @@
 <aspectj>
     <aspects>
-        <aspect name="pk.tools.aspects.WidgetAspects"/>
-        <aspect name="pk.tools.aspects.PageAspects"/>
-        <aspect name="pk.tools.aspects.WidgetListAspects"/>
+        <aspect name="allurium.aspects.WidgetAspects"/>
+        <aspect name="allurium.aspects.PageAspects"/>
+        <aspect name="allurium.aspects.UIElementAspects"/>
+        <aspect name="allurium.aspects.LinkAspects"/>
+        <aspect name="allurium.aspects.ImageAspects"/>
+        <aspect name="allurium.aspects.WidgetListAspects"/>
+        <aspect name="allurium.aspects.TextFieldAspects"/>
+        <aspect name="allurium.aspects.CarouselAspects"/>
+        <aspect name="allurium.aspects.TabsAspects"/>
+        <aspect name="allurium.aspects.SelectAspects"/>
+        <aspect name="allurium.aspects.DropdownAspects"/>
+        <aspect name="allurium.aspects.CheckBoxAspects"/>
+        <aspect name="allurium.aspects.AbstractInputElementAspects"/>
+        <aspect name="allurium.aspects.UploadFileInputAspects"/>
+        <aspect name="allurium.aspects.FormAspects"/>
+        <aspect name="allurium.aspects.SliderAspects"/>
+        <aspect name="allurium.aspects.SwitcherAspects"/>
+        <aspect name="allurium.aspects.RequiredTextFieldAspects"/>
+        <aspect name="allurium.aspects.IframeAspects"/>
     </aspects>
 </aspectj>

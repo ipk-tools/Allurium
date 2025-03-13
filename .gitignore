@@ -12,3 +12,7 @@ core/build
 
 *.iml
 *.ipr
+ajcore*.txt
+
+gradle.properties
+./gradle.properties

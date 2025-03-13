@@ -1,101 +1,217 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "io.qameta.allure.gradle.allure:allure-plugin:2.9.6"
-    }
-}
-
+import java.security.MessageDigest
 
 plugins {
     id "java-library"
     id "io.qameta.allure" version "2.9.6"
+    id "maven-publish"
+    id "signing"
 }
 
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-        vendor = JvmVendorSpec.ADOPTOPENJDK
-        implementation = JvmImplementation.J9
-    }
-}
-
-configurations {
-    testCompile
-}
+group 'io.github.ipk-tools'
+version '1.1.1'
 
 compileJava.options.encoding = 'utf-8'
 
-group 'pk.tools'
-version '1.0-SNAPSHOT'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(12)
+    }
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.javadoc {
+    description = 'Generates Javadoc API documentation.'
+    group = 'Documentation'
+    // Include all source files
+    source = sourceSets.main.allJava
+    // Include dependencies in the classpath
+    classpath = sourceSets.main.compileClasspath
+    options.encoding = 'UTF-8'
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('charset', 'UTF-8')
+    options.addStringOption('docencoding', 'UTF-8')
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:deprecation"
+    options.compilerArgs << "-Xlint:unchecked"
+}
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    maven {
+        url "https://repo.jenkins-ci.org/public/"
+    }
+}
+
+println "signing.keyId: " + project.findProperty("signing.keyId")
+println "signing.password: " + (project.findProperty("signing.password") != null ? "Loaded" : "MISSING")
+println "signing.secretKey: " + (project.findProperty("signing.secretKey") != null ? "Loaded" : "MISSING")
+println "ossrhUsername: " + (project.findProperty("ossrhUsername") != null ? "Loaded" : "MISSING")
+println "ossrhPassword: " + (project.findProperty("ossrhPassword") != null ? "Loaded" : "MISSING")
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            groupId = 'io.github.ipk-tools'
+            artifactId = 'allurium'
+            version = "${version}"
+
+            pom {
+                name.set("Allurium")
+                description.set("The browser testing and report composing framework woven with Selenide and Allure.")
+                url.set("https://github.com/ipk-tools/Allurium")
+
+                scm {
+                    connection.set("scm:git:git://github.com/ipk-tools/allurium.git")
+                    developerConnection.set("scm:git:ssh://git@github.com:ipk-tools/Allurium.git")
+                    url.set("https://github.com/ipk-tools/Allurium")
+                }
+
+                developers {
+                    developer {
+                        id.set("iaroslav.pilipenko")
+                        name.set("Iaroslav Pilipenko")
+                        email.set("iaroslav.pk@gmail.com")
+                    }
+                }
+
+                licenses {
+                    license {
+                        name.set("The MIT License (MIT)")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+
+            credentials {
+                username = project.findProperty("ossrhUsername") ?: System.getenv("ossrhUsername")
+                password = project.findProperty("ossrhPassword") ?: System.getenv("ossrhPassword")
+            }
+        }
+    }
+}
+
+signing {
+    def passphrase = project.findProperty("signing.password") as String
+    def keyFilePath = project.findProperty("signing.keyFile")
+
+    if (!keyFilePath) {
+        throw new GradleException("No keyFile provided. Set 'signing.keyFile' in gradle.properties.")
+    }
+    def keyFile = file(keyFilePath)
+    if (!keyFile.exists()) {
+        throw new GradleException("PGP key file not found at: $keyFilePath")
+    }
+
+    def privateKeyContent = keyFile.text
+
+    useInMemoryPgpKeys(privateKeyContent, passphrase)
+    sign publishing.publications.mavenJava
 }
 
 ext {
     allureVersion = '2.17.0'
-    aspectjVersion = '1.9.2'
-    lombokVersion = '1.18.22'
-    selenideVersion = '6.2.0'
-    junitVersion = '5.8.1'
-    testNGVersion = '7.4.0'
-    restAssured = '4.4.0'
+    aspectjVersion = '1.9.21'
+    lombokVersion = '1.18.26'
+    selenideVersion = '6.19.1'
+    junitVersion = '5.9.2'
+    loggerVersion = '2.22.0'
 }
 
 dependencies {
-    implementation("org.testng:testng:${testNGVersion}")
     implementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     implementation("com.codeborne:selenide:${selenideVersion}")
-    implementation("org.selenide:selenide-testng:1.0.0")
-    implementation("io.qameta.allure:allure-testng:${allureVersion}")
     implementation("io.qameta.allure:allure-selenide:${allureVersion}")
-    implementation("io.qameta.allure:allure-rest-assured:${allureVersion}")
-    implementation("io.rest-assured:rest-assured:${restAssured}")
-    implementation('com.fasterxml.jackson.core:jackson-core:2.13.0')
-    implementation('com.epam.jdi:jdi-light-html:1.3.12')
-    implementation('io.qameta.atlas:atlas-webdriver:1.8.0')
-    implementation('org.assertj:assertj-core:3.19.0')
-    implementation('org.hamcrest:hamcrest:2.2')
-    implementation('org.slf4j:slf4j-simple:1.7.30')
-    implementation('com.github.javafaker:javafaker:1.0.2')
-    implementation("javax.persistence:javax.persistence-api:2.2")
+    implementation("io.qameta.allure:allure-junit-platform:${allureVersion}")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("io.qameta.atlas:atlas-webdriver:1.8.0")
+    implementation("org.assertj:assertj-core:3.19.0")
+    testImplementation("org.hamcrest:hamcrest-all:1.3")
+    implementation("org.slf4j:slf4j-simple:1.7.30")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:${loggerVersion}")
+    implementation("org.apache.logging.log4j:log4j-core:${loggerVersion}")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.6")
-    implementation("com.google.code.gson:gson:2.8.9")
-    implementation("ru.yandex.qatools.ashot:ashot:1.5.4")
+    testImplementation("org.hamcrest:java-hamcrest:2.0.0.0")
     implementation("org.aspectj:aspectjrt:${aspectjVersion}")
     implementation("org.aspectj:aspectjweaver:${aspectjVersion}")
-    implementation('com.galenframework:galen-java-support:2.4.4')
-
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testImplementation 'io.github.bonigarcia:webdrivermanager:5.0.3'
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    implementation("org.projectlombok:lombok:${lombokVersion}")
+    testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    implementation('io.github.bonigarcia:webdrivermanager:5.6.4') {
+        exclude group: "com.google.guava", module: "guava"
+    }
 }
-
 
 reporting {
     baseDir = "$buildDir/reports"
 }
 
 allure {
-    version = "${allureVersion}"
-    aspectjVersion = '1.9.2'
-    useTestNG {
-        version = "${allureVersion}"
+    autoconfigure = true
+    aspectjweaver = true
+    version = allureVersion
+
+    useJUnit5 {
+        version = allureVersion
     }
 }
 
-//tasks.register("prepareKotlinBuildScriptModel") {}
+
+task generateChecksums {
+    dependsOn publishToMavenLocal
+    doLast {
+        def localRepoDir = file("${System.properties['user.home']}/.m2/repository/io/github/ipk-tools/allurium/${project.version}")
+
+        localRepoDir.eachFile { File artifact ->
+            if (!artifact.name.endsWith(".md5") && !artifact.name.endsWith(".sha1")) {
+                def contentBytes = artifact.bytes
+
+                def md5Hex = computeHashHex(contentBytes, "MD5")
+                file("${artifact.absolutePath}.md5").text = md5Hex
+
+                def sha1Hex = computeHashHex(contentBytes, "SHA-1")
+                file("${artifact.absolutePath}.sha1").text = sha1Hex
+
+                println "Checksums generated for ${artifact.name}"
+            }
+        }
+    }
+}
+
+static String computeHashHex(byte[] data, String algorithm) {
+    def digest = MessageDigest.getInstance(algorithm)
+    byte[] hash = digest.digest(data)
+    // Convert each byte to a 2-digit hex string:
+    return hash.collect { String.format("%02x", it) }.join()
+}
+
+task packageForCentral(type: Zip) {
+    dependsOn generateChecksums
+    archiveFileName.set("allurium-${project.version}.zip")
+    destinationDirectory.set(file("$buildDir/dist"))
+    from("${System.properties['user.home']}/.m2/repository") {
+        include "io/github/ipk-tools/allurium/${project.version}/**"
+    }
+}
 
 test {
-    useTestNG() {
-        systemProperty("localization", localization)
+    ignoreFailures = true
+    useJUnitPlatform {}
 
-        ignoreFailures = true
-        preserveOrder = true
-    }
+    systemProperty("junit.jupiter.execution.parallel.enabled", "true")
+    systemProperty("junit.jupiter.execution.parallel.config.strategy", "dynamic")
+    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
 }
