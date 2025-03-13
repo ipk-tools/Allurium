@@ -8,6 +8,7 @@
         <aspect name="allurium.aspects.WidgetListAspects"/>
         <aspect name="allurium.aspects.TextFieldAspects"/>
         <aspect name="allurium.aspects.CarouselAspects"/>
+        <aspect name="allurium.aspects.TabsAspects"/>
         <aspect name="allurium.aspects.SelectAspects"/>
         <aspect name="allurium.aspects.DropdownAspects"/>
         <aspect name="allurium.aspects.CheckBoxAspects"/>

@@ -17,11 +17,10 @@ based on Allure.
 
 ## Features
 
+* **Automatic Allure Reporting:** Automatically generating rich, well-styled reports, logs steps and assertions
 * **Seamless Integration:** Works with Allure and Selenide.
 * **Page Object & Widget Pattern:** Encourages a clear and maintainable structure for your tests.
-* **Automatic Allure Reporting:** Automatically logs steps and assertions, generating rich, BDD-style reports.
 * **Type-Safe Elements:** Use strongly typed elements such as `TextField`, `Button`, `CheckBox`, and more.
-* **Flexible Locators:** Support for CSS, XPath, class names, and IDs via annotations like `@Locator`.
 * **Customizable Logging:** Edit and control the level of detail in logged steps.
 
 

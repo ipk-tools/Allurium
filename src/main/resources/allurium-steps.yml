@@ -301,6 +301,11 @@ english:
     1: "Scrolling the {name} {element} backward to the previous slide"
     2: "Scrolling the {name} {element}, of {parent}, backward to the previous slide"
 
+  # Tabs
+  tabs_select:
+    1: "Select tab \"{tab}\" in {name} {element}"
+    2: "Select tab \"{tab}\" in {name} {element} of {parent}"
+
 
 russian:
   click:
@@ -606,3 +611,8 @@ russian:
   carousel_scroll_backward:
     1: "Переключаем {name} {element} на предыдущий слайд"
     2: "Переключаем {name} {element} а {parent} на предыдущий слайд"
+
+  # Tabs
+  tabs_select:
+    1: "Выбираем вкладку \"{tab}\" во вкладках {name}"
+    2: "Выбираем вкладку \"{tab}\" во вкладках {name} в {parent}"

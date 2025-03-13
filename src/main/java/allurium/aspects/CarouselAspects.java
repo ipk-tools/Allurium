@@ -1,19 +1,12 @@
 package allurium.aspects;
 
-import allurium.AsyncAllureLogger;
-import allurium.carousels.AbstractCarousel;
 import allurium.StepTextProvider;
+import allurium.carousels.AbstractCarousel;
 import allurium.utilities.AllureStepHelper;
-import io.qameta.allure.Allure;
-import io.qameta.allure.model.Status;
-import io.qameta.allure.model.StepResult;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-
-import java.util.UUID;
 
 /**
  * Aspect class for enhancing interactions with carousel components using {@link AbstractCarousel}.

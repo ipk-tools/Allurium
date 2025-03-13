@@ -42,6 +42,7 @@ public enum ElementType {
     ROW("row", "строка"),
     VALUE("value", "значение"),
     CAROUSEL("carousel", "слайдер"),
+    TABS("tabs", "табы"),
     IMAGE_SLIDER("image_slider", "слайдер изображений"),
     SWITCHER("switcher", "переключатель"),
     FORM("form", "форма"),

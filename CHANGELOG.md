@@ -1,7 +1,10 @@
 # Changelog
 All notable changes will be documented here.
 
-## [1.1.1] - 2025-02-12
+## [1.1.1] - 2025-03-13
+### Added
+- **New** AbstractTab class for building tab-based widgets with automatic steps generation.
+
 ### Changed
 - **Fixed** "click_and_hold" step template.
 
