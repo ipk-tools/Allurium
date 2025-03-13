@@ -22,6 +22,7 @@ public class AlluriumConfig {
     @Getter @Setter private static Long pageLoadTimeout;
     @Getter private static Integer retryAmount;
     @Getter private static Long retryIntervalMs;
+    @Getter private static Long timeout;
 
     static {
         try (InputStream input = getConfigInputStream()) {
@@ -51,6 +52,7 @@ public class AlluriumConfig {
         Configuration.pageLoadStrategy = loadProperty("page.load.strategy", "normal");
         Configuration.pageLoadTimeout = pageLoadTimeout;
         Configuration.timeout = AlluriumConfig.retryAmount() * AlluriumConfig.retryIntervalMs();
+        timeout = Configuration.timeout;
     }
 
     public static void setRetryAmount(Integer retryAmount) {

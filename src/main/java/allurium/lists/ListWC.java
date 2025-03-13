@@ -24,15 +24,21 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.TimeoutException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 /**
  * A universal utility for working with lists of web components such as table rows, cards, or complex widgets.
@@ -105,6 +111,8 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     private List<T> components = new ArrayList<>();
     private Class<T> componentsClass;
     private final StringBuffer metaKeys = new StringBuffer().append("role:list");
+    private Constructor<T> cachedConstructor = null;
+    private String lastFingerprint = "";
 
     private By listItemLocator;
 
@@ -192,6 +200,17 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     @Override
     public StringBuffer getMetaKeys() {
         return metaKeys;
+    }
+
+    /**
+     * Helper to generate a fingerprint for the current collection.
+     */
+    private String generateFingerprint(ElementsCollection collection) {
+        String concatenated = executeJavaScript(
+                "return Array.from(arguments[0]).map(e => (e.id || '') + e.innerText).join('');",
+                collection
+        );
+        return Integer.toString(concatenated.hashCode());
     }
 
     public void logDump() {
@@ -288,11 +307,17 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
             } catch (ListComponentTypeException e) {
                 e.printStackTrace();
             }
+        String currentFingerprint = generateFingerprint(sourceElements);
+        if (currentFingerprint.equals(lastFingerprint)) {
+            log.debug("No changes detected in source elements based on fingerprint; skipping refresh.");
+            return this;
+        }
+        lastFingerprint = currentFingerprint;
         components.clear();
         try {
             sourceElements.asDynamicIterable().forEach(this::add);
         } catch (NullPointerException nEx) {
-            log.info("there are no elements to refresh in the list: " + uiElementName);
+            log.info("There are no elements to refresh in the list: " + uiElementName);
         }
         components.forEach(component -> {
             try {
@@ -300,11 +325,8 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
                 WidgetAspects.buildParents(component);
                 WebElementMetaDataBuilder.buildMeta(component);
                 LocatorBuilder.buildLocatorForElementsInLists(component);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            catch (LocatorByException e) {
-                e.printStackTrace();
+            } catch (IllegalAccessException | LocatorByException e) {
+                log.error("Error updating component metadata", e);
             }
         });
         return this;
@@ -339,15 +361,16 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
     @SuppressWarnings("unchecked")
     private ListWC<T> add(SelenideElement sourceElement) {
         try {
-            Class<?> clazz = Class.forName(genericTypeName);
-            Constructor<T> ctr = (Constructor<T>) clazz.getConstructor(SelenideElement.class);
-            Object obj = ctr.newInstance(sourceElement);
-            T listComponent = (T) obj;
+            if (cachedConstructor == null) {
+                Class<?> clazz = Class.forName(genericTypeName);
+                cachedConstructor = (Constructor<T>) clazz.getConstructor(SelenideElement.class);
+            }
+            T listComponent = cachedConstructor.newInstance(sourceElement);
             listComponent.setAssignNameMethod(assignNameMethod);
             if (sourceElement.exists()) {
                 listComponent.setUiElementName(listComponent.getId());
             } else {
-                log.warn("Element of the source list does not exist in; skipping");
+                log.warn("Element of the source list does not exist; skipping");
             }
             FakeParent fakeParent = new FakeParent();
             fakeParent.setUiElementName(this.uiElementName);
@@ -355,20 +378,21 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
             listComponent.setParent(Optional.of(fakeParent));
             components.add(listComponent);
         } catch (NoSuchMethodException
-                | ClassNotFoundException
-                | InvocationTargetException
-                | InstantiationException
-                | IllegalAccessException noSelenideConstructorEx) {
-
-            log.warn("there is no constructor(SelenideElement sourceElement) found for class - " + genericTypeName);
-            log.warn(noSelenideConstructorEx.getMessage());
-            //throw new ListElementIsNotValidException(""); //todo: invent how  to show rigth exception not failing each 'add'
+                 | ClassNotFoundException
+                 | InvocationTargetException
+                 | InstantiationException
+                 | IllegalAccessException e) {
+            log.warn("Failed to create list component for " + genericTypeName, e);
         }
         return this;
     }
 
     @Deprecated
     public T getStrictly(String id) {
+        return getPrecise(id);
+    }
+
+    public T getExact(String id) {
         return getPrecise(id);
     }
 
@@ -473,7 +497,6 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         Assertions.fail("Element wasn't found in the list " + uiElementName + " by id=" + id);
         return null;
     }
-
 
     /**
      * Retrieves a visible element from the list by a partial match of its ID, retrying if not immediately found.
