@@ -4,6 +4,7 @@ All notable changes will be documented here.
 ## [1.2.0] - 2025-03-14
 ### Changed
 - **Improved** performance. ListWC refactor and optimization.
+- **Updated** global timeout to 15 seconds with 500ms polling
 
 ## [1.1.1] - 2025-03-13
 ### Added
