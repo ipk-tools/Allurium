@@ -810,7 +810,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param conditions one or more {@link CollectionCondition} to apply to the list
      * @throws AssertionError if any of the conditions are not met
      */
-    public void should(CollectionCondition... conditions) {
+    public void should(WebElementsCondition... conditions) {
         components.clear();
         String stepUuid = String.valueOf(UUID.randomUUID());
         String conditionsAsString = Arrays.stream(conditions).map(Object::toString).collect(Collectors.joining(", "));
@@ -853,14 +853,14 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param condition the {@link Condition} to apply
      * @return a new {@code ListWC} instance containing only the elements that match the specified condition
      */
-    public ListWC<T> filter(Condition condition) {
+    public ListWC<T> filter(WebElementCondition condition) {
         refresh();
         ListWC<T> filteredList = new ListWC<>();
         filteredList.genericTypeName = this.genericTypeName;
         filteredList.setUiElementName(String.format("%s, filtered by: %s", this.uiElementName, condition.toString()));
         filteredList.setParent(this.parent);
         filteredList.setDescription(this.description);
-        filteredList.setSourceElements(sourceElements.filter(condition));
+        filteredList.setSourceElements(sourceElements.filterBy(condition));
         filteredList.refresh();
         return filteredList;
     }
@@ -881,14 +881,14 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * @param conditions one or more {@link Condition} objects to apply; elements must pass all of them to remain in the filtered list
      * @return a new {@code ListWC} instance containing only the elements that match all specified conditions
      */
-    public ListWC<T> filter(Condition... conditions) {
+    public ListWC<T> filter(WebElementCondition... conditions) {
         refresh();
         ElementsCollection filtered = sourceElements;
-        for (Condition cond : conditions) {
+        for (WebElementCondition cond : conditions) {
             filtered = filtered.filter(cond);
         }
         String conditionsAsString = Arrays.stream(conditions)
-                .map(Condition::toString)
+                .map(WebElementCondition::toString)
                 .collect(Collectors.joining(" & "));
         ListWC<T> filteredList = new ListWC<>();
         filteredList.genericTypeName = this.genericTypeName;
@@ -1150,7 +1150,7 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
         runAssertionStep(
                 "list_assert_visible",
                 () -> {
-                    Assertions.assertThat(sourceElements.parallelStream().anyMatch(item -> item.is(Condition.visible)))
+                    Assertions.assertThat(sourceElements.stream().toList().parallelStream().anyMatch(item -> item.is(Condition.visible)))
                     .as(uiElementName).isTrue();
                 },
                 Pair.of("{name}", wrappedName())

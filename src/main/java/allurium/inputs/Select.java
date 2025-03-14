@@ -195,7 +195,7 @@ public class Select extends UIElement implements Selectable {
         ElementsCollection options = root.$$("option");
         boolean found = false;
         for (int i = 0; i < options.size(); i++) {
-            if (!root.getSelectedText().equals(text))
+            if (!root.getSelectedOption().text().equals(text))
                 root.sendKeys(Keys.ARROW_RIGHT);
             else {
                 found = true;
@@ -321,31 +321,55 @@ public class Select extends UIElement implements Selectable {
      */
     public void assertHasItem(String item) {
         this.options = root.$$("option");
-        SelenideElement[] options = new SelenideElement[] {};
-        options = this.options.toArray(options);
-        Assertions.assertThat(Arrays.stream(options).map(SelenideElement::text).collect(Collectors.toList()))
+        List<SelenideElement> allOptions = this.options.stream().toList();
+        Assertions.assertThat(
+                        allOptions.stream().map(SelenideElement::text).collect(Collectors.toList())
+                )
                 .as(uiElementName)
                 .contains(item);
     }
 
 
     @SuppressWarnings("unchecked")
+//    private void assertHasItems(String... item) throws Throwable {
+//        this.options = root.$$("option");
+//        StepConverter.wrapIntoStep(() -> {
+//            SelenideElement[] options = new SelenideElement[] {};
+//            options = this.options.toArray(options);
+//            Assertions.assertThat(Arrays.stream(options).map(SelenideElement::text).collect(Collectors.toList()))
+//                    .as(uiElementName)
+//                    .contains(item);
+//            return null;
+//        }, StepTextProvider.getStepText("select_assert_has_option",
+//                Pair.of("{element}", uiElementType),
+//                Pair.of("{name}", wrappedName()),
+//                //todo: make string from array values
+//                Pair.of("{option}", Arrays.stream(item).toArray().toString())
+//                //Pair.of("{parent}", parent.wrappedName())
+//        ));
+//    }
+
     private void assertHasItems(String... item) throws Throwable {
+        // Refresh the option elements:
         this.options = root.$$("option");
+
         StepConverter.wrapIntoStep(() -> {
-            SelenideElement[] options = new SelenideElement[] {};
-            options = this.options.toArray(options);
-            Assertions.assertThat(Arrays.stream(options).map(SelenideElement::text).collect(Collectors.toList()))
-                    .as(uiElementName)
-                    .contains(item);
-            return null;
-        }, StepTextProvider.getStepText("select_assert_has_option",
-                Pair.of("{element}", uiElementType),
-                Pair.of("{name}", wrappedName()),
-                //todo: make string from array values
-                Pair.of("{option}", Arrays.stream(item).toArray().toString())
-                //Pair.of("{parent}", parent.wrappedName())
-        ));
+                    List<SelenideElement> allOptions = this.options.stream().toList();
+                    List<String> optionTexts = allOptions.stream()
+                            .map(SelenideElement::text)
+                            .collect(Collectors.toList());
+                    Assertions.assertThat(optionTexts)
+                            .as(uiElementName)
+                            .contains(item);
+                    return null;
+                },
+                StepTextProvider.getStepText(
+                        "select_assert_has_option",
+                        Pair.of("{element}", uiElementType),
+                        Pair.of("{name}", wrappedName()),
+                        // Convert the array of items into a comma-separated string
+                        Pair.of("{option}", Arrays.stream(item).collect(Collectors.joining(", ")))
+                ));
     }
 
     /**

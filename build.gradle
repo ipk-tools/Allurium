@@ -8,13 +8,13 @@ plugins {
 }
 
 group 'io.github.ipk-tools'
-version '1.2.0'
+version '2.0.0'
 
 compileJava.options.encoding = 'utf-8'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(12)
+        languageVersion = JavaLanguageVersion.of(17)
     }
     withJavadocJar()
     withSourcesJar()
@@ -123,21 +123,25 @@ signing {
 
 ext {
     allureVersion = '2.17.0'
-    aspectjVersion = '1.9.21'
+    aspectjVersion = '1.9.22.1'
     lombokVersion = '1.18.26'
-    selenideVersion = '6.19.1'
+    selenideVersion = '7.6.1'
     junitVersion = '5.9.2'
     loggerVersion = '2.22.0'
 }
 
 dependencies {
+    api("com.codeborne:selenide:${selenideVersion}")
+    api("org.assertj:assertj-core:3.19.0")
+    api("io.qameta.allure:allure-selenide:${allureVersion}")
+    api("io.qameta.allure:allure-junit-platform:${allureVersion}")
+    api('io.github.bonigarcia:webdrivermanager:5.6.4') {
+        exclude group: "com.google.guava", module: "guava"
+    }
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    implementation("com.codeborne:selenide:${selenideVersion}")
-    implementation("io.qameta.allure:allure-selenide:${allureVersion}")
-    implementation("io.qameta.allure:allure-junit-platform:${allureVersion}")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("io.qameta.atlas:atlas-webdriver:1.8.0")
-    implementation("org.assertj:assertj-core:3.19.0")
     testImplementation("org.hamcrest:hamcrest-all:1.3")
     implementation("org.slf4j:slf4j-simple:1.7.30")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:${loggerVersion}")
@@ -150,9 +154,6 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     implementation("org.projectlombok:lombok:${lombokVersion}")
     testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
-    implementation('io.github.bonigarcia:webdrivermanager:5.6.4') {
-        exclude group: "com.google.guava", module: "guava"
-    }
 }
 
 reporting {

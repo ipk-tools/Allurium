@@ -9,6 +9,8 @@ import allurium.UiSteps;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.util.List;
+
 /**
  * Represents a custom dropdown menu that mimics the behavior of a native `<select>` element.
  * <p>
@@ -172,13 +174,51 @@ public class DropdownSelect extends Select implements Dropdown {
      *
      * @param value the text of the target option
      */
+//    private void selectManually(String value) {
+//        extend();
+//        refreshOptions();
+//        SelenideElement current = getOptions().filterBy(Condition.text(getRoot().getSelectedOption().text())).first();
+//        SelenideElement target = getOptions().filterBy(Condition.text(value)).first();
+//        int currentIndex = getOptions().indexOf(current);
+//        int targetIndex = getOptions().indexOf(target);
+//        if (targetIndex > currentIndex) {
+//            int clicksTillTarget = targetIndex - currentIndex;
+//            while (clicksTillTarget > 0) {
+//                getRoot().sendKeys(Keys.ARROW_DOWN);
+//                clicksTillTarget--;
+//            }
+//        } else if (currentIndex > targetIndex) {
+//            int clicksTillTarget = currentIndex - targetIndex;
+//            while (clicksTillTarget > 0) {
+//                getRoot().sendKeys(Keys.ARROW_UP);
+//                clicksTillTarget--;
+//            }
+//        }
+//        getRoot().sendKeys(Keys.ENTER);
+//    }
+
     private void selectManually(String value) {
         extend();
         refreshOptions();
-        SelenideElement current = getOptions().filterBy(Condition.text(getRoot().getSelectedText())).first();
-        SelenideElement target = getOptions().filterBy(Condition.text(value)).first();
-        int currentIndex = getOptions().indexOf(current);
-        int targetIndex = getOptions().indexOf(target);
+        List<SelenideElement> allOptions = getOptions().stream().toList();
+        String currentText = getRoot().getSelectedOption().text();
+        SelenideElement current = allOptions.stream()
+                .filter(opt -> opt.text().equals(currentText))
+                .findFirst()
+                .orElse(null);
+        SelenideElement target = allOptions.stream()
+                .filter(opt -> opt.text().equals(value))
+                .findFirst()
+                .orElse(null);
+        if (current == null) {
+            throw new RuntimeException("Cannot find the currently selected option: " + currentText);
+        }
+        if (target == null) {
+            throw new RuntimeException("Cannot find the target option: " + value);
+        }
+        int currentIndex = allOptions.indexOf(current);
+        int targetIndex = allOptions.indexOf(target);
+
         if (targetIndex > currentIndex) {
             int clicksTillTarget = targetIndex - currentIndex;
             while (clicksTillTarget > 0) {
