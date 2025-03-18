@@ -1,6 +1,17 @@
 # Changelog
 All notable changes will be documented here.
 
+## [2.0.0] - 2025-03-18
+### Changed
+- Migration to Java 17
+- Migration to selenium 4
+- **Updated** selenide version to 7.6.1
+
+## [1.2.1] - 2025-03-17
+### Changed
+- **Updated** main dependencies from "implementation" to "api"
+- **Updated** 'assertUrlPath' method polling logic
+
 ## [1.2.0] - 2025-03-14
 ### Changed
 - **Improved** performance. ListWC refactor and optimization.
