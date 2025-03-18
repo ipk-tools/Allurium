@@ -24,14 +24,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.TimeoutException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -206,9 +201,12 @@ public class ListWC<T extends ListComponent> implements WebElementMeta {
      * Helper to generate a fingerprint for the current collection.
      */
     private String generateFingerprint(ElementsCollection collection) {
+        List<org.openqa.selenium.WebElement> rawWebElements = collection.stream()
+                .map(selenideElement -> selenideElement.getWrappedElement())
+                .collect(Collectors.toList());
         String concatenated = executeJavaScript(
                 "return Array.from(arguments[0]).map(e => (e.id || '') + e.innerText).join('');",
-                collection
+                rawWebElements
         );
         return Integer.toString(concatenated.hashCode());
     }
