@@ -380,6 +380,11 @@ public class UiSteps {
      */
     @Step("Assert that the current url ends with '{urlPart}'")
     public static void assertUrlPath(String urlPart) {
+        long timeoutInSeconds = Configuration.timeout / 1000;
+        long endTime = System.currentTimeMillis() + timeoutInSeconds * 1000;
+        while (!WebDriverRunner.url().endsWith(urlPart) && System.currentTimeMillis() < endTime) {
+            Selenide.sleep(AlluriumConfig.retryIntervalMs());
+        }
         Assertions.assertThat(WebDriverRunner.url()).as("Current URL").endsWith(urlPart);
     }
 

@@ -4,6 +4,7 @@ All notable changes will be documented here.
 ## [1.2.1] - 2025-03-14
 ### Changed
 - **Updated** main dependencies from "implementation" to "api"
+- **Updated** 'assertUrlPath' method polling logic
 
 ## [1.2.0] - 2025-03-14
 ### Changed
